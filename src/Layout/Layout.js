@@ -17,7 +17,11 @@ export default function Layout({ children }) {
 const StyledMain = styled.main.attrs(() => ({
   minHeight: 'calc(100vh - 160px)',
 }))`
+  display: flex;
+  justify-content: center;
   width: 100%;
+  background: url('https://ifh.cc/g/ukX6Av.png');
+  background-size: cover;
   min-height: ${({ minHeight }) => minHeight};
   padding-top: ${({ paddingTop }) => paddingTop};
   @media screen and ${({ theme }) => theme.device.tablet} {

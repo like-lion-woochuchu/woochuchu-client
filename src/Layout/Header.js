@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import logoImgUrl from 'Assets/Images/logo.png'
+import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
 
 export default function Header() {
   return (
@@ -17,7 +17,7 @@ export default function Header() {
             <ProfileImg src={logoImgUrl} alt="logo" />
             민유지님
           </Profile>
-          <Menus>로그아웃</Menus>
+          <Logout>로그아웃</Logout>
         </RightNav>
       </Container>
     </Wrapper>
@@ -53,17 +53,23 @@ const Menus = styled.li`
   display: flex;
   align-items: center;
   margin-left: 50px;
+  cursor: pointer;
+`
+const Logout = styled(Menus)`
+  color: #707070;
 `
 
 const Logo = styled.img`
   width: 80px;
   height: 80px;
   margin-right: 35px;
+  cursor: pointer;
 `
 const ProfileImg = styled.img`
   width: 24px;
   height: 24px;
   margin-right: 10px;
+  border-radius: 50%;
 `
 const Profile = styled.div`
   display: flex;

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import logoImgUrl from 'Assets/Images/Logo/footer-simplified-logo@2x.png'
 
 export default function Footer() {
   return (
@@ -7,7 +8,9 @@ export default function Footer() {
       <Container>
         <Contents>
           <div>
-            <Menus>WOOCHUCHU</Menus>
+            <Menus>
+              <Logo src={logoImgUrl} alt="logo" />
+            </Menus>
             <Menus>woochuchu@gmail.com</Menus>
           </div>
         </Contents>
@@ -39,4 +42,9 @@ const Menus = styled.li`
   display: flex;
   align-items: center;
   margin-left: 50px;
+`
+const Logo = styled.img`
+  width: 116px;
+  height: 14px;
+  margin-bottom: 10px;
 `
