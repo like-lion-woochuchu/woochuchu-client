@@ -55,6 +55,7 @@ const AnimalRadioBtn = styled.div`
   border-radius: 20px;
   padding: 13px 28px;
   transition: all 0.5s ease 0s;
+  cursor: pointer;
   ${AnimalRadio}:checked + && {
     background-color: #fbf3da;
     border: none;

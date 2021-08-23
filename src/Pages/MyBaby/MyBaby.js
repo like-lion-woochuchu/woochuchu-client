@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
-import AnimalSelectBtn from 'Components/AnimalSelectBtn/AnimalSelectBtn'
+import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
+import Feed from 'Components/MyBaby/Feed/Feed'
 
 export default function MyBaby() {
   return (
@@ -13,8 +14,7 @@ export default function MyBaby() {
           subtitle="소중한 반려동물을 자랑하는 공간입니다."
         />
         <AnimalSelectBtn animalArr={['강아지', '고양이', '새', '물고기']} />
-        <div>My baby</div>
-        <div>My baby</div>
+        <Feed />
       </Container>
     </Layout>
   )
