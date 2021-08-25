@@ -5,9 +5,9 @@ import {
   SignupDiv,
   SignUpFrame,
   SignUpIcon,
-  SignUpInputArea,
   SignUpText,
 } from 'Components/SignUp/SignUpLayout'
+import SignUpInput from 'Components/SignUp/SignUpInput'
 
 const SignUp = () => {
   return (
@@ -16,7 +16,7 @@ const SignUp = () => {
         <SignUpIcon></SignUpIcon>
         <SignUpText>회원가입</SignUpText>
         <SignUpFrame>
-          <SignUpInputArea></SignUpInputArea>
+          <SignUpInput></SignUpInput>
         </SignUpFrame>
       </SignupDiv>
     </Layout>

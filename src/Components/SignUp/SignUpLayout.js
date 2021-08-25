@@ -33,16 +33,7 @@ export const SignUpFrame = styled.div`
   left: 610px;
   width: 700px;
   height: 950px;
-  background: transparent url('https://ifh.cc/v-WsGEdJ.png') 0% 0% no-repeat
-    padding-box;
   border: 0.3px solid #dedede;
   border-radius: 30px;
   opacity: 1;
-`
-
-export const SignUpInputArea = styled.div`
-  margin-top: 40px;
-  margin-left: 30px;
-  width: 640px;
-  height: 742px;
 `
