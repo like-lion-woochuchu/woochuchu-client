@@ -1,38 +1,55 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import searchIcon from 'Assets/Icon/icon-search@2x.png'
 
 const SignUpInput = () => {
+  const el = useRef()
   const [address, setAddress] = useState('')
   const [detailAddress, setDetailAddress] = useState('')
   const [detailAddressArea, setDetailAddressArea] = useState(false)
 
   const unfold = () => setDetailAddressArea(true)
-  const fold = () => setDetailAddressArea(false)
+  const fold = (e) => {
+    if (detailAddressArea && (!el.current || !el.current.contains(e.target))) {
+      setDetailAddressArea(false)
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('click', fold)
+    return () => {
+      window.removeEventListener('click', fold)
+    }
+  }, [])
 
   return (
     <>
-      <SignUpInputArea>
-        <AddressDiv
-          detail={detailAddressArea}
-          onClick={unfold}
-          onMouseOver={unfold}
-          onMouseLeave={fold}
-        >
-          <AddressText>주소</AddressText>
-          <Address
-            readOnly={true}
-            placeholder={'서울특별시 동대문구 이문로 107'}
-          />
-          <SearchIcon onClick={(e) => console.log(e)} />
-          {detailAddressArea ? (
-            <DetailAddress
-              placeholder={'상세주소'}
-              onChange={(e) => setDetailAddress(e.target.value)}
+      <form>
+        <SignUpInputArea>
+          <AddressDiv
+            ref={el}
+            detail={detailAddressArea}
+            onClick={unfold}
+            onMouseOver={unfold}
+          >
+            <AddressText>주소</AddressText>
+            <Address
+              type="text"
+              readOnly={true}
+              value={address}
+              placeholder={'서울특별시 동대문구 이문로 107'}
             />
-          ) : null}
-        </AddressDiv>
-      </SignUpInputArea>
+            <SearchIcon onClick={(e) => console.log(e)} />
+            {detailAddressArea ? (
+              <DetailAddress
+                type="text"
+                placeholder={'상세주소'}
+                value={detailAddress}
+                onChange={(e) => setDetailAddress(e.target.value)}
+              />
+            ) : null}
+          </AddressDiv>
+        </SignUpInputArea>
+      </form>
     </>
   )
 }
