@@ -9,7 +9,6 @@ const SignUpInput = () => {
     <SignUpInputArea>
       <UsernameAgeArea>
         <Username />
-        <Age />
       </UsernameAgeArea>
       <Address />
     </SignUpInputArea>
