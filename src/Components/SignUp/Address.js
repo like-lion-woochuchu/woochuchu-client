@@ -18,6 +18,9 @@ const Address = () => {
       setDetailAddressArea(false)
     }
   }
+  const toggle = () => {
+    setModal(!modal)
+  }
 
   const handleAddress = (data) => {
     let AllAddress = data.address
@@ -59,7 +62,7 @@ const Address = () => {
           value={address}
           placeholder={'서울특별시 동대문구 이문로 107'}
         />
-        <SearchIcon onClick={(e) => setModal(true)} />
+        <SearchIcon onClick={toggle} />
         {modal ? (
           <DaumPostcode
             onComplete={handleAddress}
