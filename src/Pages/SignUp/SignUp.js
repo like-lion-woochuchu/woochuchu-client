@@ -13,10 +13,10 @@ const SignUp = () => {
   return (
     <Layout>
       <SignupDiv>
-        <SignUpIcon></SignUpIcon>
+        <SignUpIcon />
         <SignUpText>회원가입</SignUpText>
         <SignUpFrame>
-          <SignUpInput></SignUpInput>
+          <SignUpInput />
         </SignUpFrame>
       </SignupDiv>
     </Layout>

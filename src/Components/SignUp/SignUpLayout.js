@@ -37,3 +37,27 @@ export const SignUpFrame = styled.div`
   border-radius: 30px;
   opacity: 1;
 `
+
+export const SubjectText = styled.text`
+  margin-right: 30px;
+  font: normal normal bold 18px/26px Noto Sans CJK KR;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #1d1e20;
+  opacity: 1;
+`
+
+export const SignUpInput = styled.input`
+  width: ${(props) => props.width || '140px'};
+  margin: ${(props) => props.margin || '0px'};
+  text-align: left;
+  font: normal normal 300 18px/26px Noto Sans CJK KR;
+  letter-spacing: 0px;
+  color: #707070;
+  opacity: 1;
+  ::placeholder {
+    font: normal normal 300 18px/26px Noto Sans CJK KR;
+    letter-spacing: 0px;
+    color: #dedede;
+  }
+`

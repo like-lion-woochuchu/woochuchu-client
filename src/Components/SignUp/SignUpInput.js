@@ -1,56 +1,18 @@
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components/macro'
-import searchIcon from 'Assets/Icon/icon-search@2x.png'
+import Address from './Address'
+import Age from './Age'
+import Username from './Username'
 
 const SignUpInput = () => {
-  const el = useRef()
-  const [address, setAddress] = useState('')
-  const [detailAddress, setDetailAddress] = useState('')
-  const [detailAddressArea, setDetailAddressArea] = useState(false)
-
-  const unfold = () => setDetailAddressArea(true)
-  const fold = (e) => {
-    if (detailAddressArea && (!el.current || !el.current.contains(e.target))) {
-      setDetailAddressArea(false)
-    }
-  }
-  useEffect(() => {
-    window.addEventListener('click', fold)
-    return () => {
-      window.removeEventListener('click', fold)
-    }
-  }, [])
-
   return (
-    <>
-      <form>
-        <SignUpInputArea>
-          <AddressDiv
-            ref={el}
-            detail={detailAddressArea}
-            onClick={unfold}
-            onMouseOver={unfold}
-          >
-            <AddressText>주소</AddressText>
-            <Address
-              type="text"
-              readOnly={true}
-              value={address}
-              placeholder={'서울특별시 동대문구 이문로 107'}
-            />
-            <SearchIcon onClick={(e) => console.log(e)} />
-            {detailAddressArea ? (
-              <DetailAddress
-                type="text"
-                placeholder={'상세주소'}
-                value={detailAddress}
-                onChange={(e) => setDetailAddress(e.target.value)}
-              />
-            ) : null}
-          </AddressDiv>
-        </SignUpInputArea>
-      </form>
-    </>
+    <SignUpInputArea>
+      <UsernameAgeArea>
+        <Username />
+        <Age />
+      </UsernameAgeArea>
+      <Address />
+    </SignUpInputArea>
   )
 }
 
@@ -60,55 +22,10 @@ const SignUpInputArea = styled.div`
   width: 640px;
   height: 742px;
 `
-
-const AddressDiv = styled.div`
-  margin-top: 330px;
-  padding: 30px 50px;
-  width: 640px;
-  height: ${(props) => (props.detail ? '130px' : '86px')};
-  background: #f8f8f8 0% 0% no-repeat padding-box;
-  border-radius: 45px;
-  opacity: 1;
+const UsernameAgeArea = styled.div`
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
 `
 
-const AddressText = styled.text`
-  margin-right: 30px;
-  font: normal normal bold 18px/26px Noto Sans CJK KR;
-  text-align: left;
-  letter-spacing: 0px;
-  color: #1d1e20;
-  opacity: 1;
-`
-
-const Address = styled.input`
-  width: 400px;
-  height: 26px;
-  text-align: left;
-  font: normal normal 300 18px/26px Noto Sans CJK KR;
-  letter-spacing: 0px;
-  color: #707070;
-  opacity: 1;
-`
-const SearchIcon = styled.img.attrs({
-  src: searchIcon,
-})`
-  margin-left: 54px;
-  width: 19px;
-  height: 19px;
-`
-
-const DetailAddress = styled.input`
-  margin-top: 20px;
-  margin-left: 67px;
-  text-align: left;
-  font: normal normal 300 18px/26px Noto Sans CJK KR;
-  letter-spacing: 0px;
-  color: #707070;
-  opacity: 1;
-  ::placeholder {
-    font: normal normal 300 18px/26px Noto Sans CJK KR;
-    letter-spacing: 0px;
-    color: #dedede;
-  }
-`
 export default SignUpInput
