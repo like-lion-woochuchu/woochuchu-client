@@ -9,6 +9,7 @@ const Username = () => {
       <UsernameDiv>
         <SubjectText>이름</SubjectText>
         <SignUpInput
+          value={username}
           placeholder={'우쭈쭈'}
           onChange={(e) => setUsername(e.target.value)}
         />
