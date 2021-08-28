@@ -6,7 +6,6 @@ import { SignUpInput, SubjectText } from './SignUpLayout'
 
 const Address = () => {
   const el = useRef()
-
   const [address, setAddress] = useState('')
   const [detailAddress, setDetailAddress] = useState('')
   const [detailAddressArea, setDetailAddressArea] = useState(false)
@@ -18,9 +17,7 @@ const Address = () => {
       setDetailAddressArea(false)
     }
   }
-  const toggle = () => {
-    setModal(!modal)
-  }
+  const toggle = () => setModal(!modal)
 
   const handleAddress = (data) => {
     let AllAddress = data.address
