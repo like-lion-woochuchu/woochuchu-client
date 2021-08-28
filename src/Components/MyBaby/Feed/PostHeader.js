@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 15px 0 15px;
+  margin-bottom: 20px;
 `
 
 const Profile = styled.div`
