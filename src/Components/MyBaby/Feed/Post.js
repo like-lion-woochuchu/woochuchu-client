@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 import PostHeader from 'Components/MyBaby/Feed/PostHeader'
-import Image from 'Components/MyBaby/Feed/Image'
-import ReactionButton from './ReactionButton'
+import Image from 'Components/MyBaby/Feed/PostImage'
+import ReactionButton from './PostReactionButton'
+import PostText from './PostText'
 
 export default function Post() {
   return (
@@ -10,6 +11,7 @@ export default function Post() {
       <PostHeader name="우쭈쭈" date="2021-08-21" />
       <Image />
       <ReactionButton />
+      <PostText />
     </Wrapper>
   )
 }
