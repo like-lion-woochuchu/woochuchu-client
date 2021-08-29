@@ -1,16 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Address from './Address'
-import Age from './Age'
 import Username from './Username'
 
 const SignUpInput = () => {
+  const [username, setUsername] = useState('')
+  const [address, setAddress] = useState('')
+  const [detailAddress, setDetailAddress] = useState('')
   return (
     <SignUpInputArea>
       <UsernameAgeArea>
-        <Username />
+        <Username username={username} setUsername={setUsername} />
       </UsernameAgeArea>
-      <Address />
+      <Address
+        address={address}
+        detailAddress={detailAddress}
+        setAddress={setAddress}
+        setDetailAddress={setDetailAddress}
+      />
     </SignUpInputArea>
   )
 }

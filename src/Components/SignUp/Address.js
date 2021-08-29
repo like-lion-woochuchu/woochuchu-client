@@ -4,10 +4,8 @@ import styled from 'styled-components/macro'
 import searchIcon from 'Assets/Icon/icon-search@2x.png'
 import { SignUpInput, SubjectText } from './SignUpLayout'
 
-const Address = () => {
+const Address = (props) => {
   const el = useRef()
-  const [address, setAddress] = useState('')
-  const [detailAddress, setDetailAddress] = useState('')
   const [detailAddressArea, setDetailAddressArea] = useState(false)
   const [modal, setModal] = useState(false)
 
@@ -20,20 +18,7 @@ const Address = () => {
   const toggle = () => setModal(!modal)
 
   const handleAddress = (data) => {
-    let AllAddress = data.address
-    let extraAddress = ''
-
-    if (data.addressType === 'R') {
-      if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-        extraAddress += data.bname
-      }
-      if (data.buildingName !== '') {
-        extraAddress +=
-          extraAddress !== '' ? ', ' + data.buildingName : data.buildingName
-      }
-      AllAddress += extraAddress !== '' ? `(${extraAddress})` : ''
-    }
-    setAddress(AllAddress)
+    props.setAddress(data.address)
     setModal(false)
   }
   useEffect(() => {
@@ -56,15 +41,15 @@ const Address = () => {
         <SignUpInput
           width={'400px'}
           readOnly={true}
-          value={address}
           placeholder={'서울특별시 동대문구 이문로 107'}
+          onClick={() => setModal(toggle)}
+          value={props.address}
         />
         <SearchIcon onClick={toggle} />
         {modal ? (
           <DaumPostcode
             onComplete={handleAddress}
             autoClose
-            onMouseLeave={(e) => setModal(false)}
             width={505}
             height={420}
             style={{
@@ -79,8 +64,8 @@ const Address = () => {
             width={'400px'}
             margin={'20px 0px 0px 67px'}
             placeholder={'상세주소'}
-            value={detailAddress}
-            onChange={(e) => setDetailAddress(e.target.value)}
+            value={props.detailAddress}
+            onChange={(e) => props.setDetailAddress(e.target.value)}
           />
         ) : null}
       </AddressDiv>
