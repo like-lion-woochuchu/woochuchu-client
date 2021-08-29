@@ -2,16 +2,15 @@ import { useState } from 'react'
 import styled from 'styled-components/macro'
 import { SubjectText, SignUpInput } from './SignUpLayout'
 
-const Username = () => {
-  const [username, setUsername] = useState('')
+const Username = (props) => {
   return (
     <>
       <UsernameDiv>
         <SubjectText>이름</SubjectText>
         <SignUpInput
-          value={username}
+          value={props.username}
           placeholder={'우쭈쭈'}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => props.setUsername(e.target.value)}
         />
       </UsernameDiv>
     </>
