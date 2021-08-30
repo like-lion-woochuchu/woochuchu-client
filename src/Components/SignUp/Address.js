@@ -75,6 +75,7 @@ const Address = (props) => {
 
 const AddressDiv = styled.div`
   margin-top: 20px;
+  margin-bottom: 70px;
   padding: 30px 50px;
   width: 640px;
   height: ${(props) => (props.detail ? '130px' : '86px')};
