@@ -15,25 +15,10 @@ const Address = (props) => {
       setDetailAddressArea(false)
     }
   }
-  const toggle = () => {
-    setModal(!modal)
-  }
+  const toggle = () => setModal(!modal)
 
   const handleAddress = (data) => {
-    let AllAddress = data.address
-    let extraAddress = ''
-
-    if (data.addressType === 'R') {
-      if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-        extraAddress += data.bname
-      }
-      if (data.buildingName !== '') {
-        extraAddress +=
-          extraAddress !== '' ? ', ' + data.buildingName : data.buildingName
-      }
-      AllAddress += extraAddress !== '' ? `(${extraAddress})` : ''
-    }
-    props.setAddress(AllAddress)
+    props.setAddress(data.address)
     setModal(false)
   }
   useEffect(() => {
@@ -57,6 +42,7 @@ const Address = (props) => {
           width={'400px'}
           readOnly={true}
           placeholder={'서울특별시 동대문구 이문로 107'}
+          onClick={() => setModal(toggle)}
           value={props.address}
         />
         <SearchIcon onClick={toggle} />
@@ -89,6 +75,7 @@ const Address = (props) => {
 
 const AddressDiv = styled.div`
   margin-top: 20px;
+  margin-bottom: 70px;
   padding: 30px 50px;
   width: 640px;
   height: ${(props) => (props.detail ? '130px' : '86px')};

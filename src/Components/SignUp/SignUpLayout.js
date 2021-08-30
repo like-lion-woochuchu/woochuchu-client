@@ -61,3 +61,20 @@ export const SignUpInput = styled.input`
     color: #dedede;
   }
 `
+export const AnimalSelect = styled.div`
+  padding: 32px 48px;
+  margin: ${(props) => props.margin || '30px 10px 0px 0px'};
+  width: ${(props) => props.width || '116px'};
+  text-align: center;
+  height: 90px;
+  background: ${(props) => props.background || '#f8f8f8'};
+  border-radius: 45px;
+  opacity: 1;
+`
+
+export const AnimalDivText = styled.text`
+  font: normal normal bold 18px/26px Noto Sans CJK KR;
+  letter-spacing: 0px;
+  color: #1d1e20;
+  opacity: 1;
+`

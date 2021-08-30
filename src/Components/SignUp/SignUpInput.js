@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Address from './Address'
+import Animal from './Animal'
 import Username from './Username'
 
 const SignUpInput = () => {
   const [username, setUsername] = useState('')
   const [address, setAddress] = useState('')
   const [detailAddress, setDetailAddress] = useState('')
+  const [animal, setAnimal] = useState(new Set())
   return (
     <SignUpInputArea>
       <UsernameAgeArea>
@@ -18,6 +20,7 @@ const SignUpInput = () => {
         setAddress={setAddress}
         setDetailAddress={setDetailAddress}
       />
+      <Animal animal={animal} setAnimal={setAnimal} />
     </SignUpInputArea>
   )
 }
