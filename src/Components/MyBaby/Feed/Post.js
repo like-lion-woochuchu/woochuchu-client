@@ -4,6 +4,7 @@ import PostHeader from 'Components/MyBaby/Feed/PostHeader'
 import Image from 'Components/MyBaby/Feed/PostImage'
 import ReactionButton from './PostReactionButton'
 import PostText from './PostText'
+import PostComment from './PostComment'
 
 export default function Post() {
   return (
@@ -12,6 +13,7 @@ export default function Post() {
       <Image />
       <ReactionButton />
       <PostText />
+      <PostComment />
     </Wrapper>
   )
 }

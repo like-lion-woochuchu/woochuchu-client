@@ -6,7 +6,7 @@ export default function Post({ name, date }) {
   return (
     <Wrapper>
       <Profile>
-        <ProfileImg src={logoImgUrl} />
+        <ProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
         <UserName>{name}</UserName>
       </Profile>
       <PostedDate>{date}</PostedDate>
@@ -27,6 +27,7 @@ const Profile = styled.div`
 
 const ProfileImg = styled.img`
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
 `
