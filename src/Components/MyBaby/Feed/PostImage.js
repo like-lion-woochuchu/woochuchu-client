@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import RightBtnImgUrl from 'Assets/Icon/icon-carousel-arrow-right@2x.png'
 import LeftBtnImgUrl from 'Assets/Icon/icon-carousel-arrow-left@2x.png'
 
-export default function Feed() {
+export default function PostImage({ imgUrl }) {
   return (
     <Wrapper>
       <RightBtn src={RightBtnImgUrl} />
@@ -23,7 +23,7 @@ const Img = styled.img`
   border-radius: 10px;
 `
 const ImgBtn = styled.img`
-  top: 210px;
+  top: 225px;
   z-index: 9999;
   position: absolute;
   width: 26px;

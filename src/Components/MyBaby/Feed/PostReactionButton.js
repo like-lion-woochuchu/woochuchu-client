@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import EmptyHeart from 'Assets/Icon/icon-heart-outlined22px@2x.png'
 import Comment from 'Assets/Icon/icon-comments22px@2x.png'
 
-export default function ReactionButton() {
+export default function PostReactionButton() {
   return (
     <Wrapper>
       <HeartBtn src={EmptyHeart} />

@@ -12,9 +12,9 @@ export default function AnimalSelectBtn({ animalArr }) {
   return (
     <Wrapper>
       <BtnContainer>
-        {animalArr.map((animal) => {
+        {animalArr.map((animal, idx) => {
           return (
-            <AnimalBtnLabel id="animal">
+            <AnimalBtnLabel id="animal" key={idx}>
               <AnimalRadio
                 type="radio"
                 name="animal"
@@ -50,7 +50,7 @@ const AnimalRadio = styled.input`
 const AnimalRadioBtn = styled.div`
   display: flex;
   justify-content: center;
-  width: 100px;
+  width: 100%;
   border: solid 0.2px #707070;
   border-radius: 20px;
   padding: 13px 28px;

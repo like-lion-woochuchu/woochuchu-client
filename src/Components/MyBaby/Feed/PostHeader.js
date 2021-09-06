@@ -1,15 +1,18 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px.png'
+import dateParse from 'Utils/DateParse'
 
-export default function Post({ name, date }) {
+export default function PostHeader({ name, date }) {
   return (
     <Wrapper>
       <Profile>
         <ProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
         <UserName>{name}</UserName>
       </Profile>
-      <PostedDate>{date}</PostedDate>
+      <PostedDate>
+        {dateParse(date).date}
+        {dateParse(date).time}
+      </PostedDate>
     </Wrapper>
   )
 }

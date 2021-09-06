@@ -10,8 +10,5 @@ export default function Feed() {
   )
 }
 const Wrapper = styled.div`
-  /* max-width: 700px;
-  margin-top: 30px;
-  border: solid 0.2px #707070;
-  border-radius: 10px; */
+  background-color: #fff;
 `

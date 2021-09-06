@@ -1,20 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+
 import styled from 'styled-components/macro'
 import PostHeader from 'Components/MyBaby/Feed/PostHeader'
-import Image from 'Components/MyBaby/Feed/PostImage'
-import ReactionButton from './PostReactionButton'
-import PostText from './PostText'
+import PostImage from 'Components/MyBaby/Feed/PostImage'
+import PostReactionButton from './PostReactionButton'
+import PostBody from './PostBody'
 import PostComment from './PostComment'
 
 export default function Post() {
+  const [postData, setPostData] = useState([])
+  useEffect(() => {
+    console.log(new Date())
+    axios
+      .get(
+        'https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsImV4cCI6MTYzMDkyNjY5OSwiaWF0IjoxNjMwOTI0ODk5fQ.B-ph_-baWGL5xxE6hSXbP8Fm-aecfg8Q-T0eisOT3Jw',
+          },
+        }
+      )
+      .then((res) => setPostData(res.data.results.data))
+  }, [])
+
   return (
-    <Wrapper>
-      <PostHeader name="우쭈쭈" date="2021-08-21" />
-      <Image />
-      <ReactionButton />
-      <PostText />
-      <PostComment />
-    </Wrapper>
+    <>
+      {postData.map((data, index) => (
+        <Wrapper key={index}>
+          <PostHeader name={data.user} date={data.created_at} />
+          <PostImage imgUrl={data.img_url} />
+          <PostReactionButton />
+          <PostBody body={data.body} />
+          <PostComment feedId={data.id} />
+        </Wrapper>
+      ))}
+    </>
   )
 }
 const Wrapper = styled.div`

@@ -1,11 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import Post from 'Components/MyBaby/Feed/Post'
 import upArrow from 'Assets/Icon/icon-arrow-up@2x.png'
 import downArrow from 'Assets/Icon/icon-arrow-down@2x.png'
+import axios from 'axios'
+import dateParse from 'Utils/DateParse'
 
-export default function PostComment() {
+export default function PostComment({ feedId }) {
   const [openCommentList, setOpenCommentList] = useState(false)
+  const [commentData, setCommentData] = useState([])
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/${feedId}/comments/`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsImV4cCI6MTYzMDkyNjY5OSwiaWF0IjoxNjMwOTI0ODk5fQ.B-ph_-baWGL5xxE6hSXbP8Fm-aecfg8Q-T0eisOT3Jw',
+          },
+        }
+      )
+      .then((res) => setCommentData(res.data.results.data))
+  }, [])
 
   const handleOpenCommentList = () => {
     setOpenCommentList((prev) => !prev)
@@ -28,16 +46,17 @@ export default function PostComment() {
           )}
         </CommentsBtn>
       </CommentsBtnContainer>
-      {!openCommentList && (
-        <CommentContainer>
-          <CommentProfileContainer>
-            <CommentProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
-            <CommentUserName>name</CommentUserName>
-            <CommentTime>04:03pm</CommentTime>
-          </CommentProfileContainer>
-          <Comment>comment</Comment>
-        </CommentContainer>
-      )}
+      {openCommentList &&
+        commentData.map((comment, index) => (
+          <CommentContainer key={index}>
+            <CommentProfileContainer>
+              <CommentProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
+              <CommentUserName>{comment.id}</CommentUserName>
+              <CommentTime>{dateParse(comment.created_at).date}</CommentTime>
+            </CommentProfileContainer>
+            <Comment>{comment.body}</Comment>
+          </CommentContainer>
+        ))}
     </>
   )
 }

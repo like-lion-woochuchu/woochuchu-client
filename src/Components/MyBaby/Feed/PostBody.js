@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 
-export default function PostText() {
+export default function PostBody({ body }) {
   const [openFullText, setOpenFullText] = useState(false)
 
   const handleOpenFullText = () => {
@@ -9,12 +9,7 @@ export default function PostText() {
   }
   return (
     <Wrapper>
-      <TextContainer>
-        어쩌구저쩌구 이건 본문입니다.어쩌구저쩌구 이건 본문입니다.어쩌구저쩌구
-        이건 본문입니다.어쩌구저쩌구 이건 본문입니다.어쩌구저쩌구 이건
-        본문입니다.어쩌구저쩌구 이건 본문입니다.어쩌구저쩌구 이건
-        본문입니다.어쩌구저쩌구 이건 본문입니다.
-      </TextContainer>
+      <TextContainer>{body}</TextContainer>
       <MoreBtnContainer>
         {openFullText ? (
           <MoreBtn onClick={handleOpenFullText}>접기</MoreBtn>
