@@ -36,7 +36,7 @@ const Address = (props) => {
         detail={detailAddressArea}
         onClick={unfold}
         onMouseOver={unfold}
-        error={props.error1 || props.error2}
+        error={props.error}
       >
         <SubjectText>주소</SubjectText>
         <SignUpInput
@@ -69,23 +69,14 @@ const Address = (props) => {
             onChange={(e) => props.setDetailAddress(e.target.value)}
           />
         ) : null}
+        {props.error ? <ErrorMessage>{props.error}</ErrorMessage> : null}
       </AddressDiv>
-      {props.error1 ? (
-        <ErrorMessage margin={'3px 0px 50px 113px'}>
-          {props.error1}
-        </ErrorMessage>
-      ) : null}
-      {props.error2 ? (
-        <ErrorMessage margin={'3px 0px 50px 113px'}>
-          {props.error2}
-        </ErrorMessage>
-      ) : null}
     </>
   )
 }
 
 const AddressDiv = styled.div`
-  margin-bottom: ${(props) => (props.error ? '0px' : '50px')};
+  margin-bottom: 50px;
   padding: 30px 50px;
   width: 640px;
   height: ${(props) => (props.detail ? '130px' : '86px')};

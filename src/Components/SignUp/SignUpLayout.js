@@ -32,7 +32,7 @@ export const SignUpFrame = styled.div`
   margin-bottom: 150px;
   left: 610px;
   width: 700px;
-  height: auto;
+  height: 870px;
   border: 0.3px solid #dedede;
   border-radius: 30px;
   opacity: 1;
@@ -80,8 +80,9 @@ export const AnimalDivText = styled.text`
 `
 
 export const ErrorMessage = styled.div`
+  width: 400px;
   color: #c4525e;
   font: Noto Sans CJK KR;
   letter-spacing: 0px;
-  margin: ${(props) => props.margin || '3px 0px 3px 113px'};
+  margin: ${(props) => props.margin || '3px 3px 3px 63px'};
 `

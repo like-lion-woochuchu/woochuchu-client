@@ -12,14 +12,14 @@ const Username = (props) => {
           placeholder={'우쭈쭈'}
           onChange={(e) => props.setUsername(e.target.value)}
         />
+        {props.error ? <ErrorMessage>{props.error}</ErrorMessage> : null}
       </UsernameDiv>
-      {props.error ? <ErrorMessage>{props.error}</ErrorMessage> : null}
     </>
   )
 }
 
 const UsernameDiv = styled.div`
-  margin-bottom: ${(props) => (props.error ? '0px' : '20px')};
+  margin-bottom: 20px;
   padding: 32px 50px;
   width: 430px;
   height: 90px;

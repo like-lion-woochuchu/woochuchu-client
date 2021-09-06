@@ -50,10 +50,6 @@ const SignUpInput = () => {
       setAddressError('주소를 입력해 주세요.')
       validated = false
     }
-    if (address && !detailAddress) {
-      setDetailAddressError('상세주소를 입력해 주세요.')
-      validated = false
-    }
     if (animal.size <= 0) {
       setAnimalError('관심 동물을 하나 이상 선택해 주세요.')
       validated = false
@@ -74,8 +70,7 @@ const SignUpInput = () => {
         detailAddress={detailAddress}
         setAddress={setAddress}
         setDetailAddress={setDetailAddress}
-        error1={addressError}
-        error2={detailAddressError}
+        error={addressError}
       />
       <Animal animal={animal} setAnimal={setAnimal} error={animalError} />
 
