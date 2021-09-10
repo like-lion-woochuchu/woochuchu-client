@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import DaumPostcode from 'react-daum-postcode'
 import styled from 'styled-components/macro'
 import searchIcon from 'Assets/Icon/icon-search@2x.png'
-import { SignUpInput, SubjectText } from './SignUpLayout'
+import { SignUpInput, SubjectText, ErrorMessage } from './SignUpLayout'
 
 const Address = (props) => {
   const el = useRef()
@@ -36,6 +36,7 @@ const Address = (props) => {
         detail={detailAddressArea}
         onClick={unfold}
         onMouseOver={unfold}
+        error={props.error}
       >
         <SubjectText>주소</SubjectText>
         <SignUpInput
@@ -68,14 +69,14 @@ const Address = (props) => {
             onChange={(e) => props.setDetailAddress(e.target.value)}
           />
         ) : null}
+        {props.error ? <ErrorMessage>{props.error}</ErrorMessage> : null}
       </AddressDiv>
     </>
   )
 }
 
 const AddressDiv = styled.div`
-  margin-top: 20px;
-  margin-bottom: 70px;
+  margin-bottom: 50px;
   padding: 30px 50px;
   width: 640px;
   height: ${(props) => (props.detail ? '130px' : '86px')};

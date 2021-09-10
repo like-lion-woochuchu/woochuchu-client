@@ -32,14 +32,14 @@ export const SignUpFrame = styled.div`
   margin-bottom: 150px;
   left: 610px;
   width: 700px;
-  height: 950px;
+  height: 870px;
   border: 0.3px solid #dedede;
   border-radius: 30px;
   opacity: 1;
 `
 
 export const SubjectText = styled.text`
-  margin-right: 30px;
+  margin-right: ${(props) => props.margin || '30px'};
   font: normal normal bold 18px/26px Noto Sans CJK KR;
   text-align: left;
   letter-spacing: 0px;
@@ -48,7 +48,7 @@ export const SubjectText = styled.text`
 `
 
 export const SignUpInput = styled.input`
-  width: ${(props) => props.width || '140px'};
+  width: ${(props) => props.width || '250px'};
   margin: ${(props) => props.margin || '0px'};
   text-align: left;
   font: normal normal 300 18px/26px Noto Sans CJK KR;
@@ -77,4 +77,12 @@ export const AnimalDivText = styled.text`
   letter-spacing: 0px;
   color: #1d1e20;
   opacity: 1;
+`
+
+export const ErrorMessage = styled.div`
+  width: 400px;
+  color: #c4525e;
+  font: Noto Sans CJK KR;
+  letter-spacing: 0px;
+  margin: ${(props) => props.margin || '3px 3px 3px 63px'};
 `
