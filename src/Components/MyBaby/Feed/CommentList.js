@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
-import Post from 'Components/MyBaby/Feed/Post'
 import upArrow from 'Assets/Icon/icon-arrow-up@2x.png'
 import downArrow from 'Assets/Icon/icon-arrow-down@2x.png'
 import axios from 'axios'
@@ -9,6 +8,9 @@ import dateParse from 'Utils/DateParse'
 export default function CommentList({ feedId }) {
   const [openCommentList, setOpenCommentList] = useState(false)
   const [commentData, setCommentData] = useState([])
+  const [editMode, setEditMode] = useState(false)
+  const [editCommentId, setEditCommentId] = useState(0)
+  const [editComment, setEditComment] = useState('')
 
   useEffect(() => {
     axios
@@ -27,6 +29,52 @@ export default function CommentList({ feedId }) {
 
   const handleOpenCommentList = () => {
     setOpenCommentList((prev) => !prev)
+  }
+
+  const handleEditClick = (id) => {
+    setEditMode((prev) => !prev)
+    setEditCommentId(id)
+  }
+
+  const handleChange = (e) => {
+    setEditComment(e.target.value)
+  }
+
+  const handleSubmit = () => {
+    axios
+      .put(
+        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/${feedId}/comments/`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsImV4cCI6MTYzMDkyNjY5OSwiaWF0IjoxNjMwOTI0ODk5fQ.B-ph_-baWGL5xxE6hSXbP8Fm-aecfg8Q-T0eisOT3Jw',
+          },
+          body: editComment,
+        }
+      )
+      .then((res) => console.log(res))
+
+    console.log('submit!')
+    setEditComment('')
+    setEditMode((prev) => !prev)
+  }
+
+  const handleDelete = () => {
+    axios
+      .delete(
+        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/${feedId}/comments/`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsImV4cCI6MTYzMDkyNjY5OSwiaWF0IjoxNjMwOTI0ODk5fQ.B-ph_-baWGL5xxE6hSXbP8Fm-aecfg8Q-T0eisOT3Jw',
+          },
+        }
+      )
+      .then((res) => console.log(res))
+
+    console.log('delete!')
   }
 
   return (
@@ -48,8 +96,24 @@ export default function CommentList({ feedId }) {
               <CommentProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
               <CommentUserName>{comment.id}</CommentUserName>
               <CommentTime>{dateParse(comment.created_at).date}</CommentTime>
+              <CommentEdit onClick={() => handleEditClick(comment.id)}>
+                수정
+              </CommentEdit>
+              <CommentDelete onClick={handleDelete}>삭제</CommentDelete>
             </CommentProfileContainer>
-            <Comment>{comment.body}</Comment>
+            {editMode && comment.id === editCommentId ? (
+              <Comment>
+                <CommentInputBox
+                  type="text"
+                  placeholder="댓글쓰기..."
+                  onChange={(e) => handleChange(e)}
+                  value={editComment}
+                />
+                <SubmitBtn onClick={handleSubmit}>작성</SubmitBtn>
+              </Comment>
+            ) : (
+              <Comment>{comment.body}</Comment>
+            )}
           </CommentContainer>
         ))}
     </>
@@ -92,6 +156,7 @@ const CommentContainer = styled.div`
   margin-top: 20px;
 `
 const Comment = styled.div`
+  display: flex;
   margin-left: 34px;
   font-size: 16px;
 `
@@ -99,6 +164,27 @@ const CommentUserName = styled.div`
   margin-left: 10px;
 `
 
-const CommentTime = styled(CommentUserName)`
+const CommentEtc = styled(CommentUserName)`
   color: #8d8d8d;
+`
+const CommentTime = styled(CommentEtc)``
+
+const CommentModify = styled(CommentEtc)`
+  cursor: pointer;
+`
+const CommentEdit = styled(CommentModify)``
+const CommentDelete = styled(CommentModify)``
+
+const CommentInputBox = styled.input`
+  width: 94%;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  font-size: 16px;
+`
+const SubmitBtn = styled.div`
+  font-size: 16px;
+  color: #32b67a;
+  cursor: pointer;
 `
