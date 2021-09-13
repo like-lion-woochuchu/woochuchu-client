@@ -9,30 +9,33 @@ export default function PostBody({ body }) {
   }
   return (
     <Wrapper>
-      <TextContainer>{body}</TextContainer>
-      <MoreBtnContainer>
-        {openFullText ? (
-          <MoreBtn onClick={handleOpenFullText}>접기</MoreBtn>
-        ) : (
-          <MoreBtn onClick={handleOpenFullText}>더보기</MoreBtn>
-        )}
-      </MoreBtnContainer>
+      {body.length > 10 ? (
+        <TextContainer>
+          {body.slice(0, 10)}
+          {openFullText ? (
+            <>{body.slice(10)}</>
+          ) : (
+            <>
+              ...
+              <MoreBtn onClick={handleOpenFullText}>더보기</MoreBtn>
+            </>
+          )}
+        </TextContainer>
+      ) : (
+        <TextContainer>{body}</TextContainer>
+      )}
     </Wrapper>
   )
 }
 const Wrapper = styled.div`
   margin-top: 30px;
 `
-const TextContainer = styled.p`
+const TextContainer = styled.span`
   font-size: 18px;
   text-align: left;
+  color: #000;
 `
-const MoreBtnContainer = styled.div`
-  display: flex;
-  margin-top: 10px;
-  font-size: 16px;
-  color: #32b67a;
-`
-const MoreBtn = styled.div`
+const MoreBtn = styled.span`
   cursor: pointer;
+  color: #32b67a;
 `
