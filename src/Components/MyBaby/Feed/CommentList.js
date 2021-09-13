@@ -6,7 +6,7 @@ import downArrow from 'Assets/Icon/icon-arrow-down@2x.png'
 import axios from 'axios'
 import dateParse from 'Utils/DateParse'
 
-export default function PostComment({ feedId }) {
+export default function CommentList({ feedId }) {
   const [openCommentList, setOpenCommentList] = useState(false)
   const [commentData, setCommentData] = useState([])
 
@@ -31,11 +31,6 @@ export default function PostComment({ feedId }) {
 
   return (
     <>
-      <Wrapper>
-        <MyProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
-        <CommentInput type="text" placeholder="댓글쓰기..." />
-        <SubmitBtn>작성</SubmitBtn>
-      </Wrapper>
       <CommentsBtnContainer>
         <CommentsBtn onClick={handleOpenCommentList}>
           <CommentsNum>댓글 {commentData.length}</CommentsNum>
@@ -60,33 +55,13 @@ export default function PostComment({ feedId }) {
     </>
   )
 }
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
-`
 const ProfileImg = styled.img`
   border-radius: 50%;
   width: 24px;
   height: 24px;
 `
-const MyProfileImg = styled(ProfileImg)``
 const CommentProfileImg = styled(ProfileImg)``
 
-const CommentInput = styled.input`
-  width: 90%;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  height: 24px;
-  font-size: 16px;
-`
-
-const SubmitBtn = styled.div`
-  font-size: 16px;
-  color: #32b67a;
-  cursor: pointer;
-`
 const CommentsBtnContainer = styled.div`
   display: flex;
   margin-top: 30px;

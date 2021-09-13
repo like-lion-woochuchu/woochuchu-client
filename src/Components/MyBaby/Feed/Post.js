@@ -6,7 +6,8 @@ import PostHeader from 'Components/MyBaby/Feed/PostHeader'
 import PostImage from 'Components/MyBaby/Feed/PostImage'
 import PostReactionButton from './PostReactionButton'
 import PostBody from './PostBody'
-import PostComment from './PostComment'
+import CommentInput from './CommentInput'
+import CommentList from './CommentList'
 
 export default function Post() {
   const [postData, setPostData] = useState([])
@@ -34,7 +35,8 @@ export default function Post() {
           <PostImage imgUrl={data.img_url} />
           <PostReactionButton />
           <PostBody body={data.body} />
-          <PostComment feedId={data.id} />
+          <CommentInput feedId={data.id} />
+          <CommentList feedId={data.id} />
         </Wrapper>
       ))}
     </>
