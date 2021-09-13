@@ -38,7 +38,7 @@ export default function PostComment({ feedId }) {
       </Wrapper>
       <CommentsBtnContainer>
         <CommentsBtn onClick={handleOpenCommentList}>
-          <CommentsNum>댓글 9</CommentsNum>
+          <CommentsNum>댓글 {commentData.length}</CommentsNum>
           {openCommentList ? (
             <CommentsArrow src={downArrow} />
           ) : (

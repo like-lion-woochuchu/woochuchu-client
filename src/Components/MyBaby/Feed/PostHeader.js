@@ -10,8 +10,7 @@ export default function PostHeader({ name, date }) {
         <UserName>{name}</UserName>
       </Profile>
       <PostedDate>
-        {dateParse(date).date}
-        {dateParse(date).time}
+        {dateParse(date).date} / {dateParse(date).time}
       </PostedDate>
     </Wrapper>
   )

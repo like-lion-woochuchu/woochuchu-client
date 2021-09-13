@@ -31,5 +31,5 @@ export default function MyBaby() {
   )
 }
 const Container = styled.div`
-  min-width: 700px;
+  max-width: 700px;
 `

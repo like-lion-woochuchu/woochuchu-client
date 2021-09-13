@@ -23,14 +23,15 @@ const Img = styled.img`
   border-radius: 10px;
 `
 const ImgBtn = styled.img`
-  top: 225px;
+  top: 45%;
   z-index: 9999;
   position: absolute;
   width: 26px;
+  cursor: pointer;
 `
 const RightBtn = styled(ImgBtn)`
-  right: 10px;
+  right: 2%;
 `
 const LeftBtn = styled(ImgBtn)`
-  left: 10px;
+  left: 2%;
 `

@@ -10,38 +10,31 @@ export default function AnimalSelectBtn({ animalArr }) {
   }
 
   return (
-    <Wrapper>
-      <BtnContainer>
-        {animalArr.map((animal, idx) => {
-          return (
-            <AnimalBtnLabel id="animal" key={idx}>
-              <AnimalRadio
-                type="radio"
-                name="animal"
-                id="animal"
-                value={animal}
-                onChange={handleVersionBtnClick}
-              ></AnimalRadio>
-              <AnimalRadioBtn>{animal}</AnimalRadioBtn>
-            </AnimalBtnLabel>
-          )
-        })}
-      </BtnContainer>
-    </Wrapper>
+    <BtnContainer>
+      {animalArr.map((animal, idx) => {
+        return (
+          <AnimalBtnLabel id="animal" key={idx}>
+            <AnimalRadio
+              type="radio"
+              name="animal"
+              id="animal"
+              value={animal}
+              onChange={handleVersionBtnClick}
+            ></AnimalRadio>
+            <AnimalRadioBtn>{animal}</AnimalRadioBtn>
+          </AnimalBtnLabel>
+        )
+      })}
+    </BtnContainer>
   )
 }
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`
 
 const BtnContainer = styled.div`
   display: flex;
   justify-content: center;
 `
 const AnimalBtnLabel = styled.label`
-  margin-right: 20px;
+  margin: 0 10px;
 `
 const AnimalRadio = styled.input`
   visibility: hidden;
@@ -53,7 +46,7 @@ const AnimalRadioBtn = styled.div`
   width: 100%;
   border: solid 0.2px #707070;
   border-radius: 20px;
-  padding: 13px 28px;
+  padding: 13px 19.96px;
   transition: all 0.5s ease 0s;
   cursor: pointer;
   ${AnimalRadio}:checked + && {

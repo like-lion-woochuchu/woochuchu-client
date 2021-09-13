@@ -41,7 +41,8 @@ export default function Post() {
   )
 }
 const Wrapper = styled.div`
-  max-width: 700px;
+  background-color: #fff;
+  /* max-width: 700px; */
   margin: 30px;
   padding: 30px 15px;
   border: solid 0.2px #707070;

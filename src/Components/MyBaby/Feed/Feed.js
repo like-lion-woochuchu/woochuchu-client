@@ -9,6 +9,4 @@ export default function Feed() {
     </Wrapper>
   )
 }
-const Wrapper = styled.div`
-  background-color: #fff;
-`
+const Wrapper = styled.div``
