@@ -16,14 +16,12 @@ const SignUpInput = () => {
   const [userIdError, setUserIdError] = useState('')
   const [usernameError, setUsernameError] = useState('')
   const [addressError, setAddressError] = useState('')
-  const [detailAddressError, setDetailAddressError] = useState('')
   const [animalError, setAnimalError] = useState('')
 
   const resetErrors = () => {
     setUserIdError('')
     setUsernameError('')
     setAddressError('')
-    setDetailAddressError('')
     setAnimalError('')
   }
 
@@ -34,16 +32,16 @@ const SignUpInput = () => {
       setUserIdError('ID를 입력해 주세요.')
       validated = false
     }
-    if (userId.length > 20) {
-      setUserIdError('20자 이하의 ID를 입력해 주세요.')
+    if (userId.length > 20 || userId.length < 2) {
+      setUserIdError('2~20자 이내의 ID를 입력해 주세요.')
       validated = false
     }
     if (!username) {
       setUsernameError('이름을 입력해 주세요.')
       validated = false
     }
-    if (username.length > 20) {
-      setUsernameError('20자 이하의 이름을 입력해 주세요.')
+    if (username.length > 20 || username.length < 2) {
+      setUsernameError('2~20자 이내의 이름을 입력해 주세요.')
       validated = false
     }
     if (!address) {
