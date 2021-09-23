@@ -97,7 +97,7 @@ export default function CommentList({ feedId }) {
               <CommentUserName>{comment.id}</CommentUserName>
               <CommentTime>{dateParse(comment.created_at).date}</CommentTime>
               <CommentEdit onClick={() => handleEditClick(comment.id)}>
-                수정
+                {editMode ? '취소' : '수정'}
               </CommentEdit>
               <CommentDelete onClick={handleDelete}>삭제</CommentDelete>
             </CommentProfileContainer>
