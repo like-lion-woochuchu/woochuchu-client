@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 
 import styled from 'styled-components/macro'
 
-export default function CommentInput({ feedId }) {
+export default function CommentInput({ feedId, type }) {
   const [comment, setComment] = useState('')
   const handleChange = (e) => {
     setComment(e.target.value)
@@ -12,7 +12,7 @@ export default function CommentInput({ feedId }) {
   const handleSubmit = () => {
     axios
       .post(
-        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/${feedId}/comments/`,
+        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/${type}/${feedId}/comments/`,
         {
           headers: {
             'Content-Type': 'application/json',

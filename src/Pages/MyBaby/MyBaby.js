@@ -3,8 +3,7 @@ import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
-import Feed from 'Components/MyBaby/Feed/Feed'
-import axios from 'axios'
+import Post from 'Components/MyBaby/Feed/Post'
 
 export default function MyBaby() {
   return (
@@ -25,7 +24,8 @@ export default function MyBaby() {
             '기타',
           ]}
         />
-        <Feed />
+        {/* <Feed /> */}
+        <Post type={'mybaby'} />
       </Container>
     </Layout>
   )

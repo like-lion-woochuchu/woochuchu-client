@@ -5,7 +5,7 @@ import downArrow from 'Assets/Icon/icon-arrow-down@2x.png'
 import axios from 'axios'
 import dateParse from 'Utils/DateParse'
 
-export default function CommentList({ feedId }) {
+export default function CommentList({ feedId, type }) {
   const [openCommentList, setOpenCommentList] = useState(false)
   const [commentData, setCommentData] = useState([])
   const [editMode, setEditMode] = useState(false)
@@ -15,7 +15,7 @@ export default function CommentList({ feedId }) {
   useEffect(() => {
     axios
       .get(
-        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/${feedId}/comments/`,
+        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/${type}/${feedId}/comments/`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export default function CommentList({ feedId }) {
   const handleSubmit = () => {
     axios
       .put(
-        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/${feedId}/comments/`,
+        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/${type}/${feedId}/comments/`,
         {
           headers: {
             'Content-Type': 'application/json',

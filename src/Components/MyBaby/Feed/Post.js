@@ -9,13 +9,13 @@ import PostBody from './PostBody'
 import CommentInput from './CommentInput'
 import CommentList from './CommentList'
 
-export default function Post() {
+export default function Post({ type }) {
   const [postData, setPostData] = useState([])
   useEffect(() => {
     console.log(new Date())
     axios
       .get(
-        'https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/',
+        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/${type}/`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -35,8 +35,8 @@ export default function Post() {
           <PostImage imgUrl={data.img_url} />
           <PostReactionButton />
           <PostBody body={data.body} />
-          <CommentInput feedId={data.id} />
-          <CommentList feedId={data.id} />
+          <CommentInput feedId={data.id} type={type} />
+          <CommentList feedId={data.id} type={type} />
         </Wrapper>
       ))}
     </>
