@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import styled from 'styled-components/macro'
-import PostHeader from 'Components/MyBaby/Feed/PostHeader'
-import PostImage from 'Components/MyBaby/Feed/PostImage'
-import PostReactionButton from './PostReactionButton'
-import PostBody from './PostBody'
-import CommentInput from './CommentInput'
-import CommentList from './CommentList'
+import PostHeader from 'Components/Post/PostHeader'
+import PostImage from 'Components/Post/PostImage'
+import PostReactionButton from 'Components/Post/PostReactionButton'
+import PostBody from 'Components/Post/PostBody'
+import CommentInput from 'Components/Post/CommentInput'
+import CommentList from 'Components/Post/CommentList'
 
-export default function Post({ type }) {
+export default function Feed({ type }) {
   const [postData, setPostData] = useState([])
   useEffect(() => {
     console.log(new Date())
@@ -33,7 +33,7 @@ export default function Post({ type }) {
         <Wrapper key={index}>
           <PostHeader name={data.user} date={data.created_at} />
           <PostImage imgUrl={data.img_url} />
-          <PostReactionButton />
+          <PostReactionButton type={type} />
           <PostBody body={data.body} />
           <CommentInput feedId={data.id} type={type} />
           <CommentList feedId={data.id} type={type} />
@@ -44,7 +44,7 @@ export default function Post({ type }) {
 }
 const Wrapper = styled.div`
   background-color: #fff;
-  /* max-width: 700px; */
+  min-width: 700px;
   margin: 30px;
   padding: 30px 15px;
   border: solid 0.2px #707070;

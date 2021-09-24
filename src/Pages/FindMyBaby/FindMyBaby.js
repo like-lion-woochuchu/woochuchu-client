@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
-import Post from 'Components/MyBaby/Feed/Post'
+import Feed from 'Components/FindMyBaby/Feed/Feed'
 
 export default function FindMyBaby() {
   return (
@@ -12,7 +12,7 @@ export default function FindMyBaby() {
           title="찾아주세요"
           subtitle="실종된 반려동물을 가족들의 품으로"
         />
-        <Post type={'findmybaby'} />
+        <Feed type={'findmybaby'} />
       </Container>
     </Layout>
   )
