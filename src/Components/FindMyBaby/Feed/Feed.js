@@ -8,6 +8,7 @@ import PostReactionButton from 'Components/Post/PostReactionButton'
 import PostBody from 'Components/Post/PostBody'
 import CommentInput from 'Components/Post/CommentInput'
 import CommentList from 'Components/Post/CommentList'
+import FindPostHeader from 'Components/Post/FindPostHeader'
 
 export default function Feed({ type }) {
   const [postData, setPostData] = useState([])
@@ -31,12 +32,15 @@ export default function Feed({ type }) {
     <>
       {postData.map((data, index) => (
         <Wrapper key={index}>
-          <PostHeader name={data.user} date={data.created_at} />
-          <PostImage imgUrl={data.img_url} />
-          <PostReactionButton type={type} />
-          <PostBody body={data.body} />
-          <CommentInput feedId={data.id} type={type} />
-          <CommentList feedId={data.id} type={type} />
+          <FindPostHeader date={data.updated_at} />
+          <PostContainer>
+            <A>{data.title}</A>
+            <PostImage imgUrl={data.img_url} />
+            <PostReactionButton type={type} />
+            <PostBody body={data.body} />
+            <CommentInput feedId={data.id} type={type} />
+            <CommentList feedId={data.id} type={type} />
+          </PostContainer>
         </Wrapper>
       ))}
     </>
@@ -46,7 +50,15 @@ const Wrapper = styled.div`
   background-color: #fff;
   min-width: 700px;
   margin: 30px;
-  padding: 30px 15px;
   border: solid 0.2px #707070;
   border-radius: 10px;
+`
+
+const PostContainer = styled.div`
+  padding: 0px 15px 30px;
+`
+
+const A = styled.div`
+  font-size: 24px;
+  margin-bottom: 20px;
 `
