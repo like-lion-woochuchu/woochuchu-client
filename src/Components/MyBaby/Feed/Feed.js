@@ -25,6 +25,7 @@ export default function Feed({ type }) {
         }
       )
       .then((res) => setPostData(res.data.results.data))
+    console.log(postData)
   }, [])
 
   return (
@@ -33,10 +34,14 @@ export default function Feed({ type }) {
         <Wrapper key={index}>
           <PostHeader name={data.user} date={data.created_at} />
           <PostImage imgUrl={data.img_url} />
-          <PostReactionButton type={type} />
+          <PostReactionButton
+            type={type}
+            numOfComments={data.comments_count}
+            numOfLikes={data.likes_count}
+          />
           <PostBody body={data.body} />
           <CommentInput feedId={data.id} type={type} />
-          <CommentList feedId={data.id} type={type} />
+          <CommentList comments={data.comments} feedId={data.id} type={type} />
         </Wrapper>
       ))}
     </>
@@ -45,7 +50,7 @@ export default function Feed({ type }) {
 const Wrapper = styled.div`
   background-color: #fff;
   min-width: 700px;
-  margin: 30px;
+  margin: 30px 0;
   padding: 30px 15px;
   border: solid 0.2px #707070;
   border-radius: 10px;

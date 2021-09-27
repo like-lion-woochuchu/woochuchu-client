@@ -3,17 +3,21 @@ import styled from 'styled-components/macro'
 import EmptyHeart from 'Assets/Icon/icon-heart-outlined22px@2x.png'
 import Comment from 'Assets/Icon/icon-comments22px@2x.png'
 
-export default function PostReactionButton({ type }) {
+export default function PostReactionButton({
+  type,
+  numOfComments,
+  numOfLikes,
+}) {
   return (
     <Wrapper>
       {type === 'mybaby' && (
         <>
           <HeartBtn src={EmptyHeart} />
-          <HeartNum>39</HeartNum>
+          <HeartNum>{numOfLikes}</HeartNum>
         </>
       )}
       <CommentBtn src={Comment} type={type} />
-      <CommentNum>9</CommentNum>
+      <CommentNum>{numOfComments}</CommentNum>
     </Wrapper>
   )
 }

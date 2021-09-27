@@ -5,27 +5,11 @@ import downArrow from 'Assets/Icon/icon-arrow-down@2x.png'
 import axios from 'axios'
 import dateParse from 'Utils/DateParse'
 
-export default function CommentList({ feedId, type }) {
+export default function CommentList({ comments, feedId, type }) {
   const [openCommentList, setOpenCommentList] = useState(false)
-  const [commentData, setCommentData] = useState([])
   const [editMode, setEditMode] = useState(false)
   const [editCommentId, setEditCommentId] = useState(0)
   const [editComment, setEditComment] = useState('')
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/${type}/${feedId}/comments/`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsImV4cCI6MTYzMDkyNjY5OSwiaWF0IjoxNjMwOTI0ODk5fQ.B-ph_-baWGL5xxE6hSXbP8Fm-aecfg8Q-T0eisOT3Jw',
-          },
-        }
-      )
-      .then((res) => setCommentData(res.data.results.data))
-  }, [])
 
   const handleOpenCommentList = () => {
     setOpenCommentList((prev) => !prev)
@@ -81,7 +65,7 @@ export default function CommentList({ feedId, type }) {
     <>
       <CommentsBtnContainer>
         <CommentsBtn onClick={handleOpenCommentList}>
-          <CommentsNum>댓글 {commentData.length}</CommentsNum>
+          <CommentsNum>댓글 {comments.length}</CommentsNum>
           {openCommentList ? (
             <CommentsArrow src={downArrow} />
           ) : (
@@ -90,11 +74,11 @@ export default function CommentList({ feedId, type }) {
         </CommentsBtn>
       </CommentsBtnContainer>
       {openCommentList &&
-        commentData.map((comment, index) => (
+        comments.map((comment, index) => (
           <CommentContainer key={index}>
             <CommentProfileContainer>
               <CommentProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
-              <CommentUserName>{comment.id}</CommentUserName>
+              <CommentUserName>{comment.user}</CommentUserName>
               <CommentTime>{dateParse(comment.created_at).date}</CommentTime>
               <CommentEdit onClick={() => handleEditClick(comment.id)}>
                 {editMode ? '취소' : '수정'}
