@@ -28,21 +28,20 @@ const SignUpInput = () => {
   const validate = () => {
     resetErrors()
     let validated = true
-    if (!userId) {
-      setUserIdError('ID를 입력해 주세요.')
+    const idPattern = /^[a-zA-Z0-9_.]+$/
+    if (userId.length < 2 || userId.length > 20) {
+      setUserIdError('2~20자 사이의 ID를 입력해 주세요.')
+      validated = false
+    } else if (!idPattern.test(userId)) {
+      setUserIdError('영문자, 숫자, ., _ 로 이루어진 ID를 입력해 주세요.')
       validated = false
     }
-    if (userId.length > 20 || userId.length < 2) {
-      setUserIdError('2~20자 이내의 ID를 입력해 주세요.')
-      validated = false
-    }
-    if (!username) {
-      setUsernameError('이름을 입력해 주세요.')
-      validated = false
-    }
+    const namePattern = /^[a-zA-Z가-힣]+$/
     if (username.length > 20 || username.length < 2) {
       setUsernameError('2~20자 이내의 이름을 입력해 주세요.')
       validated = false
+    } else if (!namePattern.test(username)) {
+      setUsernameError('영문자, 한글로 이루어진 이름을 입력해 주세요.')
     }
     if (!address) {
       setAddressError('주소를 입력해 주세요.')
