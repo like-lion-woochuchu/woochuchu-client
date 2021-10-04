@@ -31,11 +31,11 @@ export default function Feed({ type }) {
     <>
       {postData.map((data, index) => (
         <Wrapper key={index}>
-          <FindPostHeader date={data.updated_at} />
+          {/* <FindPostHeader date={data.updated_at} /> */}
           <PostContainer>
             <PostTitle>{data.title}</PostTitle>
             <PostImage imgUrl={data.img_url} />
-            <PostReactionButton
+            {/* <PostReactionButton
               type={type}
               numOfComments={data.comments_count}
             />
@@ -45,7 +45,7 @@ export default function Feed({ type }) {
               comments={data.comments}
               feedId={data.id}
               type={type}
-            />
+            /> */}
           </PostContainer>
         </Wrapper>
       ))}
