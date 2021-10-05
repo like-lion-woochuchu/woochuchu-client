@@ -27,7 +27,6 @@ export default function Feed({ type }) {
       .then((res) => setPostData(res.data.results.data))
     console.log(postData)
   }, [])
-
   return (
     <>
       {postData.map((data, index) => (
@@ -46,6 +45,7 @@ export default function Feed({ type }) {
       ))}
     </>
   )
+  // return <div>gi</div>
 }
 const Wrapper = styled.div`
   background-color: #fff;

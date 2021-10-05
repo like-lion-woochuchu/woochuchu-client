@@ -26,7 +26,6 @@ export default function Feed({ type }) {
       )
       .then((res) => setPostData(res.data.results.data))
   }, [])
-
   return (
     <>
       {postData.map((data, index) => (
