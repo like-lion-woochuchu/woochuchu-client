@@ -1,15 +1,30 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
 
 export default function Header() {
+  const history = useHistory()
+
   return (
     <Wrapper>
       <Container>
         <LeftNav>
           <Logo src={logoImgUrl} alt="logo" />
-          <Menus>내 새끼 자랑하기</Menus>
-          <Menus>찾아주세요</Menus>
+          <Menus
+            onClick={() => {
+              history.push('/mybaby')
+            }}
+          >
+            내 새끼 자랑하기
+          </Menus>
+          <Menus
+            onClick={() => {
+              history.push('/findmybaby')
+            }}
+          >
+            찾아주세요
+          </Menus>
           <Menus>가족이 되어주세요</Menus>
         </LeftNav>
         <RightNav>
