@@ -4,7 +4,10 @@ import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
 import Feed from 'Components/MyBaby/Feed/Feed'
+<<<<<<< HEAD
 import axios from 'axios'
+=======
+>>>>>>> b20e03bec2b6b3c9a8d0d82a6f4da8cba16c25ea
 
 export default function MyBaby() {
   return (
@@ -25,7 +28,11 @@ export default function MyBaby() {
             '기타',
           ]}
         />
+<<<<<<< HEAD
         <Feed />
+=======
+        <Feed type={'mybaby'} />
+>>>>>>> b20e03bec2b6b3c9a8d0d82a6f4da8cba16c25ea
       </Container>
     </Layout>
   )

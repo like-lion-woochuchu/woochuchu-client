@@ -1,27 +1,13 @@
-<<<<<<< HEAD
-import React from 'react'
-import styled from 'styled-components/macro'
-import Post from 'Components/MyBaby/Feed/Post'
-
-export default function Feed() {
-  return (
-    <Wrapper>
-      <Post />
-    </Wrapper>
-  )
-}
-const Wrapper = styled.div``
-=======
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import styled from 'styled-components/macro'
-import PostHeader from 'Components/Post/PostHeader'
 import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
 import PostBody from 'Components/Post/PostBody'
 import CommentInput from 'Components/Post/CommentInput'
 import CommentList from 'Components/Post/CommentList'
+import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
 
 export default function Feed({ type }) {
   const [postData, setPostData] = useState([])
@@ -39,34 +25,45 @@ export default function Feed({ type }) {
         }
       )
       .then((res) => setPostData(res.data.results.data))
-    console.log(postData)
   }, [])
   return (
     <>
       {postData.map((data, index) => (
         <Wrapper key={index}>
-          <PostHeader name={data.user} date={data.created_at} />
-          <PostImage imgUrl={data.img_url} />
-          <PostReactionButton
-            type={type}
-            numOfComments={data.comments_count}
-            numOfLikes={data.likes_count}
-          />
-          <PostBody body={data.body} />
-          <CommentInput feedId={data.id} type={type} />
-          <CommentList comments={data.comments} feedId={data.id} type={type} />
+          {/* <FindPostHeader date={data.updated_at} /> */}
+          <PostContainer>
+            <PostTitle>{data.title}</PostTitle>
+            <PostImage imgUrl={data.img_url} />
+            {/* <PostReactionButton
+              type={type}
+              numOfComments={data.comments_count}
+            />
+            <PostBody body={data.body} />
+            <CommentInput feedId={data.id} type={type} />
+            <CommentList
+              comments={data.comments}
+              feedId={data.id}
+              type={type}
+            /> */}
+          </PostContainer>
         </Wrapper>
       ))}
     </>
   )
-  // return <div>gi</div>
 }
 const Wrapper = styled.div`
   background-color: #fff;
   min-width: 700px;
   margin: 30px 0;
-  padding: 30px 15px;
   border: solid 0.2px #707070;
   border-radius: 10px;
 `
->>>>>>> b20e03bec2b6b3c9a8d0d82a6f4da8cba16c25ea
+
+const PostContainer = styled.div`
+  padding: 0px 15px 30px;
+`
+
+const PostTitle = styled.div`
+  font-size: 24px;
+  margin-bottom: 20px;
+`

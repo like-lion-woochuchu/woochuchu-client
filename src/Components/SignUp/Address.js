@@ -35,7 +35,6 @@ const Address = (props) => {
         ref={el}
         detail={detailAddressArea}
         onClick={unfold}
-        onMouseOver={unfold}
         error={props.error}
       >
         <SubjectText>주소</SubjectText>
