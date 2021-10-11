@@ -14,9 +14,22 @@ export default function FindMyBaby() {
         />
         <Feed type={'findmybaby'} />
       </Container>
+      <div>
+        <B>hi</B>
+      </div>
     </Layout>
   )
 }
 const Container = styled.div`
   max-width: 700px;
+`
+
+const B = styled.div`
+  border: 1px solid;
+  width: 40px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 40px;
+  /* bottom: 40px;
+  right: 100px; */
 `
