@@ -1,12 +1,17 @@
 import { useState } from 'react'
+import { useHistory, useLocation } from 'react-router'
 import submitIcon from 'Assets/Icon/icon-arrow-right-white16px@2x.png'
 import styled from 'styled-components/macro'
 import Address from './Address'
 import Animal from './Animal'
 import UserId from './UserId'
 import Username from './Username'
+import axios from 'axios'
 
 const SignUpInput = () => {
+  const history = useHistory()
+  const location = useLocation()
+  const state = location.state
   const [userId, setUserId] = useState('')
   const [username, setUsername] = useState('')
   const [address, setAddress] = useState('')
@@ -54,6 +59,35 @@ const SignUpInput = () => {
 
     return validated
   }
+
+  const onSubmit = () => {
+    if (validate()) {
+      axios
+        .post('http://3.38.95.205:3000/accounts/auth/signup/', {
+          user: {
+            email: state.email,
+            provider: state.provider,
+            username: userId,
+            user_name: username,
+            profile_img: state.profile_image,
+          },
+          address: {
+            address_name: address,
+            address_name_detail: detailAddress,
+          },
+          animals: Array.from(animal),
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            alert('회원가입이 완료되었습니다.')
+            history.push('/')
+          }
+        })
+        .catch((response) => {
+          console.log(response)
+        })
+    }
+  }
   return (
     <SignUpInputArea>
       <UserId userId={userId} setUserId={setUserId} error={userIdError} />
@@ -71,7 +105,7 @@ const SignUpInput = () => {
       />
       <Animal animal={animal} setAnimal={setAnimal} error={animalError} />
 
-      <SubmitButton onClick={validate}>
+      <SubmitButton onClick={onSubmit}>
         가입하기
         <SubmitIcon></SubmitIcon>
       </SubmitButton>
