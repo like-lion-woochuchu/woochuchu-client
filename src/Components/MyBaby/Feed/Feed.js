@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import styled from 'styled-components/macro'
-import Post from 'Components/MyBaby/Feed/Post'
-
-export default function Feed() {
-  return (
-    <Wrapper>
-      <Post />
-    </Wrapper>
-  )
-}
-const Wrapper = styled.div``
-=======
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -69,4 +55,3 @@ const Wrapper = styled.div`
   border: solid 0.2px #707070;
   border-radius: 10px;
 `
->>>>>>> b20e03bec2b6b3c9a8d0d82a6f4da8cba16c25ea
