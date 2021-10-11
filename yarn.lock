@@ -9309,10 +9309,10 @@
     "hoist-non-react-statics" "^3.0.0"
     "universal-cookie" "^4.0.0"
 
-"react-daum-postcode@^3.0.0-next.0":
-  "integrity" "sha512-ryFAUfklS7Zf5KNrQg/T/3ZMoH4RxaweIOuAwK2tMy6loOYellFq4iSKO5ouPo1NMUiJgnAag3NXUrRTFvu7ZQ=="
-  "resolved" "https://registry.npmjs.org/react-daum-postcode/-/react-daum-postcode-3.0.0-next.0.tgz"
-  "version" "3.0.0-next.0"
+"react-daum-postcode@^3.0.0":
+  "integrity" "sha512-G+C6OQNqyMjrACkhUi2SoOBAQtbfowDlCjxo/KQ4Chvv2uIwQQ1MLH8UfRbL00GqbaH0zpANnw0CIM8TEtVaxA=="
+  "resolved" "https://registry.npmjs.org/react-daum-postcode/-/react-daum-postcode-3.0.0.tgz"
+  "version" "3.0.0"
   dependencies:
     "prop-types" "^15.7.2"
     "react" "^17.0.2"
