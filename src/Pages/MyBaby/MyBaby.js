@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
 import Feed from 'Components/MyBaby/Feed/Feed'
+import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
+import WriteBtn from 'Components/SideBtn/WriteBtn'
 
 export default function MyBaby() {
+  const history = useHistory()
   return (
     <Layout>
       <Container>
@@ -26,6 +30,12 @@ export default function MyBaby() {
         />
         <Feed type={'mybaby'} />
       </Container>
+      <WriteBtn
+        handleClick={() => {
+          history.push('/mybaby_write')
+        }}
+      />
+      <ScrollTopBtn />
     </Layout>
   )
 }
