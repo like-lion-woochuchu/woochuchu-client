@@ -48,16 +48,36 @@ const GoogleSignIn = () => {
             })
         }}
         onFailure={(e) => console.log(e)}
+        render={(renderProps) => (
+          <button
+            onClick={renderProps.onClick}
+            style={{
+              background: '#F8F8F8',
+              display: 'inline-flex',
+              color: 'black',
+              padding: '14px 90px',
+              borderRadius: '30px',
+              border: '1px solid transparent',
+              fontSize: '14px',
+              fontWeight: '500',
+              fontFamily: 'Roboto, sans-serif',
+              textAlign: 'center',
+            }}
+          >
+            구글로 로그인하기
+          </button>
+        )}
       ></GoogleLogin>
     </GoogleButton>
   )
 }
 
 const GoogleButton = styled.button`
-  margin: 50px 140px 20px 140px;
+  margin: 50px 140px 0px 140px;
   width: 420px;
   height: 90px;
   opacity: 1;
+  border: '1px solid black';
 `
 
 export default GoogleSignIn

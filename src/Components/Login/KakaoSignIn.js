@@ -53,13 +53,31 @@ const KakaoSignIn = () => {
         token={'21f10b8032619c791b4ed5b6d1c204e7'}
         onSuccess={onSuccess}
         onFail={console.log}
-      />
+        style={{
+          display: 'inline-block',
+          padding: '0',
+          margin: '0',
+          width: '300px',
+          height: '45px',
+          lineHeight: '44px',
+          color: 'black',
+          backgroundColor: '#ffeb00',
+          border: '1px solid transparent',
+          borderRadius: '3px',
+          fontSize: '14px',
+          textAlign: 'center',
+          cursor: 'pointer',
+          borderRadius: '30px',
+        }}
+      >
+        카카오로 로그인하기
+      </KakaoLogin>
     </KakaoButton>
   )
 }
 
 const KakaoButton = styled.button`
-  margin: 20px 140px 20px 140px;
+  margin: 0px 140px 20px 140px;
   width: 420px;
   height: 90px;
   opacity: 1;
