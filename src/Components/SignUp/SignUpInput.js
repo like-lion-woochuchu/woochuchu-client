@@ -128,7 +128,7 @@ const SubmitButton = styled.div`
   background: #1d1e20 0% 0% no-repeat padding-box;
   border-radius: 45px;
   text-align: center;
-  font: normal normal bold 18px/26px Noto Sans CJK KR;
+  font: normal normal bold 18px/26px Noto Sans KR;
   letter-spacing: 0px;
   color: #ffffff;
   opacity: 1;

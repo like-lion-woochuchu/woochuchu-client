@@ -80,7 +80,7 @@ const AnimalText = styled.text`
   width: 70px;
   height: 26px;
   text-align: left;
-  font: normal normal bold 18px/26px Noto Sans CJK KR;
+  font: normal normal bold 18px/26px Noto Sans KR;
   letter-spacing: 0px;
   color: #1d1e20;
   opacity: 1;
@@ -90,7 +90,7 @@ const SelectText = styled.text`
   width: 35px;
   height: 20px;
   text-align: left;
-  font: normal normal normal 14px/20px Noto Sans CJK KR;
+  font: normal normal normal 14px/20px Noto Sans KR;
   letter-spacing: 0px;
   color: #1d1e20;
   opacity: 1;

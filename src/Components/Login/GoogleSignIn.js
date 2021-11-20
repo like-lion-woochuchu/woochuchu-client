@@ -59,8 +59,8 @@ const GoogleSignIn = () => {
               borderRadius: '30px',
               border: '1px solid transparent',
               fontSize: '14px',
-              fontWeight: '500',
-              fontFamily: 'Roboto, sans-serif',
+              fontWeight: '400',
+              fontFamily: 'Noto Sans KR',
               textAlign: 'center',
             }}
           >

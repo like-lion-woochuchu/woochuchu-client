@@ -68,6 +68,7 @@ const KakaoSignIn = () => {
           textAlign: 'center',
           cursor: 'pointer',
           borderRadius: '30px',
+          font: 'Noto Sans KR',
         }}
       >
         카카오로 로그인하기

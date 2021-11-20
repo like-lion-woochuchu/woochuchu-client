@@ -4,6 +4,8 @@ import MyBaby from 'Pages/MyBaby/MyBaby'
 import FindMyBaby from 'Pages/FindMyBaby/FindMyBaby'
 import Login from 'Pages/Login/Login'
 import SignUp from 'Pages/SignUp/SignUp'
+import MessageList from 'Pages/Message/MessageList'
+import Message from 'Pages/Message/Message'
 export default function Routes() {
   return (
     <Router>
@@ -12,6 +14,8 @@ export default function Routes() {
         <Route exact path={'/findmybaby'} component={FindMyBaby} />
         <Route exact path={'/login'} component={Login} />
         <Route exact path={'/signup'} component={SignUp} />
+        <Route exact path={'/messageList'} component={MessageList} />
+        <Route exact path={'/message'} component={Message} />
       </Switch>
     </Router>
   )
