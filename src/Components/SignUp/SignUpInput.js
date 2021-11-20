@@ -67,7 +67,7 @@ const SignUpInput = () => {
           user: {
             email: state.email,
             provider: state.provider,
-            username: userId,
+            nickname: userId,
             user_name: username,
             profile_img: state.profile_image,
           },
@@ -90,12 +90,13 @@ const SignUpInput = () => {
   }
   return (
     <SignUpInputArea>
-      <UserId userId={userId} setUserId={setUserId} error={userIdError} />
       <Username
         username={username}
         setUsername={setUsername}
         error={usernameError}
       />
+      <UserId userId={userId} setUserId={setUserId} error={userIdError} />
+
       <Address
         address={address}
         detailAddress={detailAddress}

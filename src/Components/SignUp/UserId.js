@@ -5,7 +5,7 @@ const UserId = (props) => {
   return (
     <>
       <UserIdDiv error={props.error}>
-        <SubjectText margin={'44px'}>ID</SubjectText>
+        <SubjectText margin={'30px'}>닉네임</SubjectText>
         <SignUpInput
           value={props.userId}
           placeholder={'woochuchu'}

@@ -15,6 +15,7 @@
     "react-kakao-login": "^2.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "readdirp": "^3.6.0",
     "styled-components": "^5.3.0",
     "styled-components.macro": "^1.0.0",
     "styled-reset": "^4.3.4",
