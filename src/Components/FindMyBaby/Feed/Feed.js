@@ -30,21 +30,15 @@ export default function Feed({ type }) {
     <>
       {postData.map((data, index) => (
         <Wrapper key={index}>
-          {/* <FindPostHeader date={data.updated_at} /> */}
+          <FindPostHeader date={data.updated_at} findState={data.find_flag} />
           <PostContainer>
             <PostTitle>{data.title}</PostTitle>
             <PostImage imgUrl={data.img_url} />
-            {/* <PostReactionButton
+            <PostReactionButton
               type={type}
-              numOfComments={data.comments_count}
+              numOfComments={data.comments.length}
             />
-            <PostBody body={data.body} />
-            <CommentInput feedId={data.id} type={type} />
-            <CommentList
-              comments={data.comments}
-              feedId={data.id}
-              type={type}
-            /> */}
+            <PostBody body={data.body} type={type} />
           </PostContainer>
         </Wrapper>
       ))}

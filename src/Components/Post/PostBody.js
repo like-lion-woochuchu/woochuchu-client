@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
+
 import styled from 'styled-components/macro'
 
-export default function PostBody({ body }) {
+export default function PostBody({ body, type }) {
   const [openFullText, setOpenFullText] = useState(false)
+  const history = useHistory()
 
   const handleOpenFullText = () => {
     setOpenFullText((prev) => !prev)
+  }
+
+  const handleMoveToDetail = () => {
+    history.push('/mybaby_write')
   }
   return (
     <Wrapper>
@@ -17,7 +24,11 @@ export default function PostBody({ body }) {
           ) : (
             <>
               ...
-              <MoreBtn onClick={handleOpenFullText}>더보기</MoreBtn>
+              {type === 'findmybaby' ? (
+                <MoreBtn onClick={handleMoveToDetail}>더보기</MoreBtn>
+              ) : (
+                <MoreBtn onClick={handleOpenFullText}>더보기</MoreBtn>
+              )}
             </>
           )}
         </TextContainer>

@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
 import Feed from 'Components/MyBaby/Feed/Feed'
-import axios from 'axios'
+import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
+import WriteBtn from 'Components/SideBtn/WriteBtn'
 
 export default function MyBaby() {
+  const [selectedAnimal, setSelectedAnimal] = useState([])
+
+  const history = useHistory()
   return (
     <Layout>
       <Container>
@@ -24,9 +29,17 @@ export default function MyBaby() {
             '파충류 / 양서류',
             '기타',
           ]}
+          selectedAnimal={selectedAnimal}
+          setSelectedAnimal={setSelectedAnimal}
         />
         <Feed type={'mybaby'} />
       </Container>
+      <WriteBtn
+        handleClick={() => {
+          history.push('/mybaby_write')
+        }}
+      />
+      <ScrollTopBtn />
     </Layout>
   )
 }
