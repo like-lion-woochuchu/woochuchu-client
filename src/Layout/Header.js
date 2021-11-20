@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
@@ -13,9 +13,11 @@ export default function Header() {
     } else {
       const decoded = jwtDecode(localStorage.getItem('token'))
       setToken(decoded)
+      console.log(decoded)
       return true
     }
   }
+
   return (
     <Wrapper>
       <Container>
@@ -45,22 +47,22 @@ export default function Header() {
           </Menus>
         </LeftNav>
         <RightNav>
-          {checkLogin ? (
-            <Profile>
-              <ProfileImg src={logoImgUrl} alt="logo" />
-              {token}
-            </Profile>
-          ) : (
-            <Menus
-              onClick={() => {
-                history.push('/login')
-              }}
-            >
-              로그인
-            </Menus>
-          )}
-
-          <Logout>로그아웃</Logout>
+          <Profile>
+            <ProfileImg src={logoImgUrl} alt="logo" />
+            민유지 님
+          </Profile>
+          <Logout
+            onClick={() => {
+              if (localStorage.getItem('token')) {
+                localStorage.clear()
+                alert('로그아웃 되었습니다.')
+              } else {
+                alert('로그인 상태가 아닙니다.')
+              }
+            }}
+          >
+            로그아웃
+          </Logout>
         </RightNav>
       </Container>
     </Wrapper>
