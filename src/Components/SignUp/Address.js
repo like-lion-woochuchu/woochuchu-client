@@ -50,12 +50,14 @@ const Address = (props) => {
           <DaumPostcode
             onComplete={handleAddress}
             autoClose
-            width={505}
+            width={500}
             height={420}
             style={{
               position: 'absolute',
               zIndex: '100',
               border: '1px solid #333333',
+              width: '500px',
+              height: '420px',
             }}
           />
         ) : null}

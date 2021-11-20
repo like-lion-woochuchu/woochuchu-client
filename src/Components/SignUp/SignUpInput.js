@@ -80,7 +80,34 @@ const SignUpInput = () => {
         .then((response) => {
           if (response.status === 200) {
             alert('회원가입이 완료되었습니다.')
-            history.push('/')
+            axios
+              .post(
+                'http://3.38.95.205:3000/accounts/auth/signin/',
+                {
+                  email: state.email,
+                  provider: state.provider,
+                },
+                {
+                  headers: {
+                    'Content-type': 'application/json',
+                    Accept: 'application/json',
+                  },
+                }
+              )
+              .then((response) => {
+                if (response.status === 200) {
+                  console.log(response.data)
+                  console.log(response.data.results.access_token)
+                  const token = response.data.results.access_token
+                  localStorage.setItem('token', token)
+                  console.log(localStorage.getItem('token'))
+                  history.push('/')
+                }
+              })
+              .catch((error) => {
+                alert('오류가 발생했습니다. 회원가입을 다시 진행해 주세요.')
+                console.log(error)
+              })
           }
         })
         .catch((response) => {

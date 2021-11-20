@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
+import jwtDecode from 'jwt-decode'
 
 export default function Header() {
   const history = useHistory()
-
+  const [token, setToken] = useState()
+  const checkLogin = () => {
+    if (!localStorage.getItem('token')) {
+      return false
+    } else {
+      const decoded = jwtDecode(localStorage.getItem('token'))
+      setToken(decoded)
+      return true
+    }
+  }
   return (
     <Wrapper>
       <Container>
@@ -35,10 +45,21 @@ export default function Header() {
           </Menus>
         </LeftNav>
         <RightNav>
-          <Profile>
-            <ProfileImg src={logoImgUrl} alt="logo" />
-            민유지님
-          </Profile>
+          {checkLogin ? (
+            <Profile>
+              <ProfileImg src={logoImgUrl} alt="logo" />
+              {token}
+            </Profile>
+          ) : (
+            <Menus
+              onClick={() => {
+                history.push('/login')
+              }}
+            >
+              로그인
+            </Menus>
+          )}
+
           <Logout>로그아웃</Logout>
         </RightNav>
       </Container>
