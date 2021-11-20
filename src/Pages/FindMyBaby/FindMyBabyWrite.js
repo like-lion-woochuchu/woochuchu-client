@@ -32,7 +32,10 @@ export default function FindMyBabyWrite() {
   }, [selectedAnimal])
 
   const handleContentChange = (e) => {
-    // setContent(e.target.value)
+    setPostData((prev) => ({
+      ...prev,
+      body: e.target.value,
+    }))
   }
   console.log(postData)
 
@@ -59,11 +62,33 @@ export default function FindMyBabyWrite() {
           <AnimalImgBox>
             <AnimalImg src={insertPhotoImg} alt="" />
           </AnimalImgBox>
+          <div>동물 종류</div>
           <AnimalSelectBtn
             selectedAnimal={selectedAnimal}
             setSelectedAnimal={setSelectedAnimal}
             multiselect={false}
           />
+          <InfoContainer>
+            {' '}
+            <InputBox
+              title="아이 이름"
+              placeHolder="제목을 입력해주세요."
+              name="title"
+              setInput={setPostData}
+            />
+            <InputBox
+              title="나이"
+              placeHolder="제목을 입력해주세요."
+              name="title"
+              setInput={setPostData}
+            />
+            <InputBox
+              title="성별"
+              placeHolder="제목을 입력해주세요."
+              name="title"
+              setInput={setPostData}
+            />
+          </InfoContainer>
           <SubmitButtonBox>
             <SubmitButton disabled={true}>글쓰기</SubmitButton>
           </SubmitButtonBox>
@@ -154,4 +179,7 @@ const SubmitButton = styled.button`
 const SubmitButtonBox = styled.div`
   display: flex;
   flex-direction: row-reverse;
+`
+const InfoContainer = styled.div`
+  display: flex;
 `

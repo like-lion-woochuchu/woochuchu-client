@@ -6,20 +6,19 @@ export default function InputBox({ title, name, placeHolder, setInput }) {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
   return (
-    <TitleBox>
+    <InputContainer>
       <Title>{title}</Title>
-      <TitleInput
+      <Input
         placeholder={placeHolder}
         name={name}
         onChange={(e) => handleInputChange(e)}
       />
-    </TitleBox>
+    </InputContainer>
   )
 }
 
-const TitleBox = styled.div`
+const InputContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   margin-bottom: 15px;
   padding: 32px 40px;
   width: 100%;
@@ -29,6 +28,7 @@ const TitleBox = styled.div`
 `
 const Title = styled.text`
   display: flex;
+  min-width: 90px;
   align-items: center;
   font: normal normal bold 18px/26px Noto Sans CJK KR;
   text-align: left;
@@ -37,7 +37,7 @@ const Title = styled.text`
   opacity: 1;
 `
 
-const TitleInput = styled.input`
+const Input = styled.input`
   width: 92%;
   text-align: left;
   font: normal normal 300 18px/26px Noto Sans CJK KR;
