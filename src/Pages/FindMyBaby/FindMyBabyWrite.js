@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
@@ -6,14 +6,35 @@ import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
 import WriteBtn from 'Components/SideBtn/WriteBtn'
 import insertPhotoImg from 'Assets/Icon/icons_insert-picture.png'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
+import InputBox from 'Components/FindMyBaby/Feed/InputBox'
+import AnimalData from 'Data/animal.json'
 
 export default function FindMyBabyWrite() {
-  const [content, setContent] = useState('')
-  const [selectedAnimal, setSelectedAnimal] = useState([])
+  const [postData, setPostData] = useState({
+    title: '',
+    breed: '',
+    sex: 0,
+    age: 0,
+    last_seen: '',
+    body: '',
+    img_url: [],
+    phone: '',
+    address: 0,
+    animal: 0,
+  })
+  const [selectedAnimal, setSelectedAnimal] = useState('')
+
+  useEffect(() => {
+    setPostData((prev) => ({
+      ...prev,
+      animal: AnimalData.animalData[selectedAnimal],
+    }))
+  }, [selectedAnimal])
 
   const handleContentChange = (e) => {
-    setContent(e.target.value)
+    // setContent(e.target.value)
   }
+  console.log(postData)
 
   return (
     <Layout>
@@ -23,6 +44,12 @@ export default function FindMyBabyWrite() {
           subtitle="실종된 반려동물을 가족들의 품으로"
         />
         <Container>
+          <InputBox
+            title="제목"
+            placeHolder="제목을 입력해주세요."
+            name="title"
+            setInput={setPostData}
+          />
           <ContentBox>
             <ContentArea
               placeholder={'내용을 입력해주세요.'}
@@ -33,17 +60,9 @@ export default function FindMyBabyWrite() {
             <AnimalImg src={insertPhotoImg} alt="" />
           </AnimalImgBox>
           <AnimalSelectBtn
-            animalArr={[
-              '강아지',
-              '고양이',
-              '물고기',
-              '새',
-              '곤충',
-              '파충류 / 양서류',
-              '기타',
-            ]}
             selectedAnimal={selectedAnimal}
             setSelectedAnimal={setSelectedAnimal}
+            multiselect={false}
           />
           <SubmitButtonBox>
             <SubmitButton disabled={true}>글쓰기</SubmitButton>

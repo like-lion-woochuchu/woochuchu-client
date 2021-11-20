@@ -5,8 +5,6 @@ import styled from 'styled-components/macro'
 import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
 import PostBody from 'Components/Post/PostBody'
-import CommentInput from 'Components/Post/CommentInput'
-import CommentList from 'Components/Post/CommentList'
 import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
 
 export default function Feed({ type }) {
