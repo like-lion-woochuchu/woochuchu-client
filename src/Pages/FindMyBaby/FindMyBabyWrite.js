@@ -69,26 +69,50 @@ export default function FindMyBabyWrite() {
             multiselect={false}
           />
           <InfoContainer>
-            {' '}
             <InputBox
               title="아이 이름"
               placeHolder="제목을 입력해주세요."
-              name="title"
+              name="name"
               setInput={setPostData}
             />
             <InputBox
+              title="종"
+              placeHolder="종을 입력해주세요."
+              name="breed"
+              setInput={setPostData}
+            />
+          </InfoContainer>
+
+          <InfoContainer>
+            <InputBox
               title="나이"
-              placeHolder="제목을 입력해주세요."
-              name="title"
+              placeHolder="나이를 입력해주세요."
+              name="age"
               setInput={setPostData}
             />
             <InputBox
               title="성별"
-              placeHolder="제목을 입력해주세요."
-              name="title"
+              placeHolder="성별을 입력해주세요."
+              name="sex"
               setInput={setPostData}
             />
           </InfoContainer>
+
+          <InputBox
+            title="보호자 연락처"
+            placeHolder="010-0000-0000"
+            name="phone"
+            setInput={setPostData}
+          />
+
+          <InputBox
+            title="마지막 발견 일시"
+            placeHolder=""
+            name="last_seen"
+            setInput={setPostData}
+            type="datetime-local"
+          />
+
           <SubmitButtonBox>
             <SubmitButton disabled={true}>글쓰기</SubmitButton>
           </SubmitButtonBox>
