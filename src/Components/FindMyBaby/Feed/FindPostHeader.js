@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import dateParse from 'Utils/DateParse'
 
-export default function FindPostHeader({ name, date }) {
+export default function FindPostHeader({ findState, date }) {
   return (
-    <Wrapper>
-      <FindState>찾는 중</FindState>
+    <Wrapper findState={findState}>
+      {findState ? <FindState>찾음</FindState> : <FindState>찾는 중</FindState>}
       <PostedDate>
         마지막 업데이트: {dateParse(date).date} / {dateParse(date).time}
       </PostedDate>
@@ -13,6 +13,12 @@ export default function FindPostHeader({ name, date }) {
   )
 }
 const Wrapper = styled.div`
+  ${({ findState }) =>
+    findState === 1 &&
+    `      background-color: #E9E9E9 !important;
+    color: #707070 !important;
+`}
+  color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,12 +29,10 @@ const Wrapper = styled.div`
 `
 
 const FindState = styled.div`
-  color: #fff;
   font-size: 20px;
   font-weight: 600;
 `
 
 const PostedDate = styled.div`
-  color: #fff;
   font-size: 16px;
 `

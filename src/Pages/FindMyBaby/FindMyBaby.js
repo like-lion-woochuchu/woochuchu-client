@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
@@ -7,6 +8,8 @@ import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
 import WriteBtn from 'Components/SideBtn/WriteBtn'
 
 export default function FindMyBaby() {
+  const history = useHistory()
+
   return (
     <Layout>
       <Container>
@@ -16,7 +19,11 @@ export default function FindMyBaby() {
         />
         <Feed type={'findmybaby'} />
       </Container>
-      <WriteBtn />
+      <WriteBtn
+        handleClick={() => {
+          history.push('/findmybaby_write')
+        }}
+      />
       <ScrollTopBtn />
     </Layout>
   )
