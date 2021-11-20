@@ -8,15 +8,15 @@ export default function Header() {
   const history = useHistory()
   const [token, setToken] = useState()
   const checkLogin = () => {
-    if (!localStorage.getItem('token')) {
-      return false
-    } else {
+    if (localStorage.getItem('token')) {
       const decoded = jwtDecode(localStorage.getItem('token'))
       setToken(decoded)
       console.log(decoded)
-      return true
     }
   }
+  useEffect(() => {
+    checkLogin()
+  }, [])
 
   return (
     <Wrapper>
@@ -47,14 +47,20 @@ export default function Header() {
           </Menus>
         </LeftNav>
         <RightNav>
-          <Profile>
-            <ProfileImg src={logoImgUrl} alt="logo" />
-            민유지 님
-          </Profile>
+          {token ? (
+            <Profile>
+              <ProfileImg src={logoImgUrl} alt="logo" />
+              {token.nickname} 님
+            </Profile>
+          ) : (
+            <Menus onClick={() => history.push('/login')}>로그인</Menus>
+          )}
+
           <Logout
             onClick={() => {
               if (localStorage.getItem('token')) {
                 localStorage.clear()
+                setToken()
                 alert('로그아웃 되었습니다.')
               } else {
                 alert('로그인 상태가 아닙니다.')
