@@ -68,7 +68,7 @@ const SignUpInput = () => {
             email: state.email,
             provider: state.provider,
             nickname: userId,
-            user_name: username,
+            username: username,
             profile_img: state.profile_image,
           },
           address: {
