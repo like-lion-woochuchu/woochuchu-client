@@ -21,6 +21,7 @@ export const MessageFrame = styled.div`
   margin: 0px;
   width: 700px;
   height: 605px;
+  position: relative;
 `
 
 export const MessageInputDiv = styled.div`
@@ -57,4 +58,19 @@ export const MessageSendButton = styled.button`
   box-sizing: border-box;
   border-radius: 50px;
   padding: 9px 14px 10px 14px;
+`
+export const MessageLastsent = styled.div`
+  width: auto;
+  height: auto;
+  max-width: 422px;
+  background: #f8f8f8;
+  text-align: left;
+  border-radius: 50px;
+
+  margin-top: 30px;
+  margin-right: 20px;
+  padding: 17px 24px;
+  position: absolute;
+  bottom: 20px;
+  right: 15px;
 `
