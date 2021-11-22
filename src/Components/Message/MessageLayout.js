@@ -1,16 +1,47 @@
 import styled from 'styled-components/macro'
-import buttonIcon from 'Assets/Icon/icon-paw-print20px@2x.png'
+import Icon from 'Assets/Icon/icon-paw-print20px@2x.png'
 
 export const MessageDiv = styled.div`
   top: 203px;
   left: 610px;
   width: 700px;
-  height: 830px;
+  height: ${(props) => props.height || '830px'};
   border: 0.3px solid #dedede;
   border-radius: 30px;
   opacity: 1;
   margin-top: 43px;
   margin-bottom: 47px;
+`
+export const MessageReceiver = styled.div`
+  flex-direction: row;
+  margin: 45px 0px 30px 45px;
+`
+export const MessageReceiverName = styled.span`
+  width: 670px;
+  margin-left: 10px;
+  font: normal normal bold 20px/29px Noto Sans KR;
+`
+export const MessageReceiverIcon = styled.img.attrs({
+  src: Icon,
+})`
+  width: 24px;
+  height: 20px;
+  opacity: 1;
+`
+export const MessageTextFrame = styled.textarea`
+  width: 660px;
+  height: 500px;
+  background: #f8f8f8 0% 0% no-repeat padding-box;
+  border-radius: 45px;
+  margin: 0px 20px 15px 20px;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 32px 50px 38px 40px;
+  font: normal normal 15px Noto Sans KR;
+  ::placeholder {
+    color: #707070;
+  }
 `
 export const MessageLineUnderName = styled.hr`
   margin-top: 103px;
@@ -24,41 +55,6 @@ export const MessageFrame = styled.div`
   position: relative;
 `
 
-export const MessageInputDiv = styled.div`
-  flex-direction: column;
-  padding-top: 20px;
-  padding-left: 24px;
-  height: 90px;
-  border-top: solid 0.3px #dedede;
-`
-export const MessageInput = styled.textarea`
-  text-align: left;
-  font: normal normal 300 18px/26px Noto Sans KR;
-  letter-spacing: 0px;
-  color: #707070;
-  opacity: 1;
-  ::placeholder {
-    font: normal normal 300 18px/26px Noto Sans KR;
-    letter-spacing: 0px;
-    color: #dedede;
-  }
-  width: 550px;
-  border: none;
-  outline: none;
-  resize: none;
-  margin-right: 30px;
-`
-
-export const MessageSendButton = styled.button`
-  width: 65px;
-  height: 45px;
-  margin-top: -20px;
-  background: #fbf3da;
-  border: 0.3px solid #dedede;
-  box-sizing: border-box;
-  border-radius: 50px;
-  padding: 9px 14px 10px 14px;
-`
 export const MessageLastsent = styled.div`
   width: auto;
   height: auto;

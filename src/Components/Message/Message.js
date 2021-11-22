@@ -1,45 +1,59 @@
 import styled from 'styled-components/macro'
 import {
-  MessageFrame,
-  MessageInputDiv,
-  MessageInput,
-  MessageSendButton,
-  MessageLastsent,
+  MessageDiv,
+  MessageReceiverIcon,
+  MessageReceiverName,
+  MessageTextFrame,
+  MessageReceiver,
 } from './MessageLayout'
-import buttonIcon from 'Assets/Icon/icon-paw-print20px@2x.png'
-import { useEffect, useState } from 'react'
+import submitIcon from 'Assets/Icon/icon-arrow-right-white16px@2x.png'
+import { useState } from 'react'
+import axios from 'axios'
 
-const MessageDisplay = () => {
-  const [message, setMessage] = useState('')
-  const [messageSent, setMessageSent] = useState('')
-  const [send, setSend] = useState(false)
+const Message = () => {
+  const [text, setText] = useState('')
 
-  useEffect(() => {}, [send])
   return (
     <>
-      <MessageFrame>
-        {send && messageSent ? (
-          <MessageLastsent>{messageSent}</MessageLastsent>
-        ) : null}
-      </MessageFrame>
-      <MessageInputDiv>
-        <MessageInput
-          placeholder={'메시지를 입력하세요.'}
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-        ></MessageInput>
-        <MessageSendButton
-          onClick={() => {
-            setSend(true)
-            setMessageSent(message)
-            setMessage('')
-          }}
-        >
-          <img src={buttonIcon} />
-        </MessageSendButton>
-      </MessageInputDiv>
+      <MessageDiv height={'780px'}>
+        <MessageReceiver>
+          <MessageReceiverIcon />
+          <MessageReceiverName>가나다 님</MessageReceiverName>
+        </MessageReceiver>
+        <MessageTextFrame
+          placeholder={'쪽지 내용을 입력하세요.'}
+          onChange={(e) => setText(e.target.value)}
+        ></MessageTextFrame>
+        <SubmitButton>
+          보내기
+          <SubmitIcon />
+        </SubmitButton>
+      </MessageDiv>
     </>
   )
 }
 
-export default MessageDisplay
+const SubmitButton = styled.div`
+  margin: 30px 15px 30px 505px;
+  padding: 32px 40px 32px 40px;
+  width: 170px;
+  height: 90px;
+  background: #1d1e20 0% 0% no-repeat padding-box;
+  border-radius: 45px;
+  text-align: center;
+  font: normal normal bold 18px/26px Noto Sans KR;
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+`
+
+const SubmitIcon = styled.img.attrs({
+  src: submitIcon,
+})`
+  padding-top: 2px;
+  margin-left: 12px;
+  width: 9px;
+  height: 16px;
+`
+
+export default Message
