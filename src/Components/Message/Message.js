@@ -84,6 +84,9 @@ const SubmitButton = styled.div`
   letter-spacing: 0px;
   color: #ffffff;
   opacity: 1;
+  &:hover {
+    background: #e9e9e9;
+  }
 `
 
 const SubmitIcon = styled.img.attrs({
