@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 
-export default function InputBox({ type, title, name, placeHolder, setInput }) {
+export default function InputBox({
+  type,
+  title,
+  name,
+  placeHolder,
+  setInput,
+  width,
+}) {
   const handleInputChange = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -10,6 +17,7 @@ export default function InputBox({ type, title, name, placeHolder, setInput }) {
       <Title>{title}</Title>
       {type === 'datetime-local' ? (
         <Input
+          width={width}
           type="datetime-local"
           placeholder={placeHolder}
           name={name}
@@ -17,6 +25,7 @@ export default function InputBox({ type, title, name, placeHolder, setInput }) {
         />
       ) : (
         <Input
+          width={width}
           placeholder={placeHolder}
           name={name}
           onChange={(e) => handleInputChange(e)}
@@ -28,8 +37,9 @@ export default function InputBox({ type, title, name, placeHolder, setInput }) {
 
 const InputContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-bottom: 15px;
-  padding: 32px 40px;
+  padding: 32px 25px;
   /* width: 100%; */
   height: 90px;
   background: #f8f8f8 0% 0% no-repeat padding-box;
@@ -37,7 +47,7 @@ const InputContainer = styled.div`
 `
 const Title = styled.text`
   display: flex;
-  /* min-width: 90px; */
+  white-space: pre-wrap;
   align-items: center;
   font: normal normal bold 18px/26px Noto Sans CJK KR;
   text-align: left;
@@ -47,7 +57,7 @@ const Title = styled.text`
 `
 
 const Input = styled.input`
-  max-width: 70%;
+  width: ${(props) => props.width || '85%'};
   text-align: left;
   font: normal normal 300 18px/26px Noto Sans CJK KR;
   letter-spacing: 0px;
