@@ -45,7 +45,7 @@ export const MessageTextFrame = styled.textarea`
   }
 `
 export const MessageLineUnderName = styled.hr`
-  margin-top: 35px;
+  margin: 35px 0px 0px 0px;
   border: solid 0.3px #dedede;
 `
 
@@ -107,4 +107,14 @@ export const MessageReplyIcon = styled.img.attrs({
   opacity: 1;
   float: right;
   margin: 5px 40px 0px 0px;
+`
+export const MessageDate = styled.div`
+  text-align: center;
+
+  background: #dadada;
+  width: fit-content;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 8px 30px;
+  margin: 35px auto 20px auto;
 `

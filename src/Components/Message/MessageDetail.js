@@ -11,6 +11,7 @@ import {
   MessageReplyIcon,
   MessageBubble,
   MessageTime,
+  MessageDate,
 } from './MessageLayout'
 import buttonIcon from 'Assets/Icon/icon-paw-print20px@2x.png'
 import { useEffect, useState } from 'react'
@@ -22,6 +23,8 @@ const MessageDetail = () => {
   const history = useHistory()
   const [data, setData] = useState([])
   const [loading, setLoding] = useState(true)
+  var last = useState('')
+  var flag = true
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -42,17 +45,13 @@ const MessageDetail = () => {
         )
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data)
             setData(response.data.results.data)
             setLoding(false)
-            console.log(data)
           }
         })
         .catch((error) => {
-          if (error.response.request.status === 500) {
-            alert('정상적인 접근이 아닙니다.')
-            history.push('/')
-          }
+          alert('정상적인 접근이 아닙니다.')
+          history.push('/')
         })
     }
   }, [])
@@ -71,8 +70,18 @@ const MessageDetail = () => {
               <Spinner />
             ) : (
               data.map((message) => {
+                if (message.created_at.split('T')[0] !== last) {
+                  flag = true
+                  console.log('last', last)
+                  last = message.created_at.split('T')[0]
+
+                  console.log('message', message.created_at.split('T')[0])
+                } else {
+                  flag = false
+                }
                 return (
                   <>
+                    {flag ? <MessageDate>{last}</MessageDate> : null}
                     <MessageDetailDiv
                       key={message.id}
                       me={message.sender.id === 8}
