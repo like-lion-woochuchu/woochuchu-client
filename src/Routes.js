@@ -9,6 +9,7 @@ import MessageDetailPage from 'Pages/Message/MessageDetail'
 import MessagePage from 'Pages/Message/Message'
 import MyBabyWrite from 'Pages/MyBaby/MyBabyWrite'
 import FindMyBabyWrite from 'Pages/FindMyBaby/FindMyBabyWrite'
+import FindMyBabyDetail from 'Pages/FindMyBaby/FindMyBabyDetail'
 export default function Routes() {
   return (
     <Router>
@@ -16,6 +17,7 @@ export default function Routes() {
         <Route exact path={['/', '/mybaby']} component={MyBaby} />
         <Route exact path={'/mybaby_write'} component={MyBabyWrite} />
         <Route exact path={'/findmybaby'} component={FindMyBaby} />
+        <Route exact path={'/findmybaby/:seq'} component={FindMyBabyDetail} />
         <Route exact path={'/findmybaby_write'} component={FindMyBabyWrite} />
         <Route exact path={'/login'} component={Login} />
         <Route exact path={'/signup'} component={SignUp} />

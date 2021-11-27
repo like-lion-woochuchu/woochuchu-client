@@ -5,7 +5,7 @@ import downArrow from 'Assets/Icon/icon-arrow-down@2x.png'
 import axios from 'axios'
 import dateParse from 'Utils/DateParse'
 
-export default function CommentList({ comments, feedId, type }) {
+export default function CommentList({ comments, postId, type }) {
   const [openCommentList, setOpenCommentList] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [editCommentId, setEditCommentId] = useState(0)
@@ -26,7 +26,7 @@ export default function CommentList({ comments, feedId, type }) {
 
   const handleSubmit = () => {
     axios
-      .put(`${process.env.REACT_APP_API_URL}/${type}/${feedId}/comments/`, {
+      .put(`${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization:
@@ -43,7 +43,7 @@ export default function CommentList({ comments, feedId, type }) {
 
   const handleDelete = () => {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/${feedId}/comments/`, {
+      .delete(`${process.env.REACT_APP_API_URL}/${postId}/comments/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization:

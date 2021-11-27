@@ -31,8 +31,8 @@ export default function Post({ type }) {
           <PostImage imgUrl={data.img_url} />
           <PostReactionButton />
           <PostBody body={data.body} />
-          <CommentInput feedId={data.id} type={type} />
-          <CommentList feedId={data.id} type={type} />
+          <CommentInput postId={data.id} type={type} />
+          <CommentList postId={data.id} type={type} />
         </Wrapper>
       ))}
     </>

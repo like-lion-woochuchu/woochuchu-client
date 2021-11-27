@@ -3,7 +3,7 @@ import { useHistory } from 'react-router'
 
 import styled from 'styled-components/macro'
 
-export default function PostBody({ body, type }) {
+export default function PostBody({ body, type, postId }) {
   const [openFullText, setOpenFullText] = useState(false)
   const history = useHistory()
 
@@ -12,7 +12,7 @@ export default function PostBody({ body, type }) {
   }
 
   const handleMoveToDetail = () => {
-    history.push('/mybaby_write')
+    history.push('/findmybaby/' + postId)
   }
   return (
     <Wrapper>

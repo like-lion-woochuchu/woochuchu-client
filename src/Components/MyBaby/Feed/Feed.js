@@ -35,8 +35,8 @@ export default function Feed({ type }) {
             numOfComments={data.comments_count}
             numOfLikes={data.likes_count}
           />
-          <PostBody body={data.body} />
-          <CommentInput feedId={data.id} type={type} />
+          <PostBody body={data.body} type={type} />
+          <CommentInput postId={data.id} type={type} />
           <CommentList comments={data.comments} feedId={data.id} type={type} />
         </Wrapper>
       ))}
