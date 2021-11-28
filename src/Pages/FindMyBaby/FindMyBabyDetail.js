@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
 import axios from 'axios'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
-import PostBody from 'Components/Post/PostBody'
 import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
 
 export default function FindMyBabyDetail() {
   const { seq } = useParams()
 
   const [postData, setPostData] = useState([])
+  const types = ['아이 정보', '마지막 목격 위치']
+  const [active, setActive] = useState(types[0])
 
   useEffect(() => {
-    console.log(new Date())
     axios
       .get(`${process.env.REACT_APP_API_URL}/findmybaby/${seq}/`, {
         headers: {
@@ -42,7 +41,6 @@ export default function FindMyBabyDetail() {
             <ProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
             <UserName>{postData.user}</UserName>
           </Profile>
-
           <PostTitle>{postData.title}</PostTitle>
           <PostImage imgUrl={postData.img_url} />
           {postData.comments && (
@@ -51,8 +49,21 @@ export default function FindMyBabyDetail() {
               numOfComments={postData.comments.length}
             />
           )}
-
           <TextContainer>{postData.body}</TextContainer>
+          <TabContainer>
+            <TabBox>
+              {types.map((type) => (
+                <Tab
+                  key={type}
+                  active={active === type}
+                  onClick={() => setActive(type)}
+                >
+                  {type}
+                </Tab>
+              ))}
+            </TabBox>
+          </TabContainer>
+          {active === '아이 정보' ? <A>정보</A> : <A>지도</A>}
         </PostContainer>
       </Wrapper>
     </Layout>
@@ -97,4 +108,30 @@ const ProfileImg = styled.img`
 `
 const UserName = styled.div`
   color: #1d1e20;
+`
+const Tab = styled.button`
+  font-size: 20px;
+  padding: 10px 60px;
+  cursor: pointer;
+  opacity: 0.6;
+  background: white;
+  border: 0;
+  outline: 0;
+  ${({ active }) =>
+    active &&
+    `
+    border-bottom: 2px solid black;
+    opacity: 1;
+  `}
+`
+const TabBox = styled.div`
+  display: flex;
+`
+const TabContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`
+const A = styled.div`
+  display: flex;
+  justify-content: center;
 `
