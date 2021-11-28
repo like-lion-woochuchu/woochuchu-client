@@ -1,132 +1,100 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+
+import axios from 'axios'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
-import PageTitles from 'Components/PageTitles/PageTitles'
-import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
-import WriteBtn from 'Components/SideBtn/WriteBtn'
-import insertPhotoImg from 'Assets/Icon/icons_insert-picture.png'
-import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
+import PostImage from 'Components/Post/PostImage'
+import PostReactionButton from 'Components/Post/PostReactionButton'
+import PostBody from 'Components/Post/PostBody'
+import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
 
 export default function FindMyBabyDetail() {
+  const { seq } = useParams()
+
+  const [postData, setPostData] = useState([])
+
+  useEffect(() => {
+    console.log(new Date())
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/findmybaby/${seq}/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+        },
+      })
+      .then((res) => setPostData(res.data.results.data))
+  }, [])
+  console.log(postData)
+
   return (
     <Layout>
-      <div>
-        gi
-        {/* <PageTitles
-          title="내 새끼 자랑하기"
-          subtitle="소중한 반려동물을 자랑하는 공간입니다."
-        />
-        <Container>
-          <ContentBox>
-            <ContentArea
-              placeholder={'내용을 입력해주세요.'}
-              onChange={(e) => handleContentChange(e)}
-            />
-          </ContentBox>
-          <AnimalImgBox>
-            <AnimalImg src={insertPhotoImg} alt="" />
-          </AnimalImgBox>
-          <AnimalSelectBtn
-            animalArr={[
-              '강아지',
-              '고양이',
-              '물고기',
-              '새',
-              '곤충',
-              '파충류 / 양서류',
-              '기타',
-            ]}
-            selectedAnimal={selectedAnimal}
-            setSelectedAnimal={setSelectedAnimal}
+      <Wrapper>
+        {postData.updated_at && (
+          <FindPostHeader
+            date={postData.updated_at}
+            findState={postData.find_flag}
           />
-          <SubmitButtonBox>
-            <SubmitButton disabled={true}>글쓰기</SubmitButton>
-          </SubmitButtonBox>
-        </Container> */}
-      </div>
-      <WriteBtn />
-      <ScrollTopBtn />
+        )}
+        <PostContainer>
+          <Profile>
+            <ProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
+            <UserName>{postData.user}</UserName>
+          </Profile>
+
+          <PostTitle>{postData.title}</PostTitle>
+          <PostImage imgUrl={postData.img_url} />
+          {postData.comments && (
+            <PostReactionButton
+              type="findmybaby"
+              numOfComments={postData.comments.length}
+            />
+          )}
+
+          <TextContainer>{postData.body}</TextContainer>
+        </PostContainer>
+      </Wrapper>
     </Layout>
   )
 }
-const Container = styled.div`
-  margin-bottom: 150px;
+
+const Wrapper = styled.div`
   background-color: #fff;
-  padding: 20px 15px;
-  max-width: 700px;
-  border: 0.3px solid #dedede;
-  border-radius: 30px;
+  width: 700px;
+  margin: 30px 0;
+  border: solid 0.2px #707070;
+  border-radius: 10px;
 `
 
-const ContentBox = styled.div`
-  min-height: 400px;
-  margin-bottom: 15px;
-  padding: 32px 40px;
-  width: 100%;
-  height: 40%;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
-  border-radius: 45px;
-  opacity: 1;
+const PostContainer = styled.div`
+  padding: 0px 15px 30px;
 `
 
-const ContentArea = styled.textarea`
-  width: 580px;
-  min-height: 400px;
-  outline: none;
-  background: none;
-  border: none;
-  margin: ${(props) => props.margin || '0px'};
+const PostTitle = styled.div`
+  font-size: 24px;
+  margin-bottom: 20px;
+`
+const TextContainer = styled.div`
+  word-break: break-all;
+  font-size: 18px;
   text-align: left;
-  font: normal normal 300 18px/26px Noto Sans CJK KR;
-  letter-spacing: 0px;
-  color: #707070;
-  opacity: 1;
-  ::placeholder {
-    font: normal normal 300 18px/26px Noto Sans CJK KR;
-    letter-spacing: 0px;
-    color: #dedede;
-  }
-  ::-webkit-scrollbar {
-    width: 5.2px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #ddd;
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-button {
-    display: none;
-  }
+  color: #000;
+  width: 700px;
+  margin-top: 20px;
 `
-const AnimalImgBox = styled.div`
-  margin-bottom: 15px;
+const Profile = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 18%;
-  min-height: 120px;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
-  border-radius: 45px;
-  opacity: 1;
+  margin-bottom: 20px;
 `
-const AnimalImg = styled.img`
-  width: 25%;
-  height: 25%;
+
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
 `
-const SubmitButton = styled.button`
-  margin-top: 15px;
-  padding: 32px 40px 32px 40px;
-  width: 180px;
-  height: 90px;
-  background: #e9e9e9 0% 0% no-repeat padding-box;
-  border-radius: 45px;
-  text-align: center;
-  font: normal normal bold 18px/26px Noto Sans CJK KR;
-  letter-spacing: 0px;
-  color: #6f6e6f;
-  opacity: 1;
-`
-const SubmitButtonBox = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
+const UserName = styled.div`
+  color: #1d1e20;
 `

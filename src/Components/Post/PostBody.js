@@ -3,7 +3,7 @@ import { useHistory } from 'react-router'
 
 import styled from 'styled-components/macro'
 
-export default function PostBody({ body, type, postId }) {
+export default function PostBody({ body, type, postId, data }) {
   const [openFullText, setOpenFullText] = useState(false)
   const history = useHistory()
 
@@ -42,9 +42,11 @@ const Wrapper = styled.div`
   margin-top: 30px;
 `
 const TextContainer = styled.span`
+  word-break: break-all;
   font-size: 18px;
   text-align: left;
   color: #000;
+  width: 700px;
 `
 const MoreBtn = styled.span`
   cursor: pointer;
