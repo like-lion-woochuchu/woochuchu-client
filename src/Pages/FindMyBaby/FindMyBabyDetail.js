@@ -7,6 +7,8 @@ import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
 import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
 import dateParse from 'Utils/DateParse'
+import CommentInput from 'Components/Post/CommentInput'
+import CommentList from 'Components/Post/CommentList'
 
 export default function FindMyBabyDetail() {
   const { seq } = useParams()
@@ -104,6 +106,12 @@ export default function FindMyBabyDetail() {
           ) : (
             <TabContent>지도</TabContent>
           )}
+          <CommentInput postId={postData.id} type="findmybaby" />
+          <CommentList
+            comments={postData.comments}
+            feedId={postData.id}
+            type="findmybaby"
+          />
         </PostContainer>
       </Wrapper>
     </Layout>
