@@ -6,6 +6,7 @@ import Layout from 'Layout/Layout'
 import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
 import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
+import dateParse from 'Utils/DateParse'
 
 export default function FindMyBabyDetail() {
   const { seq } = useParams()
@@ -63,7 +64,46 @@ export default function FindMyBabyDetail() {
               ))}
             </TabBox>
           </TabContainer>
-          {active === '아이 정보' ? <A>정보</A> : <A>지도</A>}
+          {active === '아이 정보' ? (
+            <TabContent>
+              <InfoContainer>
+                <InfoBox>
+                  <InfoTitle>아이 이름 (종)</InfoTitle>
+                  <InfoContent>
+                    {postData.name} ({postData.breed})
+                  </InfoContent>
+                </InfoBox>
+                <InfoBox>
+                  <InfoTitle>나이</InfoTitle>
+                  <InfoContent>{postData.age} 세</InfoContent>
+                </InfoBox>
+                <InfoBox>
+                  <InfoTitle>성별</InfoTitle>
+                  <InfoContent>
+                    {postData.sex === 0 ? '수컷' : '암컷'}
+                  </InfoContent>
+                </InfoBox>
+                <InfoBox>
+                  <InfoTitle>보호자 연락처</InfoTitle>
+                  <InfoContent>
+                    {postData.phone && postData.phone.slice(0, 3)}-
+                    {postData.phone && postData.phone.slice(3, 7)}-
+                    {postData.phone && postData.phone.slice(7)}
+                  </InfoContent>
+                </InfoBox>
+                <InfoBox>
+                  <InfoTitle>마지막 발견 일시</InfoTitle>
+                  <InfoContent>
+                    {postData.last_seen && dateParse(postData.last_seen).date}
+                    &ensp;
+                    {postData.last_seen && dateParse(postData.last_seen).time}
+                  </InfoContent>
+                </InfoBox>
+              </InfoContainer>
+            </TabContent>
+          ) : (
+            <TabContent>지도</TabContent>
+          )}
         </PostContainer>
       </Wrapper>
     </Layout>
@@ -130,8 +170,26 @@ const TabBox = styled.div`
 const TabContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 30px 0;
 `
-const A = styled.div`
+const TabContent = styled.div`
   display: flex;
   justify-content: center;
 `
+const InfoContainer = styled.div`
+  border-radius: 20px;
+  background-color: #fafafa;
+  min-width: 630px;
+  padding: 12px 20px;
+`
+const InfoBox = styled.div`
+  display: flex;
+  font-size: 18px;
+  justify-content: space-between;
+  margin: 10px 0;
+`
+const InfoTitle = styled.div`
+  color: #32b67a;
+  font-weight: 700;
+`
+const InfoContent = styled.div``
