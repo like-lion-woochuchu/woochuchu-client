@@ -9,6 +9,7 @@ import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
 import dateParse from 'Utils/DateParse'
 import CommentInput from 'Components/Post/CommentInput'
 import CommentList from 'Components/Post/CommentList'
+import Map from 'Components/Common/Map'
 
 export default function FindMyBabyDetail() {
   const { seq } = useParams()
@@ -104,14 +105,24 @@ export default function FindMyBabyDetail() {
               </InfoContainer>
             </TabContent>
           ) : (
-            <TabContent>지도</TabContent>
+            postData.address && (
+              <TabContent>
+                <Map
+                  cordX={postData.address.address_coord_x}
+                  cordY={postData.address.address_coord_y}
+                  width="630px"
+                />
+              </TabContent>
+            )
           )}
           <CommentInput postId={postData.id} type="findmybaby" />
-          <CommentList
-            comments={postData.comments}
-            feedId={postData.id}
-            type="findmybaby"
-          />
+          {postData.comments && (
+            <CommentList
+              comments={postData.comments}
+              feedId={postData.id}
+              type="findmybaby"
+            />
+          )}
         </PostContainer>
       </Wrapper>
     </Layout>
@@ -168,7 +179,8 @@ const Tab = styled.button`
   ${({ active }) =>
     active &&
     `
-    border-bottom: 2px solid black;
+    color: #32b67a;
+    border-bottom: 2px solid #32b67a;
     opacity: 1;
   `}
 `
