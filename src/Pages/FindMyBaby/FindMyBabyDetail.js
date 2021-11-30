@@ -107,11 +107,23 @@ export default function FindMyBabyDetail() {
           ) : (
             postData.address && (
               <TabContent>
-                <Map
-                  cordX={postData.address.address_coord_x}
-                  cordY={postData.address.address_coord_y}
-                  width="630px"
-                />
+                <div>
+                  <Map
+                    cordX={postData.address.address_coord_x}
+                    cordY={postData.address.address_coord_y}
+                    width="630px"
+                    margin="0 0 20px"
+                  />
+                  <InfoContainer>
+                    <InfoBox>
+                      <InfoTitle>마지막 목격 위치</InfoTitle>
+                      <InfoContent>
+                        {postData.address.address_name &&
+                          postData.address.address_name}
+                      </InfoContent>
+                    </InfoBox>
+                  </InfoContainer>
+                </div>
               </TabContent>
             )
           )}
