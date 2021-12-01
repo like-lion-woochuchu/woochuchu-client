@@ -26,17 +26,14 @@ export default function CommentList({ comments, feedId, type }) {
 
   const handleSubmit = () => {
     axios
-      .put(
-        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/${type}/${feedId}/comments/`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsImV4cCI6MTYzMDkyNjY5OSwiaWF0IjoxNjMwOTI0ODk5fQ.B-ph_-baWGL5xxE6hSXbP8Fm-aecfg8Q-T0eisOT3Jw',
-          },
-          body: editComment,
-        }
-      )
+      .put(`${process.env.REACT_APP_API_URL}/${type}/${feedId}/comments/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+        },
+        body: editComment,
+      })
       .then((res) => console.log(res))
 
     console.log('submit!')
@@ -46,16 +43,13 @@ export default function CommentList({ comments, feedId, type }) {
 
   const handleDelete = () => {
     axios
-      .delete(
-        `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/mybaby/${feedId}/comments/`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsImV4cCI6MTYzMDkyNjY5OSwiaWF0IjoxNjMwOTI0ODk5fQ.B-ph_-baWGL5xxE6hSXbP8Fm-aecfg8Q-T0eisOT3Jw',
-          },
-        }
-      )
+      .delete(`${process.env.REACT_APP_API_URL}/${feedId}/comments/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+        },
+      })
       .then((res) => console.log(res))
 
     console.log('delete!')

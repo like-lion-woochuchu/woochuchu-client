@@ -1,19 +1,31 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
+import AnimalData from 'Data/animal.json'
 
 export default function AnimalSelectBtn({
-  animalArr,
+  multiselect,
   selectedAnimal,
   setSelectedAnimal,
 }) {
+  const animalArr = Object.keys(AnimalData.animalData)
+
   const handleAnimalSelectBtnClick = (e) => {
-    console.log(e.target.innerHTML)
     if (selectedAnimal.includes(e.target.innerHTML)) {
+      if (!multiselect) {
+        setSelectedAnimal('')
+        return
+      }
+
       setSelectedAnimal((prev) =>
         prev.filter((anm) => anm !== e.target.innerHTML)
       )
       return
     }
+    if (!multiselect) {
+      setSelectedAnimal(e.target.innerHTML)
+      return
+    }
+
     setSelectedAnimal((prev) => [...prev, e.target.innerHTML])
     console.log(selectedAnimal)
   }
