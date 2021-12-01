@@ -19,8 +19,8 @@ export default function Routes() {
         <Route exact path={'/findmybaby_write'} component={FindMyBabyWrite} />
         <Route exact path={'/login'} component={Login} />
         <Route exact path={'/signup'} component={SignUp} />
-        <Route exact path={'/message_list'} component={MessageList} />
-        <Route exact path={'/message_detail'} component={MessageDetailPage} />
+        <Route exact path={'/message-list'} component={MessageList} />
+        <Route exact path={'/message-detail'} component={MessageDetailPage} />
         <Route exact path={'/message'} component={MessagePage} />
       </Switch>
     </Router>

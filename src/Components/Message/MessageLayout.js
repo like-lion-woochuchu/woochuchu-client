@@ -65,20 +65,20 @@ export const MessageFrame = styled.div`
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 20px;
   }
-`
-
-export const MessageFrameInner = styled.div`
-  position: absolute;
-  height: 100%;
-  bottom: 20px;
-  right: 15px;
+  padding: 17px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 5px;
 `
 
 export const MessageDetailDiv = styled.div`
   width: fit-content;
   max-width: 430px;
   border-radius: 50px;
-  margin: ${(props) => (props.me ? '23px 0px 0px auto' : '23px 500px 0px 0px')};
+  margin: '23px';
+  grid-column: 1/4;
+  justify-self: ${(props) => (props.me ? 'end' : null)};
+  padding: 10px;
   display: flex;
   align-items: flex-end;
 `
@@ -89,7 +89,7 @@ export const MessageBubble = styled.div`
   text-align: left;
   border-radius: 50px;
   padding: 17px 24px;
-  flex: 10;
+  flex: 100;
 `
 
 export const MessageTime = styled.div`
@@ -109,12 +109,12 @@ export const MessageReplyIcon = styled.img.attrs({
   margin: 5px 40px 0px 0px;
 `
 export const MessageDate = styled.div`
+  grid-column: 1/4;
   text-align: center;
-
   background: #dadada;
   width: fit-content;
   color: #ffffff;
   border-radius: 20px;
   padding: 8px 30px;
-  margin: 35px auto 20px auto;
+  margin: auto;
 `

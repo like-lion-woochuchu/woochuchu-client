@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Spinner from 'Components/Spinner/Spinner'
 import MessageListOne from './MessageListOne'
+import { useHistory } from 'react-router'
 
 const MessageListComponent = () => {
   const [messages, setMessages] = useState([])
   const [loading, setLoding] = useState(true)
+  const history = useHistory()
 
   useEffect(() => {
     axios

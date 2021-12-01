@@ -40,7 +40,7 @@ export default function Header() {
           <Menus>가족이 되어주세요</Menus>
           <Menus
             onClick={() => {
-              history.push('/messageList')
+              history.push('/message_list')
             }}
           >
             쪽지함
@@ -49,7 +49,10 @@ export default function Header() {
         <RightNav>
           {token ? (
             <Profile>
-              <ProfileImg src={logoImgUrl} alt="logo" />
+              <ProfileImg
+                src={token.profile_img ? token.profile_img : logoImgUrl}
+                alt="logo"
+              />
               {token.nickname} 님
             </Profile>
           ) : (

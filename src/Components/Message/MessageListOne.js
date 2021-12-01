@@ -1,10 +1,18 @@
 import styled from 'styled-components/macro'
 import { MessageDiv } from './MessageLayout'
+import { useHistory } from 'react-router'
 
 const MessageListOne = ({ message }) => {
+  const history = useHistory()
   return (
     <>
-      <MessageListOneDiv>
+      <MessageListOneDiv
+        onClick={() =>
+          history.push('/message-detail', {
+            receiver_id: message.sender,
+          })
+        }
+      >
         <MessageListNickname>{message.nickname}</MessageListNickname>
         <br />
         <MessageBody>
