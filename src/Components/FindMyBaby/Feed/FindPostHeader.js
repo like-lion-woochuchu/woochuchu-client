@@ -7,7 +7,7 @@ export default function FindPostHeader({ findState, date }) {
     <Wrapper findState={findState}>
       {findState ? <FindState>찾음</FindState> : <FindState>찾는 중</FindState>}
       <PostedDate>
-        {`마지막 업데이트: ${dateParse(date).date} \t ${dateParse(date).time}`}
+        {`마지막 업데이트: ${dateParse(date).date}  ${dateParse(date).time}`}
       </PostedDate>
     </Wrapper>
   )

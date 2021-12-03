@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import styled from 'styled-components/macro'
 
-export default function CommentInput({ feedId, type }) {
+export default function CommentInput({ postId, type }) {
   const [comment, setComment] = useState('')
   const handleChange = (e) => {
     setComment(e.target.value)
@@ -11,7 +11,7 @@ export default function CommentInput({ feedId, type }) {
 
   const handleSubmit = () => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/${type}/${feedId}/comments/`, {
+      .post(`${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization:

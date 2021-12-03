@@ -33,7 +33,12 @@ export default function Feed({ type }) {
               type={type}
               numOfComments={data.comments.length}
             />
-            <PostBody body={data.body} type={type} />
+            <PostBody
+              data={data}
+              postId={data.id}
+              body={data.body}
+              type={type}
+            />
           </PostContainer>
         </Wrapper>
       ))}
