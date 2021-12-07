@@ -21,7 +21,7 @@ export const SignUpText = styled.text`
   width: 90px;
   height: 29px;
   text-align: left;
-  font: normal normal bold 20px/29px Noto Sans CJK KR;
+  font: normal normal bold 20px/29px Noto Sans KR;
   letter-spacing: 0px;
   color: #1d1e20;
   opacity: 1;
@@ -32,15 +32,15 @@ export const SignUpFrame = styled.div`
   margin-bottom: 150px;
   left: 610px;
   width: 700px;
-  height: 950px;
+  height: 870px;
   border: 0.3px solid #dedede;
   border-radius: 30px;
   opacity: 1;
 `
 
 export const SubjectText = styled.text`
-  margin-right: 30px;
-  font: normal normal bold 18px/26px Noto Sans CJK KR;
+  margin-right: ${(props) => props.margin || '30px'};
+  font: normal normal bold 18px/26px Noto Sans KR;
   text-align: left;
   letter-spacing: 0px;
   color: #1d1e20;
@@ -48,15 +48,15 @@ export const SubjectText = styled.text`
 `
 
 export const SignUpInput = styled.input`
-  width: ${(props) => props.width || '140px'};
+  width: ${(props) => props.width || '250px'};
   margin: ${(props) => props.margin || '0px'};
   text-align: left;
-  font: normal normal 300 18px/26px Noto Sans CJK KR;
+  font: normal normal 300 18px/26px Noto Sans KR;
   letter-spacing: 0px;
   color: #707070;
   opacity: 1;
   ::placeholder {
-    font: normal normal 300 18px/26px Noto Sans CJK KR;
+    font: normal normal 300 18px/26px Noto Sans KR;
     letter-spacing: 0px;
     color: #dedede;
   }
@@ -73,8 +73,16 @@ export const AnimalSelect = styled.div`
 `
 
 export const AnimalDivText = styled.text`
-  font: normal normal bold 18px/26px Noto Sans CJK KR;
+  font: normal normal bold 18px/26px Noto Sans KR;
   letter-spacing: 0px;
   color: #1d1e20;
   opacity: 1;
+`
+
+export const ErrorMessage = styled.div`
+  width: 400px;
+  color: #c4525e;
+  font: Noto Sans KR;
+  letter-spacing: 0px;
+  margin: ${(props) => props.margin || '3px 3px 3px 63px'};
 `

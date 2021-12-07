@@ -1,23 +1,77 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
+import jwtDecode from 'jwt-decode'
 
 export default function Header() {
+  const history = useHistory()
+  const [token, setToken] = useState()
+  const checkLogin = () => {
+    if (localStorage.getItem('token')) {
+      const decoded = jwtDecode(localStorage.getItem('token'))
+      setToken(decoded)
+      console.log(decoded)
+    }
+  }
+  useEffect(() => {
+    checkLogin()
+  }, [])
+
   return (
     <Wrapper>
       <Container>
         <LeftNav>
           <Logo src={logoImgUrl} alt="logo" />
-          <Menus>내 새끼 자랑하기</Menus>
-          <Menus>찾아주세요</Menus>
+          <Menus
+            onClick={() => {
+              history.push('/mybaby')
+            }}
+          >
+            내 새끼 자랑하기
+          </Menus>
+          <Menus
+            onClick={() => {
+              history.push('/findmybaby')
+            }}
+          >
+            찾아주세요
+          </Menus>
           <Menus>가족이 되어주세요</Menus>
+          <Menus
+            onClick={() => {
+              history.push('/message_list')
+            }}
+          >
+            쪽지함
+          </Menus>
         </LeftNav>
         <RightNav>
-          <Profile>
-            <ProfileImg src={logoImgUrl} alt="logo" />
-            민유지님
-          </Profile>
-          <Logout>로그아웃</Logout>
+          {token ? (
+            <Profile>
+              <ProfileImg
+                src={token.profile_img ? token.profile_img : logoImgUrl}
+                alt="logo"
+              />
+              {token.nickname} 님
+            </Profile>
+          ) : (
+            <Menus onClick={() => history.push('/login')}>로그인</Menus>
+          )}
+
+          <Logout
+            onClick={() => {
+              if (localStorage.getItem('token')) {
+                localStorage.clear()
+                setToken()
+                alert('로그아웃 되었습니다.')
+              } else {
+                alert('로그인 상태가 아닙니다.')
+              }
+            }}
+          >
+            로그아웃
+          </Logout>
         </RightNav>
       </Container>
     </Wrapper>

@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { AnimalDivText, AnimalSelect } from './SignUpLayout'
+import { AnimalDivText, AnimalSelect, ErrorMessage } from './SignUpLayout'
 
 const Animal = (props) => {
   const set = (id) => {
@@ -13,6 +13,9 @@ const Animal = (props) => {
     <>
       <AnimalText>관심 동물</AnimalText>
       <SelectText>(선택)</SelectText>
+      {props.error ? (
+        <ErrorMessage margin={'3px 0px 3px 30px'}>{props.error}</ErrorMessage>
+      ) : null}
       <SelectArea>
         <AnimalSelect
           width={'150px'}
@@ -77,7 +80,7 @@ const AnimalText = styled.text`
   width: 70px;
   height: 26px;
   text-align: left;
-  font: normal normal bold 18px/26px Noto Sans CJK KR;
+  font: normal normal bold 18px/26px Noto Sans KR;
   letter-spacing: 0px;
   color: #1d1e20;
   opacity: 1;
@@ -87,7 +90,7 @@ const SelectText = styled.text`
   width: 35px;
   height: 20px;
   text-align: left;
-  font: normal normal normal 14px/20px Noto Sans CJK KR;
+  font: normal normal normal 14px/20px Noto Sans KR;
   letter-spacing: 0px;
   color: #1d1e20;
   opacity: 1;

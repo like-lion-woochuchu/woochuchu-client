@@ -1,24 +1,23 @@
-import { useState } from 'react'
 import styled from 'styled-components/macro'
 import { SubjectText, SignUpInput, ErrorMessage } from './SignUpLayout'
 
-const Username = (props) => {
+const UserId = (props) => {
   return (
     <>
-      <UsernameDiv error={props.error}>
-        <SubjectText>이름</SubjectText>
+      <UserIdDiv error={props.error}>
+        <SubjectText margin={'30px'}>닉네임</SubjectText>
         <SignUpInput
-          value={props.username}
-          placeholder={'우쭈쭈'}
-          onChange={(e) => props.setUsername(e.target.value)}
+          value={props.userId}
+          placeholder={'woochuchu'}
+          onChange={(e) => props.setUserId(e.target.value)}
         />
         {props.error ? <ErrorMessage>{props.error}</ErrorMessage> : null}
-      </UsernameDiv>
+      </UserIdDiv>
     </>
   )
 }
 
-const UsernameDiv = styled.div`
+const UserIdDiv = styled.div`
   margin-bottom: 20px;
   padding: 32px 50px;
   width: 430px;
@@ -28,4 +27,4 @@ const UsernameDiv = styled.div`
   opacity: ;
 `
 
-export default Username
+export default UserId
