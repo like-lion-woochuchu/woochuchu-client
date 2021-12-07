@@ -37,7 +37,13 @@ export default function Header() {
           >
             찾아주세요
           </Menus>
-          <Menus>가족이 되어주세요</Menus>
+          <Menus
+            onClick={() => {
+              history.push('/family')
+            }}
+          >
+            가족이 되어주세요
+          </Menus>
           <Menus
             onClick={() => {
               history.push('/message_list')

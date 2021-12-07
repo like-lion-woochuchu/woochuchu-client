@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import {
@@ -8,10 +9,13 @@ import {
 } from 'Components/Family/FamilyLayout'
 import Grid from 'Components/Family/Grid'
 import Toggle from 'Components/Family/Toggle'
+import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
+import WriteBtn from 'Components/SideBtn/WriteBtn'
 
 const Family = () => {
   const [animal, setAnimal] = useState([])
 
+  const history = useHistory()
   return (
     <>
       <Layout>
@@ -34,6 +38,12 @@ const Family = () => {
           {/* <Toggle /> */}
           <Grid />
         </FamilyDiv>
+        <WriteBtn
+          handleClick={() => {
+            history.push('/family_write')
+          }}
+        />
+        <ScrollTopBtn />
       </Layout>
     </>
   )
