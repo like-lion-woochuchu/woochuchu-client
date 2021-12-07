@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import dateParse from 'Utils/DateParse'
 
-export default function PostHeader({ name, date }) {
+export default function PostHeader({ nickname, profileImg, date }) {
   return (
     <Wrapper>
       <Profile>
-        <ProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
-        <UserName>{name}</UserName>
+        <ProfileImg src={profileImg} />
+        <UserName>{nickname}</UserName>
       </Profile>
       <PostedDate>
         {dateParse(date).date} / {dateParse(date).time}

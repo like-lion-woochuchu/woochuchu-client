@@ -1,17 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import styled from 'styled-components/macro'
+import jwtDecode from 'jwt-decode'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
+import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
 
-export default function CommentInput({ feedId, type }) {
+export default function CommentInput({ postId, type }) {
   const [comment, setComment] = useState('')
+  const [token, setToken] = useState()
+  const checkLogin = () => {
+    if (getDataFromLocalStorage('token')) {
+      const decoded = jwtDecode(getDataFromLocalStorage('token'))
+      setToken(decoded)
+    }
+  }
+  useEffect(() => {
+    checkLogin()
+  }, [])
+
   const handleChange = (e) => {
     setComment(e.target.value)
   }
 
   const handleSubmit = () => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/${type}/${feedId}/comments/`, {
+      .post(`${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization:
@@ -28,7 +42,11 @@ export default function CommentInput({ feedId, type }) {
   return (
     <>
       <Wrapper>
-        <MyProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
+        {token ? (
+          <MyProfileImg src={token.profile_img} />
+        ) : (
+          <MyProfileImg src={logoImgUrl} />
+        )}
         <CommentInputBox
           type="text"
           placeholder="댓글쓰기..."
