@@ -35,21 +35,28 @@ export default function Feed({ type }) {
     <>
       {postData.map((data, index) => (
         <Wrapper key={index}>
-          <PostHeader name={data.user} date={data.created_at} />
+          <PostHeader
+            nickname={data.user.nickname}
+            profileImg={data.user.profile_img}
+            date={data.created_at}
+          />
           <PostImage imgUrl={data.img_url} />
           <PostReactionButton
             type={type}
-            numOfComments={data.comments_count}
+            numOfComments={data.comments.length}
             numOfLikes={data.likes_count}
           />
           <PostBody body={data.body} type={type} />
-          <CommentInput postId={data.id} type={type} />
+          <CommentInput
+            postId={data.id}
+            type={type}
+            profileImg={data.user.profile_img}
+          />
           <CommentList comments={data.comments} feedId={data.id} type={type} />
         </Wrapper>
       ))}
     </>
   )
-  // return <div>gi</div>
 }
 const Wrapper = styled.div`
   background-color: #fff;
