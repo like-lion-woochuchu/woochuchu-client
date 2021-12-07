@@ -16,7 +16,7 @@ const KakaoSignIn = () => {
           success: (res) => {
             console.log(res)
             axios
-              .post('http://3.38.95.205:3000/accounts/auth/signin/', {
+              .post(`${process.env.REACT_APP_API_URL}/accounts/auth/signin/`, {
                 email: res.kakao_account.email,
                 provider: 'kakao',
               })
