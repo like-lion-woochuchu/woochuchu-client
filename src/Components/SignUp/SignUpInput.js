@@ -63,7 +63,7 @@ const SignUpInput = () => {
   const onSubmit = () => {
     if (validate()) {
       axios
-        .post('http://3.38.95.205:3000/accounts/auth/signup/', {
+        .post(`${process.env.REACT_APP_API_URL}/accounts/auth/signup/`, {
           user: {
             email: state.email,
             provider: state.provider,
@@ -82,7 +82,7 @@ const SignUpInput = () => {
             alert('회원가입이 완료되었습니다.')
             axios
               .post(
-                'http://3.38.95.205:3000/accounts/auth/signin/',
+                `${process.env.REACT_APP_API_URL}/accounts/auth/signin/`,
                 {
                   email: state.email,
                   provider: state.provider,
