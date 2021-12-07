@@ -54,7 +54,7 @@ export default function FindMyBabyWrite() {
       setDisabled(false)
   }, [postData])
 
-  const handleContentChange = (e) => {
+  const handleBodyChange = (e) => {
     setPostData((prev) => ({
       ...prev,
       body: e.target.value,
@@ -106,7 +106,7 @@ export default function FindMyBabyWrite() {
           <ContentBox>
             <ContentArea
               placeholder={'내용을 입력해주세요.'}
-              onChange={(e) => handleContentChange(e)}
+              onChange={(e) => handleBodyChange(e)}
             />
           </ContentBox>
           <AnimalImgBox>

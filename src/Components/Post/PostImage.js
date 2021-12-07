@@ -7,7 +7,7 @@ export default function PostImage({ imgUrl }) {
   return (
     <Wrapper>
       <RightBtn src={RightBtnImgUrl} />
-      <Img src="https://ifh.cc/g/s1AhKt.jpg" />
+      <Img src={imgUrl} />
       <LeftBtn src={LeftBtnImgUrl} />
     </Wrapper>
   )
