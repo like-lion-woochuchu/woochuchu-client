@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import PostHeader from 'Components/Post/PostHeader'
 import PostImage from 'Components/Post/PostImage'
@@ -8,21 +8,28 @@ import PostReactionButton from 'Components/Post/PostReactionButton'
 import PostBody from 'Components/Post/PostBody'
 import CommentInput from 'Components/Post/CommentInput'
 import CommentList from 'Components/Post/CommentList'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function Feed({ type }) {
   const [postData, setPostData] = useState([])
+  const history = useHistory()
+
   useEffect(() => {
-    console.log(new Date())
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
-        },
-      })
-      .then((res) => setPostData(res.data.results.data))
-    console.log(postData)
+    const token = getDataFromLocalStorage('token')
+    if (!token) {
+      alert('로그인이 필요합니다.')
+      history.push('/login')
+    } else {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => setPostData(res.data.results.data))
+      console.log(postData)
+    }
   }, [])
   return (
     <>
