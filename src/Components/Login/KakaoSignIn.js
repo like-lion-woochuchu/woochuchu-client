@@ -6,7 +6,7 @@ import { useHistory } from 'react-router'
 const KakaoSignIn = () => {
   const history = useHistory()
   const { Kakao } = window
-  Kakao.init('21f10b8032619c791b4ed5b6d1c204e7')
+  Kakao.init(`${process.env.REACT_APP_KAKAO_APP_KEY}`)
 
   const onSuccess = () => {
     Kakao.Auth.login({
@@ -50,7 +50,7 @@ const KakaoSignIn = () => {
     <KakaoButton>
       <KakaoLogin
         id="signIn-kakao"
-        token={'21f10b8032619c791b4ed5b6d1c204e7'}
+        token={`${process.env.REACT_APP_KAKAO_APP_KEY}`}
         onSuccess={onSuccess}
         onFail={console.log}
         style={{
