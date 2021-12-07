@@ -5,7 +5,7 @@ import styled from 'styled-components/macro'
 import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
 import PostBody from 'Components/Post/PostBody'
-import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
+import FindPostHeader from 'Components/FindMyBaby/Post/FindPostHeader'
 
 export default function Feed({ type }) {
   const [postData, setPostData] = useState([])
