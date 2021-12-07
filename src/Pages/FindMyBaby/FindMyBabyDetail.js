@@ -10,6 +10,7 @@ import dateParse from 'Utils/DateParse'
 import CommentInput from 'Components/Post/CommentInput'
 import CommentList from 'Components/Post/CommentList'
 import Map from 'Components/Common/Map'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function FindMyBabyDetail() {
   const { seq } = useParams()
@@ -19,12 +20,12 @@ export default function FindMyBabyDetail() {
   const [active, setActive] = useState(types[0])
 
   useEffect(() => {
+    const token = getDataFromLocalStorage('token')
     axios
       .get(`${process.env.REACT_APP_API_URL}/findmybaby/${seq}/`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => setPostData(res.data.results.data))
@@ -42,8 +43,12 @@ export default function FindMyBabyDetail() {
         )}
         <PostContainer>
           <Profile>
-            <ProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
-            <UserName>{postData.user}</UserName>
+            {postData.user && (
+              <>
+                <ProfileImg src={postData.user.profile_img} />
+                <UserName>{postData.user.nickname}</UserName>
+              </>
+            )}
           </Profile>
           <PostTitle>{postData.title}</PostTitle>
           <PostImage imgUrl={postData.img_url} />
