@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
 import styled from 'styled-components/macro'
 import PostHeader from 'Components/Post/PostHeader'
 import PostImage from 'Components/Post/PostImage'
@@ -8,21 +7,20 @@ import PostReactionButton from './PostReactionButton'
 import PostBody from './PostBody'
 import CommentInput from './CommentInput'
 import CommentList from './CommentList'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function Post({ type }) {
   const [postData, setPostData] = useState([])
   useEffect(() => {
-    console.log(new Date())
+    const token = getDataFromLocalStorage('token')
     axios
       .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => setPostData(res.data.results.data))
-  }, [])
+  }, [type])
   return (
     <>
       {postData.map((data, index) => (

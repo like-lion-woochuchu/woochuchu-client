@@ -5,22 +5,22 @@ import styled from 'styled-components/macro'
 import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
 import PostBody from 'Components/Post/PostBody'
-import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
+import FindPostHeader from 'Components/FindMyBaby/Post/FindPostHeader'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function Feed({ type }) {
   const [postData, setPostData] = useState([])
   useEffect(() => {
-    console.log(new Date())
+    const token = getDataFromLocalStorage('token')
     axios
       .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => setPostData(res.data.results.data))
-  }, [])
+  }, [type])
   return (
     <>
       {postData.map((data, index) => (
