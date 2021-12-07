@@ -4,12 +4,15 @@ import MyBaby from 'Pages/MyBaby/MyBaby'
 import FindMyBaby from 'Pages/FindMyBaby/FindMyBaby'
 import Login from 'Pages/Login/Login'
 import SignUp from 'Pages/SignUp/SignUp'
+<<<<<<< Updated upstream
 import MessageList from 'Pages/Message/MessageList'
 import MessageDetailPage from 'Pages/Message/MessageDetail'
 import MessagePage from 'Pages/Message/Message'
 import MyBabyWrite from 'Pages/MyBaby/MyBabyWrite'
 import FindMyBabyWrite from 'Pages/FindMyBaby/FindMyBabyWrite'
 import FindMyBabyDetail from 'Pages/FindMyBaby/FindMyBabyDetail'
+=======
+>>>>>>> Stashed changes
 import Family from 'Pages/Family/Family'
 export default function Routes() {
   return (
@@ -22,9 +25,12 @@ export default function Routes() {
         <Route exact path={'/findmybaby_write'} component={FindMyBabyWrite} />
         <Route exact path={'/login'} component={Login} />
         <Route exact path={'/signup'} component={SignUp} />
+<<<<<<< Updated upstream
         <Route exact path={'/message-list'} component={MessageList} />
         <Route exact path={'/message-detail'} component={MessageDetailPage} />
         <Route exact path={'/message'} component={MessagePage} />
+=======
+>>>>>>> Stashed changes
         <Route exact path={'/family'} component={Family} />
       </Switch>
     </Router>
