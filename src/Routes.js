@@ -10,6 +10,7 @@ import MessagePage from 'Pages/Message/Message'
 import MyBabyWrite from 'Pages/MyBaby/MyBabyWrite'
 import FindMyBabyWrite from 'Pages/FindMyBaby/FindMyBabyWrite'
 import FindMyBabyDetail from 'Pages/FindMyBaby/FindMyBabyDetail'
+import Family from 'Pages/Family/Family'
 export default function Routes() {
   return (
     <Router>
@@ -24,6 +25,7 @@ export default function Routes() {
         <Route exact path={'/message-list'} component={MessageList} />
         <Route exact path={'/message-detail'} component={MessageDetailPage} />
         <Route exact path={'/message'} component={MessagePage} />
+        <Route exact path={'/family'} component={Family} />
       </Switch>
     </Router>
   )

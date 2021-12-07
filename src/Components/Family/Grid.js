@@ -1,7 +1,102 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import styled from 'styled-components/macro'
-import Dog from '../../Assets/Images/Animals/Dog.png'
+import Dog from 'Assets/Images/Animals/Dog.png'
+
+const Grid = () => {
+  const [animals, setAnimals] = useState([])
+  const [error, setError] = useState(true)
+
+  useEffect(() => {
+    const url =
+      'https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/bemybaby/'
+    axios
+      .get(url)
+      .then((res) => {
+        setError(false)
+        setAnimals(res.data.results.data)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [])
+
+  console.log(animals)
+  if (error) return <div>Error!</div>
+  if (!animals) return <div>no animal</div>
+
+  return (
+    <div>
+      {animals.map((animal) => (
+        <GridWrap key={animal.id}>
+          <LeftWrap>
+            <LeftTitleWrap>
+              {animal.sex === 0 ? (
+                <LeftFontWrap>
+                  {animal.breed} ({animal.age}세, 남)
+                </LeftFontWrap>
+              ) : (
+                <LeftFontWrap>
+                  {animal.breed} ({animal.age}세, 여)
+                </LeftFontWrap>
+              )}
+            </LeftTitleWrap>
+            <LeftImageWrap>
+              <Img src={Dog} alt="Dog" />
+            </LeftImageWrap>
+          </LeftWrap>
+          <RightWrap>
+            <SectionWrap>
+              <TitleWrap>품종</TitleWrap>
+              <DescriptionWrap>{animal.breed}</DescriptionWrap>
+            </SectionWrap>
+            <SectionWrap>
+              <TitleWrap>성별</TitleWrap>
+              {animal.sex === 0 ? (
+                <DescriptionWrap>남성</DescriptionWrap>
+              ) : (
+                <DescriptionWrap>여성</DescriptionWrap>
+              )}
+            </SectionWrap>
+            <SectionWrap>
+              <TitleWrap>특징</TitleWrap>
+              <DescriptionWrap>{animal.description}</DescriptionWrap>
+            </SectionWrap>
+            <SectionWrap>
+              <TitleWrap>접수 일시</TitleWrap>
+              <DescriptionWrap>{animal.created_at}</DescriptionWrap>
+            </SectionWrap>
+            <SectionWrap>
+              <TitleWrap>발생장소</TitleWrap>
+              <DescriptionWrap>{animal.address.address_name}</DescriptionWrap>
+            </SectionWrap>
+            <SectionWrap>
+              <TitleWrap>공고일</TitleWrap>
+              <DescriptionWrap>API업데이트 필요</DescriptionWrap>
+            </SectionWrap>
+            <SectionWrap>
+              <TitleWrap>관할보호센터</TitleWrap>
+              <DescriptionWrap>API업데이트 필요</DescriptionWrap>
+              <AddressWrap>상세주소: API업데이트 필요</AddressWrap>
+            </SectionWrap>
+            <SectionWrap>
+              <PhoneNumberWrap>전화번호</PhoneNumberWrap>
+              {animal.phone !== '' ? (
+                <PhoneNumberDescriptionWrap>
+                  {animal.phone}
+                </PhoneNumberDescriptionWrap>
+              ) : (
+                <PhoneNumberDescriptionWrap>없음</PhoneNumberDescriptionWrap>
+              )}
+            </SectionWrap>
+          </RightWrap>
+        </GridWrap>
+      ))}
+    </div>
+  )
+}
+
+export default Grid
 
 const GridWrap = styled.div`
   display: flex;
@@ -85,98 +180,3 @@ const AddressWrap = styled.h2`
   padding-right: 26px;
   color: #707070;
 `
-
-const Grid = () => {
-  const [animals, setAnimals] = useState([])
-  const [error, setError] = useState(true)
-
-  useEffect(() => {
-    const url =
-      'https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/bemybaby/'
-    axios
-      .get(url)
-      .then((res) => {
-        setError(false)
-        setAnimals(res.data.results.data)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }, [])
-
-  console.log(animals)
-  if (error) return <div>Error!</div>
-  if (!animals) return <div>no animal</div>
-
-  return (
-    <div>
-      {animals.map((animal) => (
-        <GridWrap key={animal.id}>
-          <LeftWrap>
-            <LeftTitleWrap>
-              {animal.sex === 0 ? (
-                <LeftFontWrap>
-                  {animal.breed} ({animal.age}세, 남)
-                </LeftFontWrap>
-              ) : (
-                <LeftFontWrap>
-                  {animal.breed} ({animal.age}세, 여)
-                </LeftFontWrap>
-              )}
-            </LeftTitleWrap>
-            <LeftImageWrap>
-              <Img />
-            </LeftImageWrap>
-          </LeftWrap>
-          <RightWrap>
-            <SectionWrap>
-              <TitleWrap>품종</TitleWrap>
-              <DescriptionWrap>{animal.breed}</DescriptionWrap>
-            </SectionWrap>
-            <SectionWrap>
-              <TitleWrap>성별</TitleWrap>
-              {animal.sex === 0 ? (
-                <DescriptionWrap>남성</DescriptionWrap>
-              ) : (
-                <DescriptionWrap>여성</DescriptionWrap>
-              )}
-            </SectionWrap>
-            <SectionWrap>
-              <TitleWrap>특징</TitleWrap>
-              <DescriptionWrap>{animal.description}</DescriptionWrap>
-            </SectionWrap>
-            <SectionWrap>
-              <TitleWrap>접수 일시</TitleWrap>
-              <DescriptionWrap>{animal.created_at}</DescriptionWrap>
-            </SectionWrap>
-            <SectionWrap>
-              <TitleWrap>발생장소</TitleWrap>
-              <DescriptionWrap>{animal.address}</DescriptionWrap>
-            </SectionWrap>
-            <SectionWrap>
-              <TitleWrap>공고일</TitleWrap>
-              <DescriptionWrap>API업데이트 필요</DescriptionWrap>
-            </SectionWrap>
-            <SectionWrap>
-              <TitleWrap>관할보호센터</TitleWrap>
-              <DescriptionWrap>API업데이트 필요</DescriptionWrap>
-              <AddressWrap>상세주소: API업데이트 필요</AddressWrap>
-            </SectionWrap>
-            <SectionWrap>
-              <PhoneNumberWrap>전화번호</PhoneNumberWrap>
-              {animal.phone !== '' ? (
-                <PhoneNumberDescriptionWrap>
-                  {animal.phone}
-                </PhoneNumberDescriptionWrap>
-              ) : (
-                <PhoneNumberDescriptionWrap>없음</PhoneNumberDescriptionWrap>
-              )}
-            </SectionWrap>
-          </RightWrap>
-        </GridWrap>
-      ))}
-    </div>
-  )
-}
-
-export default Grid
