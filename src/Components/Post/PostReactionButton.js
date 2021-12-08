@@ -57,11 +57,7 @@ export default function PostReactionButton({
         </MessageBox>
       )}
       {openMsgModal && (
-        <MessageModal
-          receiver={receiver}
-          openMsgModal={openMsgModal}
-          setOpenMsgModal={setOpenMsgModal}
-        />
+        <MessageModal receiver={receiver} setOpenMsgModal={setOpenMsgModal} />
       )}
     </Wrapper>
   )

@@ -4,11 +4,7 @@ import styled from 'styled-components/macro'
 import axios from 'axios'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
-export default function MessageModal({
-  receiver,
-  openMsgModal,
-  setOpenMsgModal,
-}) {
+export default function MessageModal({ receiver, setOpenMsgModal }) {
   const [msgBody, setMsgBody] = useState('')
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
@@ -81,6 +77,7 @@ const MsgModal = styled.div`
   width: 50%;
   height: 70%;
   background-color: #fff;
+  border-radius: 30px;
 `
 const ContentBox = styled.div`
   padding: 20px 40px;
