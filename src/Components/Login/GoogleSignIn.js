@@ -14,7 +14,7 @@ const GoogleSignIn = () => {
           console.log(data)
           axios
             .post(
-              'http://3.38.95.205:3000/accounts/auth/signin/',
+              `${process.env.REACT_APP_API_URL}/accounts/auth/signin/`,
               {
                 email: data.profileObj.email,
                 provider: 'google',
