@@ -45,8 +45,6 @@ export default function FindMyBabyWrite() {
       animal: AnimalData.animalData[selectedAnimal],
     }))
   }, [selectedAnimal])
-  console.log(address)
-  console.log(detailAddress.length)
   useEffect(() => {
     if (
       postData.name.length &&
