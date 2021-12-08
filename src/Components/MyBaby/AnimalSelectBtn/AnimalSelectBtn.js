@@ -27,7 +27,6 @@ export default function AnimalSelectBtn({
     }
 
     setSelectedAnimal((prev) => [...prev, e.target.innerHTML])
-    console.log(selectedAnimal)
   }
 
   return (

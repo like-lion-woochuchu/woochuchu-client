@@ -12,7 +12,6 @@ import CommentList from './CommentList'
 export default function Post({ type }) {
   const [postData, setPostData] = useState([])
   useEffect(() => {
-    console.log(new Date())
     axios
       .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
         headers: {

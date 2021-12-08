@@ -30,7 +30,6 @@ export default function FindMyBabyDetail() {
       })
       .then((res) => setPostData(res.data.results.data))
   }, [])
-  console.log(postData)
 
   return (
     <Layout>
@@ -55,7 +54,9 @@ export default function FindMyBabyDetail() {
           {postData.comments && (
             <PostReactionButton
               type="findmybaby"
+              message={true}
               numOfComments={postData.comments.length}
+              receiver={postData.user.id}
             />
           )}
           <TextContainer>{postData.body}</TextContainer>
