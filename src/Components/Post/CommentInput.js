@@ -6,44 +6,45 @@ import jwtDecode from 'jwt-decode'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
 
-export default function CommentInput({ postId, type }) {
+export default function CommentInput({ postId, type, setFetchTrigger }) {
   const [comment, setComment] = useState('')
-  const [token, setToken] = useState()
-  const checkLogin = () => {
-    if (getDataFromLocalStorage('token')) {
-      const decoded = jwtDecode(getDataFromLocalStorage('token'))
-      setToken(decoded)
-    }
-  }
+  const [decodedToken, setDecodedToken] = useState()
+  const token = getDataFromLocalStorage('token')
+
   useEffect(() => {
-    checkLogin()
-  }, [])
+    if (token) {
+      const decoded = jwtDecode(token)
+      setDecodedToken(decoded)
+    }
+  }, [token])
 
   const handleChange = (e) => {
     setComment(e.target.value)
   }
 
-  const handleSubmit = () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
-        },
-        body: comment,
-      })
-      .then((res) => console.log(res))
+  const handleSubmit = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`,
+        { body: comment },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => setFetchTrigger((prev) => prev + 1))
+      .catch((err) => console.log(err))
 
-    console.log('submit!')
     setComment('')
   }
 
   return (
     <>
       <Wrapper>
-        {token ? (
-          <MyProfileImg src={token.profile_img} />
+        {decodedToken ? (
+          <MyProfileImg src={decodedToken.profile_img} />
         ) : (
           <MyProfileImg src={logoImgUrl} />
         )}

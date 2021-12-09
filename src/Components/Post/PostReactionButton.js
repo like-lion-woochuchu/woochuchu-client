@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import EmptyHeart from 'Assets/Icon/icon-heart-outlined22px@2x.png'
 import FilledHeart from 'Assets/Icon/icon-heart-filled22px@2x.png'
@@ -10,25 +9,33 @@ import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 import MessageModal from 'Components/Message/MessageModal'
 
 export default function PostReactionButton({
+  postId,
   type,
   message,
   numOfComments,
   numOfLikes,
   receiver,
+  setFetchTrigger,
+  userLikeFlag,
 }) {
-  const [like, setLike] = useState(false)
+  const [like, setLike] = useState(userLikeFlag)
   const [openMsgModal, setOpenMsgModal] = useState(false)
   const token = getDataFromLocalStorage('token')
-
   const handleLikeClick = async () => {
     await axios
-      .post(`${process.env.REACT_APP_API_URL}/mybaby/:feed_id/likes/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+      .post(
+        `${process.env.REACT_APP_API_URL}/mybaby/${postId}/likes/`,
+        { like_flag: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setFetchTrigger((prev) => prev + 1)
+        setLike(res.data.results.like_flag)
       })
-      .then(setLike((prev) => !prev))
       .catch((err) => console.log(err))
   }
 

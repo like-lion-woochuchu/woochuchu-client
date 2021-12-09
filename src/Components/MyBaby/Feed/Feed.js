@@ -11,11 +11,11 @@ import CommentList from 'Components/Post/CommentList'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function Feed({ type }) {
-  const [postData, setPostData] = useState([])
+  const [feedData, setFeedData] = useState([])
+  const [fetchTrigger, setFetchTrigger] = useState(0)
   const history = useHistory()
-
+  const token = getDataFromLocalStorage('token')
   useEffect(() => {
-    const token = getDataFromLocalStorage('token')
     if (!token) {
       alert('로그인이 필요합니다.')
       history.push('/login')
@@ -27,13 +27,12 @@ export default function Feed({ type }) {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then((res) => setPostData(res.data.results.data))
-      console.log(postData)
+        .then((res) => setFeedData(res.data.results.data))
     }
-  }, [])
+  }, [history, token, type, fetchTrigger])
   return (
     <>
-      {postData.map((data, index) => (
+      {feedData.map((data, index) => (
         <Wrapper key={index}>
           <PostHeader
             nickname={data.user.nickname}
@@ -42,13 +41,24 @@ export default function Feed({ type }) {
           />
           <PostImage imgUrl={data.img_url} />
           <PostReactionButton
+            postId={data.id}
             type={type}
             numOfComments={data.comments.length}
+            userLikeFlag={data.user_like_flag}
             numOfLikes={data.likes_count}
+            setFetchTrigger={setFetchTrigger}
           />
           <PostBody body={data.body} type={type} />
-          <CommentInput postId={data.id} type={type} />
-          <CommentList comments={data.comments} feedId={data.id} type={type} />
+          <CommentInput
+            postId={data.id}
+            type={type}
+            setFetchTrigger={setFetchTrigger}
+          />
+          <CommentList
+            comments={data.comments}
+            type={type}
+            setFetchTrigger={setFetchTrigger}
+          />
         </Wrapper>
       ))}
     </>
