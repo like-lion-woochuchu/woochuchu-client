@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
+import { useHistory } from 'react-router'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
 import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
 import WriteBtn from 'Components/SideBtn/WriteBtn'
-import insertPhotoImg from 'Assets/Icon/icons_insert-picture.png'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
-import InputBox from 'Components/FindMyBaby/Feed/InputBox'
+import InputBox from 'Components/FindMyBaby/Post/InputBox'
 import AnimalData from 'Data/animal.json'
-import SelectBox from 'Components/FindMyBaby/Feed/SelectBox'
+import SelectBox from 'Components/FindMyBaby/Post/SelectBox'
 import Button from 'Components/Common/Button'
 import axios from 'axios'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
+import ImageInput from 'Components/MyBaby/WritePage/ImageInput'
+import Address from 'Components/SignUp/Address'
 
 export default function FindMyBabyWrite() {
   const [postData, setPostData] = useState({
@@ -21,13 +24,20 @@ export default function FindMyBabyWrite() {
     age: 0,
     last_seen: '',
     body: '',
-    img_url: [],
+    img_url: '',
     phone: '',
-    address: 0,
     animal: 0,
   })
   const [selectedAnimal, setSelectedAnimal] = useState('')
   const [disabled, setDisabled] = useState(true)
+  const [uploadImg, setUploadImg] = useState('')
+  const [storedImg, setStoredImg] = useState([])
+  const [address, setAddress] = useState('')
+  const [detailAddress, setDetailAddress] = useState('')
+  const [addressError, setAddressError] = useState('')
+
+  const history = useHistory()
+  const token = getDataFromLocalStorage('token')
 
   useEffect(() => {
     setPostData((prev) => ({
@@ -35,10 +45,7 @@ export default function FindMyBabyWrite() {
       animal: AnimalData.animalData[selectedAnimal],
     }))
   }, [selectedAnimal])
-
   useEffect(() => {
-    const values = Object.values(postData)
-    console.log(values)
     if (
       postData.name.length &&
       postData.title.length &&
@@ -46,13 +53,17 @@ export default function FindMyBabyWrite() {
       postData.sex !== 100 &&
       postData.age &&
       postData.last_seen.length &&
-      // postData.img_url.length &&
+      storedImg.length &&
       postData.phone.length &&
-      // postData.address &&
+      address.length &&
+      detailAddress.length &&
       postData.animal
-    )
+    ) {
       setDisabled(false)
-  }, [postData])
+    } else {
+      setDisabled(true)
+    }
+  }, [postData, storedImg, address, detailAddress])
 
   const handleBodyChange = (e) => {
     setPostData((prev) => ({
@@ -74,19 +85,36 @@ export default function FindMyBabyWrite() {
     }))
   }
 
-  const handleSubmitClick = (e) => {
+  const handleSubmitClick = () => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/findmybaby`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+      .post(
+        `${process.env.REACT_APP_API_URL}/findmybaby/`,
+        {
+          name: postData.name,
+          breed: postData.breed,
+          sex: postData.sex,
+          age: postData.age,
+          last_seen: postData.last_seen,
+          title: postData.title,
+          body: postData.body,
+          img_url: storedImg.join('|'),
+          phone: postData.phone,
+          address_name: address,
+          address_detail: detailAddress,
+          animal: postData.animal,
         },
-        body: postData,
-      })
-      .then((res) => console.log(res))
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => history.push('/findmybaby'))
+      .catch((e) =>
+        alert(Object.values(e.response.data.results.msg).toString())
+      )
   }
-  console.log(postData)
 
   return (
     <Layout>
@@ -109,9 +137,12 @@ export default function FindMyBabyWrite() {
               onChange={(e) => handleBodyChange(e)}
             />
           </ContentBox>
-          <AnimalImgBox>
-            <AnimalImg src={insertPhotoImg} alt="" />
-          </AnimalImgBox>
+          <ImageInput
+            uploadImg={uploadImg}
+            storedImg={storedImg}
+            setUploadImg={setUploadImg}
+            setStoredImg={setStoredImg}
+          />
           <AnimalSelectTitle>동물 종류</AnimalSelectTitle>
           <AnimalSelectContainer>
             <AnimalSelectBtn
@@ -177,7 +208,15 @@ export default function FindMyBabyWrite() {
               width="65%"
             />
           </LastSeenContainer>
-
+          <Address
+            address={address}
+            detailAddress={detailAddress}
+            setAddress={setAddress}
+            setDetailAddress={setDetailAddress}
+            error={addressError}
+            width="590px"
+            padding="32px 25px"
+          />
           <SubmitButtonBox>
             <Button
               disabled={disabled}
@@ -240,21 +279,6 @@ const ContentArea = styled.textarea`
   ::-webkit-scrollbar-button {
     display: none;
   }
-`
-const AnimalImgBox = styled.div`
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 18%;
-  min-height: 120px;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
-  border-radius: 45px;
-  opacity: 1;
-`
-const AnimalImg = styled.img`
-  width: 25%;
-  height: 25%;
 `
 
 const SubmitButtonBox = styled.div`

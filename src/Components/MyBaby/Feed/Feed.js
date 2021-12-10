@@ -47,11 +47,7 @@ export default function Feed({ type }) {
             numOfLikes={data.likes_count}
           />
           <PostBody body={data.body} type={type} />
-          <CommentInput
-            postId={data.id}
-            type={type}
-            profileImg={data.user.profile_img}
-          />
+          <CommentInput postId={data.id} type={type} />
           <CommentList comments={data.comments} feedId={data.id} type={type} />
         </Wrapper>
       ))}

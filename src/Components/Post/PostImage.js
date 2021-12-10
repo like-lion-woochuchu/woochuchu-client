@@ -14,6 +14,9 @@ export default function PostImage({ imgUrl }) {
 }
 const Wrapper = styled.div`
   position: relative;
+  border: 2px solid #dedcdc;
+  border-radius: 10px;
+  min-height: 500px;
 `
 
 const Img = styled.img`
