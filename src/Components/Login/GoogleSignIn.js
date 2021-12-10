@@ -9,7 +9,7 @@ const GoogleSignIn = () => {
   return (
     <GoogleButton>
       <GoogleLogin
-        clientId="333301147396-7im6b138mmott3ied2t7c23t1jo9gcdh.apps.googleusercontent.com"
+        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         onSuccess={(data) => {
           console.log(data)
           axios

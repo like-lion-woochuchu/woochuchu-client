@@ -40,7 +40,7 @@ export default function Header() {
           <Menus>가족이 되어주세요</Menus>
           <Menus
             onClick={() => {
-              history.push('/message_list')
+              history.push('/message-list')
             }}
           >
             쪽지함
