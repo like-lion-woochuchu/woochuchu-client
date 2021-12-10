@@ -11,7 +11,7 @@ import CommentList from 'Components/Post/CommentList'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function Feed({ type, selectedAnimal }) {
-  const [feedData, setFeedData] = useState([])
+  const [postData, setPostData] = useState([])
   const [fetchTrigger, setFetchTrigger] = useState(0)
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
@@ -34,7 +34,7 @@ export default function Feed({ type, selectedAnimal }) {
               },
             }
           )
-          .then((res) => setFeedData(res.data.results.data))
+          .then((res) => setPostData(res.data.results.data))
       } else {
         axios
           .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
@@ -43,13 +43,13 @@ export default function Feed({ type, selectedAnimal }) {
               Authorization: `Bearer ${token}`,
             },
           })
-          .then((res) => setFeedData(res.data.results.data))
+          .then((res) => setPostData(res.data.results.data))
       }
     }
   }, [history, token, type, fetchTrigger, selectedAnimal])
   return (
     <>
-      {feedData.map((data, index) => (
+      {postData.map((data, index) => (
         <Wrapper key={index}>
           <PostHeader
             nickname={data.user.nickname}
