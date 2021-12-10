@@ -7,7 +7,6 @@ import ScrollTopBtn from 'Components/SideBtn/ScrollTopBtn'
 import WriteBtn from 'Components/SideBtn/WriteBtn'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
 import InputBox from 'Components/FindMyBaby/Post/InputBox'
-import AnimalData from 'Data/animal.json'
 import SelectBox from 'Components/FindMyBaby/Post/SelectBox'
 import Button from 'Components/Common/Button'
 import axios from 'axios'
@@ -26,7 +25,6 @@ export default function FindMyBabyWrite() {
     body: '',
     img_url: '',
     phone: '',
-    animal: 0,
   })
   const [selectedAnimal, setSelectedAnimal] = useState('')
   const [disabled, setDisabled] = useState(true)
@@ -34,17 +32,11 @@ export default function FindMyBabyWrite() {
   const [storedImg, setStoredImg] = useState([])
   const [address, setAddress] = useState('')
   const [detailAddress, setDetailAddress] = useState('')
-  const [addressError, setAddressError] = useState('')
+  const [addressError] = useState('')
 
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
 
-  useEffect(() => {
-    setPostData((prev) => ({
-      ...prev,
-      animal: AnimalData.animalData[selectedAnimal],
-    }))
-  }, [selectedAnimal])
   useEffect(() => {
     if (
       postData.name.length &&
@@ -57,13 +49,13 @@ export default function FindMyBabyWrite() {
       postData.phone.length &&
       address.length &&
       detailAddress.length &&
-      postData.animal
+      selectedAnimal
     ) {
       setDisabled(false)
     } else {
       setDisabled(true)
     }
-  }, [postData, storedImg, address, detailAddress])
+  }, [postData, storedImg, address, detailAddress, selectedAnimal])
 
   const handleBodyChange = (e) => {
     setPostData((prev) => ({
@@ -101,7 +93,7 @@ export default function FindMyBabyWrite() {
           phone: postData.phone,
           address_name: address,
           address_detail: detailAddress,
-          animal: postData.animal,
+          animal: selectedAnimal,
         },
         {
           headers: {

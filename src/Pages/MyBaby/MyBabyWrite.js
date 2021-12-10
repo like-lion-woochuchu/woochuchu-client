@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useHistory } from 'react-router'
 import Layout from 'Layout/Layout'
@@ -8,35 +8,20 @@ import WriteBtn from 'Components/SideBtn/WriteBtn'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
 import axios from 'axios'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
-import AnimalData from 'Data/animal.json'
 import Button from 'Components/Common/Button'
 import ImageInput from 'Components/MyBaby/WritePage/ImageInput'
 
 export default function MyBabyWrite() {
-  const [postData, setPostData] = useState({
-    body: '',
-    img_url: '',
-    animal: 0,
-  })
+  const [body, setBody] = useState('')
 
   const [uploadImg, setUploadImg] = useState('')
   const [storedImg, setStoredImg] = useState([])
-  const [selectedAnimal, setSelectedAnimal] = useState('')
+  const [selectedAnimal, setSelectedAnimal] = useState([])
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
 
-  useEffect(() => {
-    setPostData((prev) => ({
-      ...prev,
-      animal: AnimalData.animalData[selectedAnimal],
-    }))
-  }, [selectedAnimal])
-
   const handleBodyChange = (e) => {
-    setPostData((prev) => ({
-      ...prev,
-      body: e.target.value,
-    }))
+    setBody(e.target.value)
   }
 
   const handleSubmitClick = () => {
@@ -44,9 +29,9 @@ export default function MyBabyWrite() {
       .post(
         `${process.env.REACT_APP_API_URL}/mybaby/`,
         {
-          body: postData.body,
+          body: body,
           img_url: storedImg.join('|'),
-          animal: postData.animal,
+          animal: selectedAnimal,
         },
         {
           headers: {
@@ -85,7 +70,7 @@ export default function MyBabyWrite() {
           />
           <SubmitButtonBox>
             <Button
-              disabled={!postData.body || !postData.animal || !storedImg.length}
+              disabled={!body || !selectedAnimal || !storedImg.length}
               text="글쓰기"
               handleClick={handleSubmitClick}
             />

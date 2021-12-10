@@ -29,10 +29,11 @@ export default function MyBaby() {
             '파충류 / 양서류',
             '기타',
           ]}
+          multiselect={true}
           selectedAnimal={selectedAnimal}
           setSelectedAnimal={setSelectedAnimal}
         />
-        <Feed type={'mybaby'} />
+        <Feed type={'mybaby'} selectedAnimal={selectedAnimal} />
       </Container>
       <WriteBtn
         handleClick={() => {

@@ -10,26 +10,43 @@ import CommentInput from 'Components/Post/CommentInput'
 import CommentList from 'Components/Post/CommentList'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
-export default function Feed({ type }) {
+export default function Feed({ type, selectedAnimal }) {
   const [feedData, setFeedData] = useState([])
   const [fetchTrigger, setFetchTrigger] = useState(0)
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
+
   useEffect(() => {
     if (!token) {
       alert('로그인이 필요합니다.')
       history.push('/login')
     } else {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => setFeedData(res.data.results.data))
+      let animal = ''
+      if (selectedAnimal.length) {
+        animal = selectedAnimal.join(',')
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((res) => setFeedData(res.data.results.data))
+      } else {
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => setFeedData(res.data.results.data))
+      }
     }
-  }, [history, token, type, fetchTrigger])
+  }, [history, token, type, fetchTrigger, selectedAnimal])
   return (
     <>
       {feedData.map((data, index) => (
