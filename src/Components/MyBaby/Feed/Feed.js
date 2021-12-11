@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
@@ -12,9 +12,42 @@ import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function Feed({ type, selectedAnimal }) {
   const [postData, setPostData] = useState([])
+  const [target, setTarget] = useState(null)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [page, setPage] = useState(1)
   const [fetchTrigger, setFetchTrigger] = useState(0)
+  const [isDataLeft, setIsDataLeft] = useState(true)
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
+
+  const getMoreItem = async () => {
+    setIsLoaded(true)
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    setPage((prev) => prev + 1)
+    setIsLoaded(false)
+  }
+  const onIntersect = useCallback(
+    async ([entry], observer) => {
+      if (entry.isIntersecting && !isLoaded) {
+        observer.unobserve(entry.target)
+        await getMoreItem()
+        observer.observe(entry.target)
+      }
+    },
+    [isLoaded]
+  )
+
+  useEffect(() => {
+    let observer
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0,
+        rootMargin: '30px',
+      })
+      observer.observe(target)
+    }
+    return () => observer && observer.disconnect()
+  }, [target, onIntersect])
 
   useEffect(() => {
     if (!token) {
@@ -26,7 +59,7 @@ export default function Feed({ type, selectedAnimal }) {
         animal = selectedAnimal.join(',')
         axios
           .get(
-            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}`,
+            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}/?page=${page}`,
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -34,19 +67,33 @@ export default function Feed({ type, selectedAnimal }) {
               },
             }
           )
-          .then((res) => setPostData(res.data.results.data))
+          .then((res) =>
+            setPostData((prev) => [...prev, ...res.data.results.data])
+          )
+          .catch((err) => {
+            if (err.response.status === 500) {
+              setIsDataLeft(false)
+            }
+          })
       } else {
         axios
-          .get(`${process.env.REACT_APP_API_URL}/${type}/`, {
+          .get(`${process.env.REACT_APP_API_URL}/${type}/?page=${page}`, {
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
           })
-          .then((res) => setPostData(res.data.results.data))
+          .then((res) =>
+            setPostData((prev) => [...prev, ...res.data.results.data])
+          )
+          .catch((err) => {
+            if (err.response.status === 500) {
+              setIsDataLeft(false)
+            }
+          })
       }
     }
-  }, [history, token, type, fetchTrigger, selectedAnimal])
+  }, [history, token, type, fetchTrigger, selectedAnimal, page])
   return (
     <>
       {postData.map((data, index) => (
@@ -78,6 +125,7 @@ export default function Feed({ type, selectedAnimal }) {
           />
         </Wrapper>
       ))}
+      {postData && isDataLeft && <div ref={setTarget}></div>}
     </>
   )
 }
