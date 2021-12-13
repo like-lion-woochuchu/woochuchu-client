@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
@@ -9,89 +9,71 @@ import PostBody from 'Components/Post/PostBody'
 import CommentInput from 'Components/Post/CommentInput'
 import CommentList from 'Components/Post/CommentList'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
+import useIntersectObserver from 'Utils/Hooks/useIntersectObserver'
 
 export default function Feed({ type, selectedAnimal }) {
   const [postData, setPostData] = useState([])
-  const [target, setTarget] = useState(null)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [fetchTrigger, setFetchTrigger] = useState(0)
   const [isDataLeft, setIsDataLeft] = useState(true)
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
-
-  const getMoreItem = async () => {
-    setIsLoaded(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setPage((prev) => prev + 1)
-    setIsLoaded(false)
-  }
-  const onIntersect = useCallback(
-    async ([entry], observer) => {
-      if (entry.isIntersecting && !isLoaded) {
-        observer.unobserve(entry.target)
-        await getMoreItem()
-        observer.observe(entry.target)
-      }
-    },
-    [isLoaded]
-  )
-
+  const intersectRef = useRef(null)
+  const { isVisible } = useIntersectObserver(intersectRef, {
+    rootMargin: '50px',
+    threshold: 0.01,
+  })
   useEffect(() => {
-    let observer
-    if (target) {
-      observer = new IntersectionObserver(onIntersect, {
-        threshold: 0,
-        rootMargin: '30px',
-      })
-      observer.observe(target)
+    if (isVisible) {
+      setPage((prev) => prev + 1)
     }
-    return () => observer && observer.disconnect()
-  }, [target, onIntersect])
+  }, [isVisible])
 
   useEffect(() => {
     if (!token) {
       alert('로그인이 필요합니다.')
       history.push('/login')
-    } else {
-      let animal = ''
-      if (selectedAnimal.length) {
-        animal = selectedAnimal.join(',')
-        axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}/?page=${page}`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((res) =>
-            setPostData((prev) => [...prev, ...res.data.results.data])
-          )
-          .catch((err) => {
-            if (err.response.status === 500) {
-              setIsDataLeft(false)
-            }
-          })
-      } else {
-        axios
-          .get(`${process.env.REACT_APP_API_URL}/${type}/?page=${page}`, {
+      return
+    }
+    if (page < 1) return
+
+    let animal = ''
+    if (selectedAnimal.length) {
+      animal = selectedAnimal.join(',')
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}/?page=${page}`,
+          {
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
-          })
-          .then((res) =>
-            setPostData((prev) => [...prev, ...res.data.results.data])
-          )
-          .catch((err) => {
-            if (err.response.status === 500) {
-              setIsDataLeft(false)
-            }
-          })
-      }
+          }
+        )
+        .then((res) =>
+          setPostData((prev) => [...prev, ...res.data.results.data])
+        )
+        .catch((err) => {
+          if (err.response.status === 500) {
+            setIsDataLeft(false)
+          }
+        })
+    } else {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/${type}/?page=${page}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) =>
+          setPostData((prev) => [...prev, ...res.data.results.data])
+        )
+        .catch((err) => {
+          if (err.response.status === 500) {
+            setIsDataLeft(false)
+          }
+        })
     }
   }, [history, token, type, fetchTrigger, selectedAnimal, page])
   return (
@@ -125,7 +107,7 @@ export default function Feed({ type, selectedAnimal }) {
           />
         </Wrapper>
       ))}
-      {postData && isDataLeft && <div ref={setTarget}></div>}
+      {isDataLeft && <div ref={intersectRef}>Loading...</div>}
     </>
   )
 }
