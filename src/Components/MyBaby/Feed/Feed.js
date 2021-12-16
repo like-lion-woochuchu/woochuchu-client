@@ -23,11 +23,63 @@ export default function Feed({ type, selectedAnimal }) {
     rootMargin: '50px',
     threshold: 0.01,
   })
+
+  useEffect(() => {
+    if (selectedAnimal.length) {
+      setPage(0)
+      setPostData([])
+    }
+  }, [selectedAnimal])
+
   useEffect(() => {
     if (isVisible) {
       setPage((prev) => prev + 1)
     }
   }, [isVisible])
+
+  useEffect(() => {
+    if (page < 1) return
+    const animal = selectedAnimal.join(',')
+    if (selectedAnimal.length) {
+      if (page < 2) {
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}&page=${page}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((res) => setPostData(res.data.results.data))
+          .catch((err) => {
+            if (err.response.status === 500) {
+              setIsDataLeft(false)
+            }
+          })
+      } else {
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}&page=${page}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((res) =>
+            setPostData((prev) => [...prev, ...res.data.results.data])
+          )
+          .catch((err) => {
+            if (err.response.status === 500) {
+              setIsDataLeft(false)
+            }
+          })
+      }
+    }
+  }, [token, type, page, selectedAnimal])
 
   useEffect(() => {
     if (!token) {
@@ -36,46 +88,22 @@ export default function Feed({ type, selectedAnimal }) {
       return
     }
     if (page < 1) return
+    if (selectedAnimal.length) return
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/${type}/?page=${page}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => setPostData((prev) => [...prev, ...res.data.results.data]))
+      .catch((err) => {
+        if (err.response.status === 500) {
+          setIsDataLeft(false)
+        }
+      })
+  }, [history, token, type, page, selectedAnimal.length])
 
-    let animal = ''
-    if (selectedAnimal.length) {
-      animal = selectedAnimal.join(',')
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animal}/?page=${page}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) =>
-          setPostData((prev) => [...prev, ...res.data.results.data])
-        )
-        .catch((err) => {
-          if (err.response.status === 500) {
-            setIsDataLeft(false)
-          }
-        })
-    } else {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/${type}/?page=${page}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) =>
-          setPostData((prev) => [...prev, ...res.data.results.data])
-        )
-        .catch((err) => {
-          if (err.response.status === 500) {
-            setIsDataLeft(false)
-          }
-        })
-    }
-  }, [history, token, type, fetchTrigger, selectedAnimal, page])
   return (
     <>
       {postData.map((data, index) => (
