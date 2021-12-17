@@ -5,9 +5,11 @@ import styled from 'styled-components/macro'
 import jwtDecode from 'jwt-decode'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
+import CommentList from './CommentList'
 
-export default function CommentInput({ postId, type, setFetchTrigger }) {
+export default function CommentInput({ postId, type, comments }) {
   const [comment, setComment] = useState('')
+  const [commentList, setCommentList] = useState(comments)
   const [decodedToken, setDecodedToken] = useState()
   const token = getDataFromLocalStorage('token')
 
@@ -34,7 +36,7 @@ export default function CommentInput({ postId, type, setFetchTrigger }) {
           },
         }
       )
-      .then(() => setFetchTrigger((prev) => prev + 1))
+      // .then(() => )
       .catch((err) => console.log(err))
 
     setComment('')
@@ -56,6 +58,7 @@ export default function CommentInput({ postId, type, setFetchTrigger }) {
         />
         <SubmitBtn onClick={handleSubmit}>작성</SubmitBtn>
       </Wrapper>
+      <CommentList comments={commentList} type={type} />
     </>
   )
 }

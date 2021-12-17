@@ -15,10 +15,11 @@ export default function PostReactionButton({
   numOfComments,
   numOfLikes,
   receiver,
-  setFetchTrigger,
   userLikeFlag,
 }) {
   const [like, setLike] = useState(userLikeFlag)
+  const [likesCount, setLikesCount] = useState(numOfLikes)
+
   const [openMsgModal, setOpenMsgModal] = useState(false)
   const token = getDataFromLocalStorage('token')
   const handleLikeClick = async () => {
@@ -33,7 +34,11 @@ export default function PostReactionButton({
         }
       )
       .then((res) => {
-        setFetchTrigger((prev) => prev + 1)
+        if (res.data.results.like_flag) {
+          setLikesCount((prev) => prev + 1)
+        } else {
+          setLikesCount((prev) => prev - 1)
+        }
         setLike(res.data.results.like_flag)
       })
       .catch((err) => console.log(err))
@@ -52,7 +57,7 @@ export default function PostReactionButton({
           ) : (
             <HeartBtn src={EmptyHeart} onClick={handleLikeClick} />
           )}
-          <HeartNum>{numOfLikes}</HeartNum>
+          <HeartNum>{likesCount}</HeartNum>
         </>
       )}
       <CommentBtn src={Comment} type={type} />

@@ -14,7 +14,6 @@ import useIntersectObserver from 'Utils/Hooks/useIntersectObserver'
 export default function Feed({ type, selectedAnimal }) {
   const [postData, setPostData] = useState([])
   const [page, setPage] = useState(0)
-  const [fetchTrigger, setFetchTrigger] = useState(0)
   const [isDataLeft, setIsDataLeft] = useState(true)
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
@@ -120,19 +119,9 @@ export default function Feed({ type, selectedAnimal }) {
             numOfComments={data.comments.length}
             userLikeFlag={data.user_like_flag}
             numOfLikes={data.likes_count}
-            setFetchTrigger={setFetchTrigger}
           />
           <PostBody body={data.body} type={type} />
-          <CommentInput
-            postId={data.id}
-            type={type}
-            setFetchTrigger={setFetchTrigger}
-          />
-          <CommentList
-            comments={data.comments}
-            type={type}
-            setFetchTrigger={setFetchTrigger}
-          />
+          <CommentInput postId={data.id} type={type} comments={data.comments} />
         </Wrapper>
       ))}
       {isDataLeft && <div ref={intersectRef}>Loading...</div>}

@@ -6,7 +6,7 @@ import axios from 'axios'
 import dateParse from 'Utils/DateParse'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
-export default function CommentList({ comments, setFetchTrigger, type }) {
+export default function CommentList({ comments, type }) {
   const [openCommentList, setOpenCommentList] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [editCommentId, setEditCommentId] = useState(0)
@@ -38,7 +38,7 @@ export default function CommentList({ comments, setFetchTrigger, type }) {
           },
         }
       )
-      .then(() => setFetchTrigger((prev) => prev + 1))
+      // .then(() => setFetchTrigger((prev) => prev + 1))
       .catch((err) => console.log(err))
     setEditComment('')
     setEditMode((prev) => !prev)
@@ -55,7 +55,7 @@ export default function CommentList({ comments, setFetchTrigger, type }) {
           },
         }
       )
-      .then(() => setFetchTrigger((prev) => prev + 1))
+      // .then(() => setFetchTrigger((prev) => prev + 1))
       .catch((err) => console.log(err))
 
     console.log('delete!')
