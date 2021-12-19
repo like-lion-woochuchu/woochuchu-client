@@ -50,7 +50,7 @@ export default function FindMyBabyDetail() {
             )}
           </Profile>
           <PostTitle>{postData.title}</PostTitle>
-          <PostImage imgUrl={postData.img_url} />
+          {postData.img_url && <PostImage imgUrl={postData.img_url} />}
           {postData.comments && (
             <PostReactionButton
               type="findmybaby"

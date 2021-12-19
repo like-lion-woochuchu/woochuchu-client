@@ -55,7 +55,6 @@ export default function CommentList({ comments, type }) {
           },
         }
       )
-      // .then(() => setFetchTrigger((prev) => prev + 1))
       .catch((err) => console.log(err))
 
     console.log('delete!')
@@ -65,7 +64,7 @@ export default function CommentList({ comments, type }) {
     <>
       <CommentsBtnContainer>
         <CommentsBtn onClick={handleOpenCommentList}>
-          <CommentsNum>댓글 {comments.length}</CommentsNum>
+          {comments && <CommentsNum>댓글 {comments.length}</CommentsNum>}
           {openCommentList ? (
             <CommentsArrow src={downArrow} />
           ) : (
