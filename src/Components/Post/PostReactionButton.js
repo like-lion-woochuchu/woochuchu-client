@@ -6,7 +6,6 @@ import Comment from 'Assets/Icon/icon-comments22px@2x.png'
 import Message from 'Assets/Icon/message.png'
 import axios from 'axios'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
-import MessageModal from 'Components/Message/MessageModal'
 
 export default function PostReactionButton({
   postId,
@@ -21,9 +20,8 @@ export default function PostReactionButton({
   const [like, setLike] = useState(userLikeFlag)
   const [likesCount, setLikesCount] = useState(numOfLikes)
   const [commentsCount, setCommentsCount] = useState(numOfComments)
-
-  const [openMsgModal, setOpenMsgModal] = useState(false)
   const token = getDataFromLocalStorage('token')
+
   const handleLikeClick = async () => {
     await axios
       .post(
@@ -60,7 +58,7 @@ export default function PostReactionButton({
   }, [postId, type, token, fetchTrigger])
 
   const handleMessageClick = () => {
-    setOpenMsgModal((prev) => !prev)
+    // 메세지 전송 로직 추가
   }
 
   return (
@@ -82,9 +80,6 @@ export default function PostReactionButton({
           <MessageBtn src={Message} type={type} />
           <MessageTitle>메세지 보내기</MessageTitle>
         </MessageBox>
-      )}
-      {openMsgModal && (
-        <MessageModal receiver={receiver} setOpenMsgModal={setOpenMsgModal} />
       )}
     </Wrapper>
   )
