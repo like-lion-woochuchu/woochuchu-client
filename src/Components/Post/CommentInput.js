@@ -7,7 +7,12 @@ import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
 import CommentList from './CommentList'
 
-export default function CommentInput({ postId, type, comments }) {
+export default function CommentInput({
+  postId,
+  type,
+  comments,
+  setFetchTrigger,
+}) {
   const [comment, setComment] = useState('')
   const [commentList, setCommentList] = useState(comments)
   const [decodedToken, setDecodedToken] = useState()
@@ -36,7 +41,21 @@ export default function CommentInput({ postId, type, comments }) {
           },
         }
       )
-      // .then(() => )
+      .then(() =>
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      )
+      .then((res) => {
+        setCommentList(res.data.results.data)
+        setFetchTrigger((prev) => prev + 1)
+      })
       .catch((err) => console.log(err))
 
     setComment('')

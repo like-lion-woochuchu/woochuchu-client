@@ -7,7 +7,6 @@ import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
 import PostBody from 'Components/Post/PostBody'
 import CommentInput from 'Components/Post/CommentInput'
-import CommentList from 'Components/Post/CommentList'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 import useIntersectObserver from 'Utils/Hooks/useIntersectObserver'
 
@@ -15,6 +14,8 @@ export default function Feed({ type, selectedAnimal }) {
   const [postData, setPostData] = useState([])
   const [page, setPage] = useState(0)
   const [isDataLeft, setIsDataLeft] = useState(true)
+  const [fetchTrigger, setFetchTrigger] = useState(0)
+
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
   const intersectRef = useRef(null)
@@ -119,9 +120,15 @@ export default function Feed({ type, selectedAnimal }) {
             numOfComments={data.comments.length}
             userLikeFlag={data.user_like_flag}
             numOfLikes={data.likes_count}
+            fetchTrigger={fetchTrigger}
           />
           <PostBody body={data.body} type={type} />
-          <CommentInput postId={data.id} type={type} comments={data.comments} />
+          <CommentInput
+            postId={data.id}
+            type={type}
+            comments={data.comments}
+            setFetchTrigger={setFetchTrigger}
+          />
         </Wrapper>
       ))}
       {isDataLeft && <div ref={intersectRef}>Loading...</div>}

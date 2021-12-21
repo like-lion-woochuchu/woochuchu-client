@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import EmptyHeart from 'Assets/Icon/icon-heart-outlined22px@2x.png'
 import FilledHeart from 'Assets/Icon/icon-heart-filled22px@2x.png'
@@ -16,9 +16,11 @@ export default function PostReactionButton({
   numOfLikes,
   receiver,
   userLikeFlag,
+  fetchTrigger,
 }) {
   const [like, setLike] = useState(userLikeFlag)
   const [likesCount, setLikesCount] = useState(numOfLikes)
+  const [commentsCount, setCommentsCount] = useState(numOfComments)
 
   const [openMsgModal, setOpenMsgModal] = useState(false)
   const token = getDataFromLocalStorage('token')
@@ -44,6 +46,19 @@ export default function PostReactionButton({
       .catch((err) => console.log(err))
   }
 
+  useEffect(() => {
+    if (fetchTrigger) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => setCommentsCount(res.data.results.data.length))
+    }
+  }, [postId, type, token, fetchTrigger])
+
   const handleMessageClick = () => {
     setOpenMsgModal((prev) => !prev)
   }
@@ -61,7 +76,7 @@ export default function PostReactionButton({
         </>
       )}
       <CommentBtn src={Comment} type={type} />
-      <CommentNum>{numOfComments}</CommentNum>
+      <CommentNum>{commentsCount}</CommentNum>
       {message && (
         <MessageBox onClick={handleMessageClick}>
           <MessageBtn src={Message} type={type} />
