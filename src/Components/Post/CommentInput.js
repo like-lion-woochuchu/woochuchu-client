@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 import styled from 'styled-components/macro'
 import jwtDecode from 'jwt-decode'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
@@ -77,7 +76,13 @@ export default function CommentInput({
         />
         <SubmitBtn onClick={handleSubmit}>작성</SubmitBtn>
       </Wrapper>
-      <CommentList comments={commentList} type={type} />
+      <CommentList
+        comments={commentList}
+        type={type}
+        setCommentList={setCommentList}
+        postId={postId}
+        setFetchTrigger={setFetchTrigger}
+      />
     </>
   )
 }

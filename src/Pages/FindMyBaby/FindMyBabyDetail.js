@@ -8,13 +8,12 @@ import PostReactionButton from 'Components/Post/PostReactionButton'
 import FindPostHeader from 'Components/FindMyBaby/Post/FindPostHeader'
 import dateParse from 'Utils/DateParse'
 import CommentInput from 'Components/Post/CommentInput'
-import CommentList from 'Components/Post/CommentList'
 import Map from 'Components/Common/Map'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function FindMyBabyDetail() {
   const { seq } = useParams()
-
+  const [fetchTrigger, setFetchTrigger] = useState(0)
   const [postData, setPostData] = useState([])
   const types = ['아이 정보', '마지막 목격 위치']
   const [active, setActive] = useState(types[0])
@@ -30,7 +29,7 @@ export default function FindMyBabyDetail() {
       })
       .then((res) => setPostData(res.data.results.data))
   }, [])
-
+  console.log(postData)
   return (
     <Layout>
       <Wrapper>
@@ -53,10 +52,14 @@ export default function FindMyBabyDetail() {
           {postData.img_url && <PostImage imgUrl={postData.img_url} />}
           {postData.comments && (
             <PostReactionButton
+              postId={postData.id}
               type="findmybaby"
               message={true}
-              numOfComments={postData.comments.length}
               receiver={postData.user.id}
+              numOfComments={postData.comments.length}
+              userLikeFlag={postData.user_like_flag}
+              numOfLikes={postData.likes_count}
+              fetchTrigger={fetchTrigger}
             />
           )}
           <TextContainer>{postData.body}</TextContainer>
@@ -133,12 +136,12 @@ export default function FindMyBabyDetail() {
               </TabContent>
             )
           )}
-          <CommentInput postId={postData.id} type="findmybaby" />
           {postData.comments && (
-            <CommentList
-              comments={postData.comments}
-              feedId={postData.id}
+            <CommentInput
+              postId={postData.id}
               type="findmybaby"
+              comments={postData.comments}
+              setFetchTrigger={setFetchTrigger}
             />
           )}
         </PostContainer>
