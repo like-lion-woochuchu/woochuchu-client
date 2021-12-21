@@ -19,13 +19,8 @@ export default function PostImage({ imgUrl }) {
   }
 
   const prevSlide = () => {
-    if (TOTAL_SLIDES === IMAGE_WIDTH) return
-
-    if (currentSlide === 0) {
-      setCurrentSlide(TOTAL_SLIDES)
-    } else {
-      setCurrentSlide(currentSlide - IMAGE_WIDTH)
-    }
+    if (TOTAL_SLIDES === IMAGE_WIDTH || currentSlide === 0) return
+    setCurrentSlide(currentSlide - IMAGE_WIDTH)
   }
 
   useEffect(() => {
