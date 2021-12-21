@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import EmptyHeart from 'Assets/Icon/icon-heart-outlined22px@2x.png'
 import FilledHeart from 'Assets/Icon/icon-heart-filled22px@2x.png'
@@ -10,27 +9,55 @@ import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 import MessageModal from 'Components/Message/MessageModal'
 
 export default function PostReactionButton({
+  postId,
   type,
   message,
   numOfComments,
   numOfLikes,
   receiver,
+  userLikeFlag,
+  fetchTrigger,
 }) {
-  const [like, setLike] = useState(false)
+  const [like, setLike] = useState(userLikeFlag)
+  const [likesCount, setLikesCount] = useState(numOfLikes)
+  const [commentsCount, setCommentsCount] = useState(numOfComments)
+
   const [openMsgModal, setOpenMsgModal] = useState(false)
   const token = getDataFromLocalStorage('token')
-
   const handleLikeClick = async () => {
     await axios
-      .post(`${process.env.REACT_APP_API_URL}/mybaby/:feed_id/likes/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+      .post(
+        `${process.env.REACT_APP_API_URL}/mybaby/${postId}/likes/`,
+        { like_flag: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.results.like_flag) {
+          setLikesCount((prev) => prev + 1)
+        } else {
+          setLikesCount((prev) => prev - 1)
+        }
+        setLike(res.data.results.like_flag)
       })
-      .then(setLike((prev) => !prev))
       .catch((err) => console.log(err))
   }
+
+  useEffect(() => {
+    if (fetchTrigger) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => setCommentsCount(res.data.results.data.length))
+    }
+  }, [postId, type, token, fetchTrigger])
 
   const handleMessageClick = () => {
     setOpenMsgModal((prev) => !prev)
@@ -45,11 +72,11 @@ export default function PostReactionButton({
           ) : (
             <HeartBtn src={EmptyHeart} onClick={handleLikeClick} />
           )}
-          <HeartNum>{numOfLikes}</HeartNum>
+          <HeartNum>{likesCount}</HeartNum>
         </>
       )}
       <CommentBtn src={Comment} type={type} />
-      <CommentNum>{numOfComments}</CommentNum>
+      <CommentNum>{commentsCount}</CommentNum>
       {message && (
         <MessageBox onClick={handleMessageClick}>
           <MessageBtn src={Message} type={type} />
