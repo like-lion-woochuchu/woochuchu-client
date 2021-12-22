@@ -4,7 +4,6 @@ import {
   MessageDiv,
   MessageLineUnderName,
   MessageDetailDiv,
-  MessageFrameInner,
   MessageReceiver,
   MessageReceiverIcon,
   MessageReceiverName,
@@ -13,7 +12,6 @@ import {
   MessageTime,
   MessageDate,
 } from './MessageLayout'
-import buttonIcon from 'Assets/Icon/icon-paw-print20px@2x.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useHistory, useLocation } from 'react-router'
@@ -23,28 +21,35 @@ const MessageDetail = () => {
   const history = useHistory()
   const [data, setData] = useState([])
   const [loading, setLoding] = useState(true)
+  const [id, setId] = useState()
   const location = useLocation()
   const state = location.state
   var last = useState('')
   var flag = true
 
   useEffect(() => {
+    if (!state) {
+      alert('정상적인 접근이 아닙니다.')
+      if (history.length <= 1) {
+        history.push('/')
+      } else {
+        history.goBack()
+      }
+    }
     const token = localStorage.getItem('token')
     if (!token) {
       alert('로그인이 필요합니다.')
       history.push('/login')
     } else {
+      setId(parseInt(token.subject.split(':')[1]))
       axios
-        .get(
-          `https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/note/5/`,
-          {
-            headers: {
-              'Content-type': 'application/json',
-              Accept: 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/note/${state.receiver}/`, {
+          headers: {
+            'Content-type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           if (response.status === 200) {
             setData(response.data.results.data)
@@ -62,8 +67,15 @@ const MessageDetail = () => {
       <MessageDiv>
         <MessageReceiver>
           <MessageReceiverIcon />
-          <MessageReceiverName>nickname</MessageReceiverName>
-          <MessageReplyIcon onClick={() => history.push('/message')} />
+          <MessageReceiverName>{state.nickname}</MessageReceiverName>
+          <MessageReplyIcon
+            onClick={() =>
+              history.push('/message', {
+                receiver: state.receiver,
+                nickname: state.nickname,
+              })
+            }
+          />
         </MessageReceiver>
         <MessageLineUnderName />
         <MessageFrame>
@@ -83,21 +95,20 @@ const MessageDetail = () => {
                   {flag ? <MessageDate>{last}</MessageDate> : null}
                   <MessageDetailDiv
                     key={message.id}
-                    me={message.sender.id === 8}
-                    len={-470 + message.body.length}
+                    me={message.sender.id === id}
                   >
-                    {message.sender.id === 8 ? (
+                    {message.sender.id === id ? (
                       <MessageTime me={true}>
                         {message.created_at.split('T')[1]}
                       </MessageTime>
                     ) : null}
                     <MessageBubble
                       key={message.id}
-                      me={message.sender.id === 8}
+                      me={message.sender.id === id}
                     >
                       {message.body}
                     </MessageBubble>
-                    {message.sender.id !== 8 ? (
+                    {message.sender.id !== id ? (
                       <MessageTime me={false}>
                         {message.created_at.split('T')[1]}
                       </MessageTime>
