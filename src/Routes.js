@@ -10,9 +10,11 @@ import MessagePage from 'Pages/Message/Message'
 import MyBabyWrite from 'Pages/MyBaby/MyBabyWrite'
 import FindMyBabyWrite from 'Pages/FindMyBaby/FindMyBabyWrite'
 import FindMyBabyDetail from 'Pages/FindMyBaby/FindMyBabyDetail'
+import ScrollToTop from 'Components/Common/ScrollToTop'
 export default function Routes() {
   return (
     <Router>
+      <ScrollToTop />
       <Switch>
         <Route exact path={['/', '/mybaby']} component={MyBaby} />
         <Route exact path={'/mybaby_write'} component={MyBabyWrite} />
