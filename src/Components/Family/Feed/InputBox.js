@@ -25,6 +25,7 @@ export default function InputBox({
         />
       ) : (
         <Input
+          type={type}
           width={width}
           placeholder={placeHolder}
           name={name}

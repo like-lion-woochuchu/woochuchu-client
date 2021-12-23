@@ -7,17 +7,27 @@ import insertPhotoImg from 'Assets/Icon/icons_insert-picture.png'
 import AnimalData from 'Data/animal.json'
 import InputBox from 'Components/Family/Feed/InputBox'
 import SelectBox from 'Components/Family/Feed/SelectBox'
+import Address from 'Components/FamilyWrite/Address'
+import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
+import Button from 'Components/Common/Button'
+import { useHistory } from 'react-router-dom'
+
+axios.defaults.withCredentials = true
 
 export default function FamilyWrite() {
+  const history = useHistory()
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [detailAddress, setDetailAddress] = useState('')
+  const [address, setAddress] = useState('')
   const [postData, setPostData] = useState({
     breed: '',
     sex: 100,
     age: 0,
     description: '',
     img_url: [],
-    phone: '',
-    address_name: '',
-    address_detail: '',
+    // phone: '',
+    // address_name: '',
+    // address_detail: '',
     animal: 0,
   })
 
@@ -32,21 +42,19 @@ export default function FamilyWrite() {
   }, [selectedAnimal])
 
   useEffect(() => {
-    const values = Object.values(postData)
-    console.log(values)
     if (
-      postData.breed.length &&
+      postData.breed.length > 0 &&
       postData.sex !== 100 &&
-      postData.age &&
-      postData.description.length &&
+      postData.age > 0 &&
+      postData.description.length > 0 &&
       // postData.img_url.length &&
-      postData.phone.length &&
-      postData.address_name.length &&
-      postData.address_detail.length &&
+      phoneNumber.phone.length > 0 &&
+      address.length > 0 &&
+      detailAddress.length > 0 &&
       postData.animal
     )
       setDisabled(false)
-  }, [postData])
+  }, [postData, phoneNumber, address, detailAddress])
 
   const handleContentChange = (e) => {
     setPostData((prev) => ({
@@ -62,6 +70,7 @@ export default function FamilyWrite() {
     } else {
       genderNum = 0
     }
+
     setPostData((prev) => ({
       ...prev,
       [e.target.name]: genderNum,
@@ -69,18 +78,27 @@ export default function FamilyWrite() {
   }
 
   const handleSubmitClick = (e) => {
+    e.preventDefault()
     axios
-      .post(`${process.env.REACT_APP_API_URL}/family`, {
+      .post(`${process.env.REACT_APP_API_URL}/bemybaby/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization:
             'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
         },
         body: postData,
+        age: parseInt(postData.age),
+        ...(phoneNumber ? { phone: phoneNumber } : {}),
+        ...(detailAddress ? { address_detail: detailAddress } : {}),
+        address_name: address,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res)
+        history.push('/family')
+      })
+      .catch((err) => console.error(err))
+      .finally(console.log('프로세스 끝'))
   }
-  console.log(postData)
 
   return (
     <Layout>
@@ -102,7 +120,7 @@ export default function FamilyWrite() {
             <InfoBox>
               <SelectBox
                 title="성별"
-                listArray={['여', '남']}
+                listArr={['남', '여']}
                 name="sex"
                 handleChange={(e) => handleGenderChange(e)}
                 width="50%"
@@ -111,36 +129,49 @@ export default function FamilyWrite() {
           </InfoContainer>
           <InfoContainer>
             <InputBox
+              type="number"
               title="나이"
-              placeHolder="ex) 5"
+              placeHolder="5"
               name="age"
               setInput={setPostData}
               width="82%"
             />
             <InputBox
+              type="string"
               title="보호자 연락처"
               placeHolder="010-0000-0000"
               name="phone"
               width="65%"
-              setInput={setPostData}
+              setInput={setPhoneNumber}
             />
           </InfoContainer>
           <InputBox
             title="특징"
             placeHolder="ex) 귀에 붉은 점이 있어요."
-            name="title"
+            name="description"
             setInput={setPostData}
           />
-
-          {/* <PhoneContainer>
-            <InputBox
-              title={'보호자 연락처'}
-              placeHolder="010-0000-0000"
-              name="phone"
-              width="65%"
-              setInput={setPostData}
+          <Address
+            address={address}
+            detailAddress={detailAddress}
+            setAddress={setAddress}
+            setDetailAddress={setDetailAddress}
+          />
+          <AnimalSelectTitle>동물 종류</AnimalSelectTitle>
+          <AnimalSelectContainer>
+            <AnimalSelectBtn
+              selectedAnimal={selectedAnimal}
+              setSelectedAnimal={setSelectedAnimal}
+              multiselect={false}
             />
-          </PhoneContainer> */}
+          </AnimalSelectContainer>
+          <SubmitButtonBox>
+            <Button
+              disabled={disabled}
+              text="글쓰기"
+              handleClick={handleSubmitClick}
+            />
+          </SubmitButtonBox>
         </Container>
       </div>
     </Layout>
@@ -217,6 +248,7 @@ const SubmitButtonBox = styled.div`
 `
 const InfoContainer = styled.div`
   display: flex;
+  justify-content: space-between;
 `
 const FirstInfoBox = styled.div`
   width: 55%;
@@ -225,12 +257,6 @@ const FirstInfoBox = styled.div`
 const InfoBox = styled.div`
   margin-left: 10px;
   width: 55%;
-`
-const PhoneContainer = styled.div`
-  width: 60%;
-`
-const LastSeenContainer = styled.div`
-  width: 68%;
 `
 const AnimalSelectContainer = styled.div`
   margin-bottom: 15px;

@@ -1,28 +1,46 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
+import AnimalData from 'Data/animal.json'
 
-export default function AnimalSelectBtn({ animalArr }) {
-  const [animal, setAnimal] = useState('')
+export default function AnimalSelectBtn({
+  multiselect,
+  selectedAnimal,
+  setSelectedAnimal,
+}) {
+  const animalArr = Object.keys(AnimalData.animalData)
 
-  const handleVersionBtnClick = (e) => {
-    setAnimal(e.target.value)
-    console.log(animal)
+  const handleAnimalSelectBtnClick = (e) => {
+    if (selectedAnimal.includes(e.target.innerHTML)) {
+      if (!multiselect) {
+        setSelectedAnimal('')
+        return
+      }
+
+      setSelectedAnimal((prev) =>
+        prev.filter((anm) => anm !== e.target.innerHTML)
+      )
+      return
+    }
+    if (!multiselect) {
+      setSelectedAnimal(e.target.innerHTML)
+      return
+    }
+
+    setSelectedAnimal((prev) => [...prev, e.target.innerHTML])
+    console.log(selectedAnimal)
   }
 
   return (
     <BtnContainer>
       {animalArr.map((animal, idx) => {
         return (
-          <AnimalBtnLabel id="animal" key={idx}>
-            <AnimalRadio
-              type="radio"
-              name="animal"
-              id="animal"
-              value={animal}
-              onChange={handleVersionBtnClick}
-            ></AnimalRadio>
-            <AnimalRadioBtn>{animal}</AnimalRadioBtn>
-          </AnimalBtnLabel>
+          <AnimalBtn
+            key={idx}
+            selected={selectedAnimal.includes(animal)}
+            onClick={(e) => handleAnimalSelectBtnClick(e)}
+          >
+            {animal}
+          </AnimalBtn>
         )
       })}
     </BtnContainer>
@@ -31,29 +49,20 @@ export default function AnimalSelectBtn({ animalArr }) {
 
 const BtnContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 `
-const AnimalBtnLabel = styled.label`
-  margin: 0 10px;
-`
-const AnimalRadio = styled.input`
-  visibility: hidden;
-  appearance: none;
-`
-const AnimalRadioBtn = styled.div`
+
+const AnimalBtn = styled.div`
   display: flex;
   justify-content: center;
-  width: 100%;
-  border: solid 0.2px #707070;
+  align-items: center;
+  border: solid 2px #dbdbdb;
   border-radius: 20px;
-  padding: 13px 19.96px;
-  transition: all 0.5s ease 0s;
+  padding: 14px 22px;
+  transition: all 0.3s ease 0s;
   cursor: pointer;
-  ${AnimalRadio}:checked + && {
-    background-color: #fbf3da;
-    border: none;
-  }
-  &:hover {
-    box-shadow: 0px 3px 15px -5px rgba(0, 0, 0, 0.3);
-  }
+  ${({ selected }) =>
+    selected === true &&
+    `    background-color: #fbf3da;
+`}
 `
