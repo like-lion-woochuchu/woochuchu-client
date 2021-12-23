@@ -12,6 +12,7 @@ export default function Header() {
       const decoded = jwtDecode(localStorage.getItem('token'))
       setToken(decoded)
       console.log(decoded)
+      console.log(decoded.subject)
     }
   }
   useEffect(() => {

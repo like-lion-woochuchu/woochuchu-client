@@ -1,23 +1,38 @@
 import styled from 'styled-components/macro'
 import { MessageDiv } from './MessageLayout'
 import { useHistory } from 'react-router'
+import jwtDecode from 'jwt-decode'
 
 const MessageListOne = ({ message }) => {
   const history = useHistory()
+  const token = localStorage.getItem('token')
+  const decoded = jwtDecode(token)
+  const userId = parseInt(decoded.subject.split(':')[1])
+  const receiver =
+    message.sender.id === userId ? message.receiver.id : message.sender.id
+  const nickname =
+    message.sender.id === userId
+      ? message.receiver.nickname
+      : message.sender.nickname
   return (
     <>
       <MessageListOneDiv
         onClick={() =>
           history.push('/message-detail', {
-            receiver_id: message.sender,
+            receiver: receiver,
+            nickname: nickname,
           })
         }
       >
-        <MessageListNickname>{message.nickname}</MessageListNickname>
+        <MessageListNickname>{nickname}</MessageListNickname>
+        <MessageTimeDiv>
+          {message.created_at.split('T')[0]} {message.created_at.split('T')[1]}
+        </MessageTimeDiv>
         <br />
         <MessageBody>
           <MessageSpan> {message.body.substr(0, 35)} </MessageSpan>
-          {message.new ? <MessageNew>N</MessageNew> : null}
+
+          {!message.seen_flag ? <MessageNew>N</MessageNew> : null}
         </MessageBody>
       </MessageListOneDiv>
     </>
@@ -58,5 +73,10 @@ const MessageNew = styled.button`
   text-align: center;
   font: normal normal bold 5px Noto Sans KR;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+`
+
+const MessageTimeDiv = styled.span`
+  float: right;
+  color: #a2a2a2;
 `
 export default MessageListOne

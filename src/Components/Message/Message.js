@@ -62,7 +62,7 @@ const Message = () => {
           if (response.status === 200) {
             console.log(response)
             alert('쪽지가 성공적으로 발송되었습니다.')
-            history.push('/message_detail', {
+            history.push('/message-detail', {
               receiver: state.receiver,
               nickname: state.nickname,
             })

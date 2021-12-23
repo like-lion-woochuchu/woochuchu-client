@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useHistory, useLocation } from 'react-router'
 import Spinner from 'Components/Spinner/Spinner'
+import jwtDecode from 'jwt-decode'
 
 const MessageDetail = () => {
   const history = useHistory()
@@ -24,6 +25,8 @@ const MessageDetail = () => {
   const [id, setId] = useState()
   const location = useLocation()
   const state = location.state
+  const token = localStorage.getItem('token')
+  const decoded = jwtDecode(token)
   var last = useState('')
   var flag = true
 
@@ -36,12 +39,12 @@ const MessageDetail = () => {
         history.goBack()
       }
     }
-    const token = localStorage.getItem('token')
+
     if (!token) {
       alert('로그인이 필요합니다.')
       history.push('/login')
     } else {
-      setId(parseInt(token.subject.split(':')[1]))
+      setId(parseInt(decoded.subject.split(':')[1]))
       axios
         .get(`${process.env.REACT_APP_API_URL}/note/${state.receiver}/`, {
           headers: {

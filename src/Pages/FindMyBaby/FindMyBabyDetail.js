@@ -56,6 +56,7 @@ export default function FindMyBabyDetail() {
               type="findmybaby"
               message={true}
               receiver={postData.user.id}
+              nickname={postData.user.nickname}
               numOfComments={postData.comments.length}
               userLikeFlag={postData.user_like_flag}
               numOfLikes={postData.likes_count}

@@ -6,6 +6,7 @@ import Comment from 'Assets/Icon/icon-comments22px@2x.png'
 import Message from 'Assets/Icon/message.png'
 import axios from 'axios'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 export default function PostReactionButton({
   postId,
@@ -14,6 +15,7 @@ export default function PostReactionButton({
   numOfComments,
   numOfLikes,
   receiver,
+  nickname,
   userLikeFlag,
   fetchTrigger,
 }) {
@@ -21,6 +23,7 @@ export default function PostReactionButton({
   const [likesCount, setLikesCount] = useState(numOfLikes)
   const [commentsCount, setCommentsCount] = useState(numOfComments)
   const token = getDataFromLocalStorage('token')
+  const history = useHistory()
 
   const handleLikeClick = async () => {
     await axios
@@ -58,7 +61,10 @@ export default function PostReactionButton({
   }, [postId, type, token, fetchTrigger])
 
   const handleMessageClick = () => {
-    // 메세지 전송 로직 추가
+    history.push('/message', {
+      receiver: receiver,
+      nickname: nickname,
+    })
   }
 
   return (
