@@ -39,7 +39,7 @@ export default function Header() {
           </Menus>
           <Menus
             onClick={() => {
-              history.push('/family')
+              history.push('/bemybaby')
             }}
           >
             가족이 되어주세요
