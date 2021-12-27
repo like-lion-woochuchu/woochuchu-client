@@ -1,53 +1,125 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import styled from 'styled-components/macro'
 import Dog from 'Assets/Images/Animals/Dog.png'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
+import Map from 'Components/Common/Map'
+import DateParse from 'Utils/DateParse'
+import { useHistory } from 'react-router-dom'
+import CommentInput from 'Components/Post/CommentInput'
+import useIntersectObserver from 'Utils/Hooks/useIntersectObserver'
 
-export default function Grid() {
+export default function Grid({ type, animal }) {
   const [animals, setAnimals] = useState([])
-  const [error, setError] = useState(true)
+  const [page, setPage] = useState(0)
+  const [fetchTrigger, setFetchTrigger] = useState(0)
+  const [isDataLeft, setIsDataLeft] = useState(true)
+  const intersectRef = useRef(null)
   const token = getDataFromLocalStorage('token')
+  const history = useHistory()
+
+  const { isVisible } = useIntersectObserver(intersectRef, {
+    rootMargin: '50px',
+    threshold: 0.01,
+  })
 
   useEffect(() => {
+    if (isVisible) {
+      setPage((prev) => prev + 1)
+    }
+  }, [isVisible])
+
+  useEffect(() => {
+    if (animal.length) {
+      setPage(0)
+      setAnimals([])
+    }
+  }, [animal])
+
+  useEffect(() => {
+    if (page < 1) return
+    const animalType = animal.join(',')
+    if (animal.length) {
+      if (page < 2) {
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animalType}&page=${page}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((res) => {
+            setAnimals(res.data.results.data)
+          })
+          .catch((err) => {
+            if (err.response.status === 500) {
+              setIsDataLeft(false)
+            }
+          })
+      } else {
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/${type}/?animals_id=${animalType}&page=${page}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          .then((res) => {
+            setAnimals((prev) => [...prev, ...res.data.results.data])
+          })
+          .catch((err) => {
+            if (err.response.status === 500) {
+              setIsDataLeft(false)
+            }
+          })
+      }
+    }
+  }, [token, type, page, animal, animals])
+
+  useEffect(() => {
+    if (!token) {
+      alert('로그인이 필요합니다.')
+      history.push('/login')
+      return
+    }
+    if (page < 1) return
+    if (animal.length) return
     axios
-      .get(`${process.env.REACT_APP_API_URL}/bemybaby/`, {
+      .get(`${process.env.REACT_APP_API_URL}/${type}/?page=${page}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => {
-        setError(false)
-        setAnimals(res.data.results.data)
-      })
+      .then((res) => setAnimals((prev) => [...prev, ...res.data.results.data]))
       .catch((err) => {
-        console.error(err)
+        if (err.response.status === 500) {
+          setIsDataLeft(false)
+        }
       })
-  }, [])
+  }, [history, token, type, page, animal.length])
 
-  console.log(animals)
-
-  // useEffect(() => {
-  //   if (!token) {
-  //     alert('로그인이 필요합니다.')
-  //     history.push('/login')
-  //     return
-  //   }
-  // })
-  if (error) return <div>Loading...</div>
   if (!animals) return <div>no animal</div>
 
   return (
     <div>
-      {animals.map((animal) => (
-        <>
-          <UserWrap>
+      {animals.map((animal, idx) => (
+        <AnimalWrap key={idx}>
+          <UserWrap key={animal.user.id}>
             <LeftUserWrap>
-              <UserImageWrap src={Dog} alt="Dog" />
+              <UserImageWrap src={Dog} alt="Sample" />
               <UserNameWrap>{animal.user.nickname}</UserNameWrap>
             </LeftUserWrap>
-            <RightUserWrap>{animal.created_at}</RightUserWrap>
+            <RightUserWrap>
+              {DateParse(animal.created_at).date}{' '}
+              {DateParse(animal.created_at).time}
+            </RightUserWrap>
           </UserWrap>
           <GridWrap key={animal.id}>
             <LeftWrap>
@@ -63,12 +135,14 @@ export default function Grid() {
                 )}
               </LeftTitleWrap>
               <LeftImageWrap>
-                {animal.adopt_flag !== 0 ? (
-                  <Img src={Dog /* animal.img_url */} alt="Dog" />
+                {animal.adopt_flag === 0 ? (
+                  <Img src={animal.img_url} alt="Sample" />
                 ) : (
                   <>
-                    <Img src={Dog} alt="Dog" />
-                    <AdoptedWrap></AdoptedWrap>
+                    <Img src={Dog} alt="Sample" />
+                    <AdoptedWrap>
+                      <AdoptedMessage>입양됨</AdoptedMessage>
+                    </AdoptedWrap>
                   </>
                 )}
               </LeftImageWrap>
@@ -92,21 +166,50 @@ export default function Grid() {
               </SectionWrap>
               <SectionWrap>
                 <TitleWrap>접수 일시</TitleWrap>
-                <DescriptionWrap>{animal.created_at}</DescriptionWrap>
-                <AddressWrap>최근 수정: {animal.updated_at}</AddressWrap>
+                {animal.created_at !== animal.updated_at ? (
+                  <>
+                    <DescriptionWrap>
+                      {DateParse(animal.created_at).date}{' '}
+                      {DateParse(animal.created_at).time}
+                    </DescriptionWrap>
+                    <AddressWrap>
+                      최근 수정: {DateParse(animal.updated_at).date}{' '}
+                      {DateParse(animal.updated_at).time}
+                    </AddressWrap>
+                  </>
+                ) : (
+                  <DescriptionWrap style={{ marginTop: '3px' }}>
+                    {DateParse(animal.created_at).date}{' '}
+                    {DateParse(animal.created_at).time}
+                  </DescriptionWrap>
+                )}
               </SectionWrap>
               <SectionWrap>
                 <TitleWrap>발생장소</TitleWrap>
-                <DescriptionWrap>{animal.address.address_name}</DescriptionWrap>
-              </SectionWrap>
-              <SectionWrap>
-                <TitleWrap>공고일</TitleWrap>
-                <DescriptionWrap>API업데이트 필요</DescriptionWrap>
-              </SectionWrap>
-              <SectionWrap>
-                <TitleWrap>관할보호센터</TitleWrap>
-                <DescriptionWrap>API업데이트 필요</DescriptionWrap>
-                <AddressWrap>상세주소: API업데이트 필요</AddressWrap>
+                {animal.address_detail ? (
+                  <>
+                    <DescriptionWrap>
+                      {animal.address.address_name}{' '}
+                    </DescriptionWrap>
+                    <AddressWrap>상세주소: {animal.address_detail}</AddressWrap>
+                  </>
+                ) : (
+                  <DescriptionWrap style={{ marginTop: '3px' }}>
+                    {animal.address.address_name}{' '}
+                  </DescriptionWrap>
+                )}
+                <MapWrap>
+                  {animal.address && (
+                    <Map
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                      cordX={animal.address.address_coord_x}
+                      cordY={animal.address.address_coord_y}
+                      width={'300px'}
+                      height={'300px'}
+                      margin={'10px 0'}
+                    />
+                  )}
+                </MapWrap>
               </SectionWrap>
               <SectionWrap>
                 <PhoneNumberWrap>전화번호</PhoneNumberWrap>
@@ -120,11 +223,35 @@ export default function Grid() {
               </SectionWrap>
             </RightWrap>
           </GridWrap>
-        </>
+          <CommentWrap>
+            <CommentInput
+              postId={animal.id}
+              type={type}
+              comments={animal.comments}
+              setFetchTrigger={setFetchTrigger}
+            />
+          </CommentWrap>
+        </AnimalWrap>
       ))}
+      {isDataLeft && <div ref={intersectRef}>Loading...</div>}
     </div>
   )
 }
+
+const CommentWrap = styled.div`
+  margin: 20px;
+`
+
+const AnimalWrap = styled.div`
+  border: 1px solid rgb(72, 72, 72);
+  margin-bottom: 50px;
+  padding: 30px 0;
+  border-radius: 20px;
+`
+const MapWrap = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 const RightUserWrap = styled.div`
   margin-right: 25px;
@@ -149,11 +276,24 @@ const UserWrap = styled.div`
   align-items: center;
   justify-content: space-between;
 `
+const AdoptedMessage = styled.p`
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
 
 const AdoptedWrap = styled.div`
   background-color: black;
+  position: absolute;
+  bottom: 0.01%;
+  opacity: 80%;
   z-index: 1000;
   width: 100%;
+  height: 100%;
 `
 
 const GridWrap = styled.div`
@@ -189,7 +329,6 @@ const LeftFontWrap = styled.p`
 
 const LeftWrap = styled.div`
   width: 339px;
-  height: 450px;
 `
 
 const LeftImageWrap = styled.div`
@@ -202,7 +341,6 @@ const LeftImageWrap = styled.div`
 `
 const RightWrap = styled.div`
   width: 380px;
-  height: 450px;
   padding: 22px 0;
   box-shadow: 0px 6px 10px 0px #00000014;
   border-top-right-radius: 10px;
