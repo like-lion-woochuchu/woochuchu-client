@@ -11,11 +11,13 @@ import Address from 'Components/FamilyWrite/Address'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
 import Button from 'Components/Common/Button'
 import { useHistory } from 'react-router-dom'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 axios.defaults.withCredentials = true
 
 export default function FamilyWrite() {
   const history = useHistory()
+  const token = getDataFromLocalStorage('token')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [detailAddress, setDetailAddress] = useState('')
   const [address, setAddress] = useState('')
@@ -83,8 +85,7 @@ export default function FamilyWrite() {
       .post(`${process.env.REACT_APP_API_URL}/bemybaby/`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+          Authorization: `Bearer ${token}`,
         },
         body: postData,
         age: parseInt(postData.age),
