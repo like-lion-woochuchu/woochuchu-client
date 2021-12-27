@@ -15,26 +15,15 @@ export default function Family() {
   const [animal, setAnimal] = useState([])
 
   const history = useHistory()
+
   return (
     <>
       <Layout>
         <FamilyDiv>
           <FamilyIcon />
           <FamilyText>가족이 되어주세요</FamilyText>
-          <Toggle
-            animalList={[
-              '강아지',
-              '고양이',
-              '물고기',
-              '새',
-              '곤충',
-              '파충류 / 양서류',
-              '기타',
-            ]}
-            animal={animal}
-            setAnimal={setAnimal}
-          />
-          <Grid />
+          <Toggle multiselect={true} animal={animal} setAnimal={setAnimal} />
+          <Grid type={'bemybaby'} animal={animal} />
         </FamilyDiv>
         <WriteBtn
           handleClick={() => {
