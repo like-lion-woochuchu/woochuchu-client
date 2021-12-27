@@ -1,34 +1,73 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 import styled from 'styled-components/macro'
+import jwtDecode from 'jwt-decode'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
+import logoImgUrl from 'Assets/Images/Logo/nav-main-logo80px@2x.png'
+import CommentList from './CommentList'
 
-export default function CommentInput({ postId, type }) {
+export default function CommentInput({
+  postId,
+  type,
+  comments,
+  setFetchTrigger,
+}) {
   const [comment, setComment] = useState('')
+  const [commentList, setCommentList] = useState(comments)
+  const [decodedToken, setDecodedToken] = useState()
+  const token = getDataFromLocalStorage('token')
+
+  useEffect(() => {
+    if (token) {
+      const decoded = jwtDecode(token)
+      setDecodedToken(decoded)
+    }
+  }, [token])
+
   const handleChange = (e) => {
     setComment(e.target.value)
   }
 
-  const handleSubmit = () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
-        },
-        body: comment,
+  const handleSubmit = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`,
+        { body: comment },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() =>
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/${type}/${postId}/comments/`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      )
+      .then((res) => {
+        setCommentList(res.data.results.data)
+        setFetchTrigger((prev) => prev + 1)
       })
-      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
 
-    console.log('submit!')
     setComment('')
   }
 
   return (
     <>
       <Wrapper>
-        <MyProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
+        {decodedToken ? (
+          <MyProfileImg src={decodedToken.profile_img} />
+        ) : (
+          <MyProfileImg src={logoImgUrl} />
+        )}
         <CommentInputBox
           type="text"
           placeholder="댓글쓰기..."
@@ -37,6 +76,13 @@ export default function CommentInput({ postId, type }) {
         />
         <SubmitBtn onClick={handleSubmit}>작성</SubmitBtn>
       </Wrapper>
+      <CommentList
+        comments={commentList}
+        type={type}
+        setCommentList={setCommentList}
+        postId={postId}
+        setFetchTrigger={setFetchTrigger}
+      />
     </>
   )
 }
