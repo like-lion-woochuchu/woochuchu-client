@@ -9,12 +9,12 @@ const GoogleSignIn = () => {
   return (
     <GoogleButton>
       <GoogleLogin
-        clientId="333301147396-7im6b138mmott3ied2t7c23t1jo9gcdh.apps.googleusercontent.com"
+        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         onSuccess={(data) => {
           console.log(data)
           axios
             .post(
-              'http://3.38.95.205:3000/accounts/auth/signin/',
+              `${process.env.REACT_APP_API_URL}/accounts/auth/signin/`,
               {
                 email: data.profileObj.email,
                 provider: 'google',

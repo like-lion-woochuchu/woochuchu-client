@@ -12,6 +12,7 @@ export default function Header() {
       const decoded = jwtDecode(localStorage.getItem('token'))
       setToken(decoded)
       console.log(decoded)
+      console.log(decoded.subject)
     }
   }
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function Header() {
           </Menus>
           <Menus
             onClick={() => {
-              history.push('/message_list')
+              history.push('/message-list')
             }}
           >
             쪽지함

@@ -36,4 +36,15 @@ export const MessageListFrame = styled.div`
   border: 0.3px solid #dedede;
   border-radius: 30px;
   background-color: transparent;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 20px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+  }
 `

@@ -16,24 +16,34 @@ export default function PostBody({ body, type, postId, data }) {
   }
   return (
     <Wrapper>
-      {body.length > 10 ? (
-        <TextContainer>
-          {body.slice(0, 10)}
-          {openFullText ? (
-            <>{body.slice(10)}</>
+      {type === 'findmybaby' ? (
+        <>
+          {body.length > 10 ? (
+            <TextContainer>
+              {body.slice(0, 10)}
+              <MoreBtn onClick={handleMoveToDetail}>...더보기</MoreBtn>
+            </TextContainer>
           ) : (
-            <>
-              ...
-              {type === 'findmybaby' ? (
-                <MoreBtn onClick={handleMoveToDetail}>더보기</MoreBtn>
-              ) : (
-                <MoreBtn onClick={handleOpenFullText}>더보기</MoreBtn>
-              )}
-            </>
+            <TextContainer>
+              {body} <MoreBtn onClick={handleMoveToDetail}>...더보기</MoreBtn>
+            </TextContainer>
           )}
-        </TextContainer>
+        </>
       ) : (
-        <TextContainer>{body}</TextContainer>
+        <>
+          {body.length > 10 ? (
+            <TextContainer>
+              {body.slice(0, 10)}
+              {openFullText ? (
+                <>{body.slice(10)}</>
+              ) : (
+                <MoreBtn onClick={handleOpenFullText}>...더보기</MoreBtn>
+              )}
+            </TextContainer>
+          ) : (
+            <TextContainer>{body}</TextContainer>
+          )}
+        </>
       )}
     </Wrapper>
   )

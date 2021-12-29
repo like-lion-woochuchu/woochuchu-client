@@ -5,32 +5,31 @@ import styled from 'styled-components/macro'
 import Layout from 'Layout/Layout'
 import PostImage from 'Components/Post/PostImage'
 import PostReactionButton from 'Components/Post/PostReactionButton'
-import FindPostHeader from 'Components/FindMyBaby/Feed/FindPostHeader'
+import FindPostHeader from 'Components/FindMyBaby/Post/FindPostHeader'
 import dateParse from 'Utils/DateParse'
 import CommentInput from 'Components/Post/CommentInput'
-import CommentList from 'Components/Post/CommentList'
 import Map from 'Components/Common/Map'
+import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
 
 export default function FindMyBabyDetail() {
   const { seq } = useParams()
-
+  const [fetchTrigger, setFetchTrigger] = useState(0)
   const [postData, setPostData] = useState([])
   const types = ['아이 정보', '마지막 목격 위치']
   const [active, setActive] = useState(types[0])
 
   useEffect(() => {
+    const token = getDataFromLocalStorage('token')
     axios
       .get(`${process.env.REACT_APP_API_URL}/findmybaby/${seq}/`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJqZWN0IjoiMTA0MGJiNGFkOGIzNGI4ZTg0NjI3OGI4ZWZiMjFkYTQ6NSIsInVzZXJuYW1lIjoib25pb24iLCJwcm9maWxlX2ltZyI6bnVsbCwiZXhwIjoxNjM4NTkzNTU4LCJpYXQiOjE2MzczODM5NTh9.sS6PVNgndbegrcuJKlj1slcujk1VT6rqPPtLpO94pOE',
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => setPostData(res.data.results.data))
   }, [])
   console.log(postData)
-
   return (
     <Layout>
       <Wrapper>
@@ -42,15 +41,26 @@ export default function FindMyBabyDetail() {
         )}
         <PostContainer>
           <Profile>
-            <ProfileImg src="https://ifh.cc/g/s1AhKt.jpg" />
-            <UserName>{postData.user}</UserName>
+            {postData.user && (
+              <>
+                <ProfileImg src={postData.user.profile_img} />
+                <UserName>{postData.user.nickname}</UserName>
+              </>
+            )}
           </Profile>
           <PostTitle>{postData.title}</PostTitle>
-          <PostImage imgUrl={postData.img_url} />
+          {postData.img_url && <PostImage imgUrl={postData.img_url} />}
           {postData.comments && (
             <PostReactionButton
+              postId={postData.id}
               type="findmybaby"
+              message={true}
+              receiver={postData.user.id}
+              nickname={postData.user.nickname}
               numOfComments={postData.comments.length}
+              userLikeFlag={postData.user_like_flag}
+              numOfLikes={postData.likes_count}
+              fetchTrigger={fetchTrigger}
             />
           )}
           <TextContainer>{postData.body}</TextContainer>
@@ -127,12 +137,12 @@ export default function FindMyBabyDetail() {
               </TabContent>
             )
           )}
-          <CommentInput postId={postData.id} type="findmybaby" />
           {postData.comments && (
-            <CommentList
-              comments={postData.comments}
-              feedId={postData.id}
+            <CommentInput
+              postId={postData.id}
               type="findmybaby"
+              comments={postData.comments}
+              setFetchTrigger={setFetchTrigger}
             />
           )}
         </PostContainer>
