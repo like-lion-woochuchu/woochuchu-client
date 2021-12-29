@@ -8,6 +8,7 @@ import DateParse from 'Utils/DateParse'
 import { useHistory } from 'react-router-dom'
 import CommentInput from 'Components/Post/CommentInput'
 import useIntersectObserver from 'Utils/Hooks/useIntersectObserver'
+import PostReactionButton from 'Components/Post/PostReactionButton'
 
 export default function Grid({ type, animal }) {
   const [animals, setAnimals] = useState([])
@@ -136,7 +137,7 @@ export default function Grid({ type, animal }) {
               </LeftTitleWrap>
               <LeftImageWrap>
                 {animal.adopt_flag === 0 ? (
-                  <Img src={animal.img_url} alt="Sample" />
+                  <Img src={Dog} alt="Sample" />
                 ) : (
                   <>
                     <Img src={Dog} alt="Sample" />
@@ -148,7 +149,7 @@ export default function Grid({ type, animal }) {
               </LeftImageWrap>
             </LeftWrap>
             <RightWrap>
-              <SectionWrap>
+              {/* <SectionWrap>
                 <TitleWrap>품종</TitleWrap>
                 <DescriptionWrap>{animal.breed}</DescriptionWrap>
               </SectionWrap>
@@ -159,7 +160,7 @@ export default function Grid({ type, animal }) {
                 ) : (
                   <DescriptionWrap>여성</DescriptionWrap>
                 )}
-              </SectionWrap>
+              </SectionWrap> */}
               <SectionWrap>
                 <TitleWrap>특징</TitleWrap>
                 <DescriptionWrap>{animal.description}</DescriptionWrap>
@@ -199,16 +200,14 @@ export default function Grid({ type, animal }) {
                   </DescriptionWrap>
                 )}
                 <MapWrap>
-                  {animal.address && (
-                    <Map
-                      style={{ display: 'flex', justifyContent: 'center' }}
-                      cordX={animal.address.address_coord_x}
-                      cordY={animal.address.address_coord_y}
-                      width={'300px'}
-                      height={'300px'}
-                      margin={'10px 0'}
-                    />
-                  )}
+                  <Map
+                    key={animal.id}
+                    cordX={animal.address.address_coord_x}
+                    cordY={animal.address.address_coord_y}
+                    width={'250px'}
+                    height={'250px'}
+                    margin={'10px 0'}
+                  />
                 </MapWrap>
               </SectionWrap>
               <SectionWrap>
@@ -223,6 +222,15 @@ export default function Grid({ type, animal }) {
               </SectionWrap>
             </RightWrap>
           </GridWrap>
+          <PostReactionButton
+            postId={animal.id}
+            type="bemybaby"
+            message={true}
+            receiver={animal.user.id}
+            nickname={animal.user.nickname}
+            numOfComments={animal.comments.length}
+            fetchTrigger={fetchTrigger}
+          />
           <CommentWrap>
             <CommentInput
               postId={animal.id}
@@ -237,6 +245,15 @@ export default function Grid({ type, animal }) {
     </div>
   )
 }
+
+// const MapButtonWrap = styled.button`
+//   cursor: pointer;
+//   text-decoration: none;
+//   border: 1px solid black;
+//   background-color: transparent;
+//   border-radius: 10px;
+//   padding: 3px 5px;
+// `
 
 const CommentWrap = styled.div`
   margin: 20px;
@@ -341,7 +358,7 @@ const LeftImageWrap = styled.div`
 `
 const RightWrap = styled.div`
   width: 380px;
-  padding: 22px 0;
+  padding: 5px 0;
   box-shadow: 0px 6px 10px 0px #00000014;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -356,7 +373,7 @@ const TitleWrap = styled.h2`
   padding-left: 19px;
 `
 const DescriptionWrap = styled.h2`
-  display: inline-block;
+  display: block;
   float: right;
   padding-right: 26px;
   color: #1d1e20;
