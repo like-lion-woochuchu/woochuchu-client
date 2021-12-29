@@ -137,10 +137,10 @@ export default function Grid({ type, animal }) {
               </LeftTitleWrap>
               <LeftImageWrap>
                 {animal.adopt_flag === 0 ? (
-                  <Img src={Dog} alt="Sample" />
+                  <Img src={animal.img_url} alt="Sample" />
                 ) : (
                   <>
-                    <Img src={Dog} alt="Sample" />
+                    <Img src={animal.img_url} alt="Sample" />
                     <AdoptedWrap>
                       <AdoptedMessage>입양됨</AdoptedMessage>
                     </AdoptedWrap>
@@ -149,18 +149,6 @@ export default function Grid({ type, animal }) {
               </LeftImageWrap>
             </LeftWrap>
             <RightWrap>
-              {/* <SectionWrap>
-                <TitleWrap>품종</TitleWrap>
-                <DescriptionWrap>{animal.breed}</DescriptionWrap>
-              </SectionWrap>
-              <SectionWrap>
-                <TitleWrap>성별</TitleWrap>
-                {animal.sex === 0 ? (
-                  <DescriptionWrap>남성</DescriptionWrap>
-                ) : (
-                  <DescriptionWrap>여성</DescriptionWrap>
-                )}
-              </SectionWrap> */}
               <SectionWrap>
                 <TitleWrap>특징</TitleWrap>
                 <DescriptionWrap>{animal.description}</DescriptionWrap>
