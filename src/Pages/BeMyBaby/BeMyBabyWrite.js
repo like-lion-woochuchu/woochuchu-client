@@ -3,22 +3,22 @@ import styled from 'styled-components/macro'
 import axios from 'axios'
 import Layout from 'Layout/Layout'
 import PageTitles from 'Components/PageTitles/PageTitles'
-import insertPhotoImg from 'Assets/Icon/icons_insert-picture.png'
 import AnimalData from 'Data/animal.json'
-import InputBox from 'Components/Family/Feed/InputBox'
-import SelectBox from 'Components/Family/Feed/SelectBox'
-import Address from 'Components/FamilyWrite/Address'
+import InputBox from 'Components/BeMyBaby/Feed/InputBox'
+import SelectBox from 'Components/BeMyBaby/Feed/SelectBox'
+import Address from 'Components/BeMyBaby/Write/Address'
 import AnimalSelectBtn from 'Components/MyBaby/AnimalSelectBtn/AnimalSelectBtn'
 import Button from 'Components/Common/Button'
 import { useHistory } from 'react-router-dom'
 import getDataFromLocalStorage from 'Utils/Storage/GetDataFromLocalStorage'
-
-axios.defaults.withCredentials = true
+import ImageInput from 'Components/BeMyBaby/Write/ImageInput'
 
 export default function FamilyWrite() {
   const history = useHistory()
   const token = getDataFromLocalStorage('token')
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [uploadImg, setUploadImg] = useState('')
+  const [storedImg, setStoredImg] = useState([])
   const [detailAddress, setDetailAddress] = useState('')
   const [address, setAddress] = useState('')
   const [postData, setPostData] = useState({
@@ -49,7 +49,7 @@ export default function FamilyWrite() {
       postData.sex !== 100 &&
       postData.age > 0 &&
       postData.description.length > 0 &&
-      // postData.img_url.length &&
+      postData.img_url &&
       phoneNumber.phone.length > 0 &&
       address.length > 0 &&
       detailAddress.length > 0 &&
@@ -58,12 +58,12 @@ export default function FamilyWrite() {
       setDisabled(false)
   }, [postData, phoneNumber, address, detailAddress])
 
-  const handleContentChange = (e) => {
-    setPostData((prev) => ({
-      ...prev,
-      body: e.target.value,
-    }))
-  }
+  // const handleContentChange = (e) => {
+  //   setPostData((prev) => ({
+  //     ...prev,
+  //     body: e.target.value,
+  //   }))
+  // }
 
   const handleGenderChange = (e) => {
     let genderNum
@@ -87,15 +87,17 @@ export default function FamilyWrite() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: postData,
-        age: parseInt(postData.age),
-        ...(phoneNumber ? { phone: phoneNumber } : {}),
-        ...(detailAddress ? { address_detail: detailAddress } : {}),
-        address_name: address,
+        body: {
+          ...postData,
+          age: parseInt(postData.age),
+          ...(phoneNumber ? { phone: phoneNumber } : {}),
+          ...(detailAddress ? { address_detail: detailAddress } : {}),
+          address_name: address,
+        },
       })
       .then((res) => {
         console.log(res)
-        history.push('/family')
+        history.push('/bemybaby')
       })
       .catch((err) => console.error(err))
       .finally(console.log('프로세스 끝'))
@@ -106,9 +108,12 @@ export default function FamilyWrite() {
       <div>
         <PageTitles title="가족이 되어주세요" />
         <Container>
-          <AnimalImgBox>
-            <AnimalImg src={insertPhotoImg} alt="" />
-          </AnimalImgBox>
+          <ImageInput
+            uploadImg={uploadImg}
+            storedImg={storedImg}
+            setUploadImg={setUploadImg}
+            setStoredImg={setStoredImg}
+          />
           <InfoContainer>
             <FirstInfoBox>
               <InputBox
@@ -186,61 +191,6 @@ const Container = styled.div`
   max-width: 700px;
   border: 0.3px solid #dedede;
   border-radius: 30px;
-`
-
-const ContentBox = styled.div`
-  min-height: 400px;
-  margin-bottom: 15px;
-  padding: 32px 40px;
-  width: 100%;
-  height: 40%;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
-  border-radius: 45px;
-  opacity: 1;
-`
-
-const ContentArea = styled.textarea`
-  width: 580px;
-  min-height: 400px;
-  outline: none;
-  background: none;
-  border: none;
-  margin: ${(props) => props.margin || '0px'};
-  text-align: left;
-  font: normal normal 300 18px/26px Noto Sans CJK KR;
-  letter-spacing: 0px;
-  color: #707070;
-  opacity: 1;
-  ::placeholder {
-    font: normal normal 300 18px/26px Noto Sans CJK KR;
-    letter-spacing: 0px;
-    color: #dedede;
-  }
-  ::-webkit-scrollbar {
-    width: 5.2px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #ddd;
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-button {
-    display: none;
-  }
-`
-const AnimalImgBox = styled.div`
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 25%;
-  min-height: 120px;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
-  border-radius: 45px;
-  opacity: 1;
-`
-const AnimalImg = styled.img`
-  width: 25%;
-  height: 25%;
 `
 
 const SubmitButtonBox = styled.div`
