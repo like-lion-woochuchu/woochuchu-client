@@ -1,25 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components/macro'
 const { kakao } = window
 
 export default function Map({ cordX, cordY, width, height, margin }) {
-  useEffect(() => {
-    var container = document.getElementById('map')
-    var options = {
-      center: new kakao.maps.LatLng(cordX, cordY),
-      level: 3,
-    }
+  const container = useRef(null)
+  const options = {
+    center: new kakao.maps.LatLng(cordX, cordY),
+    level: 3,
+  }
 
-    var map = new kakao.maps.Map(container, options)
-    var markerPosition = new kakao.maps.LatLng(cordX, cordY)
-    var marker = new kakao.maps.Marker({
+  useEffect(() => {
+    const map = new kakao.maps.Map(container.current, options)
+    const markerPosition = new kakao.maps.LatLng(cordX, cordY)
+    const marker = new kakao.maps.Marker({
       position: markerPosition,
     })
     marker.setMap(map)
+    kakao.maps.event.addListener(marker, 'click', function () {
+      var position = this.getPosition()
+      var url =
+        'https://map.kakao.com/link/map/' +
+        position.getLat() +
+        ',' +
+        position.getLng()
+      window.open(url, '_blank')
+    })
   }, [])
 
   return (
-    <MapBox id="map" width={width} height={height} margin={margin}></MapBox>
+    <MapBox
+      id="map"
+      width={width}
+      height={height}
+      margin={margin}
+      ref={container}
+    ></MapBox>
   )
 }
 
