@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import Layout from 'Layout/Layout'
+import styled from 'styled-components/macro'
 import {
   FamilyIcon,
   FamilyText,
@@ -22,7 +23,11 @@ export default function Family() {
         <FamilyDiv>
           <FamilyIcon />
           <FamilyText>가족이 되어주세요</FamilyText>
-          <Toggle multiselect={true} animal={animal} setAnimal={setAnimal} />
+          <Toggle
+            multiselect={true}
+            selectedAnimal={animal}
+            setSelectedAnimal={setAnimal}
+          />
           <Grid type={'bemybaby'} animal={animal} />
         </FamilyDiv>
         <WriteBtn
