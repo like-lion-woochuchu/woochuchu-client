@@ -103,7 +103,7 @@ const HeartBtn = styled(ReactionBtn)`
 const MessageBtn = styled(ReactionBtn)``
 const CommentBtn = styled(ReactionBtn)`
   ${({ type }) =>
-    type === 'mybaby' &&
+    (type === 'mybaby' || 'bemybaby') &&
     `
   margin-left: 20px;
   `}

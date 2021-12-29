@@ -2,26 +2,33 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import AnimalData from 'Data/animal.json'
 
-export default function AnimalSelectBtn({ multiselect, animal, setAnimal }) {
+export default function AnimalSelectBtn({
+  multiselect,
+  selectedAnimal,
+  setSelectedAnimal,
+}) {
   const animalArr = Object.keys(AnimalData.animalData)
   const handleAnimalSelectBtnClick = (e) => {
     if (multiselect) {
-      if (animal.includes(AnimalData.animalData[e.target.innerHTML])) {
-        setAnimal((prev) =>
+      if (selectedAnimal.includes(AnimalData.animalData[e.target.innerHTML])) {
+        setSelectedAnimal((prev) =>
           prev.filter(
             (anm) => anm !== AnimalData.animalData[e.target.innerHTML]
           )
         )
         return
       }
-      setAnimal((prev) => [...prev, AnimalData.animalData[e.target.innerHTML]])
+      setSelectedAnimal((prev) => [
+        ...prev,
+        AnimalData.animalData[e.target.innerHTML],
+      ])
       return
     }
-    if (animal === AnimalData.animalData[e.target.innerHTML]) {
-      setAnimal('')
+    if (selectedAnimal === AnimalData.animalData[e.target.innerHTML]) {
+      setSelectedAnimal('')
       return
     }
-    setAnimal(AnimalData.animalData[e.target.innerHTML])
+    setSelectedAnimal(AnimalData.animalData[e.target.innerHTML])
   }
 
   return (
@@ -31,7 +38,9 @@ export default function AnimalSelectBtn({ multiselect, animal, setAnimal }) {
             return (
               <AnimalBtn
                 key={idx}
-                selected={animal.includes(AnimalData.animalData[animal])}
+                selected={selectedAnimal.includes(
+                  AnimalData.animalData[animal]
+                )}
                 onClick={(e) => handleAnimalSelectBtnClick(e)}
               >
                 {animal}
@@ -42,7 +51,7 @@ export default function AnimalSelectBtn({ multiselect, animal, setAnimal }) {
             return (
               <AnimalBtn
                 key={idx}
-                selected={animal === AnimalData.animalData[animal]}
+                selected={selectedAnimal === AnimalData.animalData[animal]}
                 onClick={(e) => handleAnimalSelectBtnClick(e)}
               >
                 {animal}
@@ -54,7 +63,7 @@ export default function AnimalSelectBtn({ multiselect, animal, setAnimal }) {
 }
 
 const BtnContainer = styled.div`
-  margin: 20px 0;
+  padding: 20px 0;
   display: flex;
   justify-content: space-between;
 `

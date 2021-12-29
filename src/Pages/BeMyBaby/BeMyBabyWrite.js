@@ -27,9 +27,6 @@ export default function FamilyWrite() {
     age: 0,
     description: '',
     img_url: [],
-    // phone: '',
-    // address_name: '',
-    // address_detail: '',
     animal: 0,
   })
 
@@ -58,13 +55,6 @@ export default function FamilyWrite() {
       setDisabled(false)
   }, [postData, phoneNumber, address, detailAddress])
 
-  // const handleContentChange = (e) => {
-  //   setPostData((prev) => ({
-  //     ...prev,
-  //     body: e.target.value,
-  //   }))
-  // }
-
   const handleGenderChange = (e) => {
     let genderNum
     if (e.target.value === '여') {
@@ -83,16 +73,16 @@ export default function FamilyWrite() {
     e.preventDefault()
     axios
       .post(`${process.env.REACT_APP_API_URL}/bemybaby/`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: {
           ...postData,
           age: parseInt(postData.age),
           ...(phoneNumber ? { phone: phoneNumber } : {}),
           ...(detailAddress ? { address_detail: detailAddress } : {}),
           address_name: address,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
