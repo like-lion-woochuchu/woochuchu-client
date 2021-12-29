@@ -10,6 +10,8 @@ import MessagePage from 'Pages/Message/Message'
 import MyBabyWrite from 'Pages/MyBaby/MyBabyWrite'
 import FindMyBabyWrite from 'Pages/FindMyBaby/FindMyBabyWrite'
 import FindMyBabyDetail from 'Pages/FindMyBaby/FindMyBabyDetail'
+import BeMyBaby from 'Pages/BeMyBaby/BeMyBaby'
+import BeMyBabyWrite from 'Pages/BeMyBaby/BeMyBabyWrite'
 import ScrollToTop from 'Components/Common/ScrollToTop'
 export default function Routes() {
   return (
@@ -26,6 +28,8 @@ export default function Routes() {
         <Route exact path={'/message-list'} component={MessageList} />
         <Route exact path={'/message-detail'} component={MessageDetailPage} />
         <Route exact path={'/message'} component={MessagePage} />
+        <Route exact path={'/bemybaby'} component={BeMyBaby} />
+        <Route exact path={'/bemybaby_write'} component={BeMyBabyWrite} />
       </Switch>
     </Router>
   )
