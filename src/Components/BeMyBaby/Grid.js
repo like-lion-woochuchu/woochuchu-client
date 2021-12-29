@@ -245,16 +245,6 @@ export default function Grid({ type, animal }) {
     </div>
   )
 }
-
-// const MapButtonWrap = styled.button`
-//   cursor: pointer;
-//   text-decoration: none;
-//   border: 1px solid black;
-//   background-color: transparent;
-//   border-radius: 10px;
-//   padding: 3px 5px;
-// `
-
 const CommentWrap = styled.div`
   margin: 20px;
 `
