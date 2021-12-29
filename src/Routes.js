@@ -12,9 +12,11 @@ import FindMyBabyWrite from 'Pages/FindMyBaby/FindMyBabyWrite'
 import FindMyBabyDetail from 'Pages/FindMyBaby/FindMyBabyDetail'
 import BeMyBaby from 'Pages/BeMyBaby/BeMyBaby'
 import BeMyBabyWrite from 'Pages/BeMyBaby/BeMyBabyWrite'
+import ScrollToTop from 'Components/Common/ScrollToTop'
 export default function Routes() {
   return (
     <Router>
+      <ScrollToTop />
       <Switch>
         <Route exact path={['/', '/mybaby']} component={MyBaby} />
         <Route exact path={'/mybaby_write'} component={MyBabyWrite} />

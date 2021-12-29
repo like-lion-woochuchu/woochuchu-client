@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import ScrollTop from 'Assets/Icon/button-scroll-top60px@2x.png'
 
-export default function ScrollTopBtn() {
+export default function ScrollToTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
