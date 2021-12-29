@@ -36,6 +36,8 @@ const Address = (props) => {
         detail={detailAddressArea}
         onClick={unfold}
         error={props.error}
+        width={props.width}
+        padding={props.padding}
       >
         <SubjectText>주소</SubjectText>
         <SignUpInput
@@ -78,8 +80,8 @@ const Address = (props) => {
 
 const AddressDiv = styled.div`
   margin-bottom: 50px;
-  padding: 30px 50px;
-  width: 640px;
+  width: ${(props) => props.width || '640px'};
+  padding: ${(props) => props.padding || '30px 50px'};
   height: ${(props) => (props.detail ? '130px' : '86px')};
   background: #f8f8f8 0% 0% no-repeat padding-box;
   border-radius: 45px;

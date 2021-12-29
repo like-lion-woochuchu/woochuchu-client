@@ -7,15 +7,36 @@ import {
   MessageReceiver,
 } from './MessageLayout'
 import submitIcon from 'Assets/Icon/icon-arrow-right-white16px@2x.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
 const Message = () => {
   const [text, setText] = useState('')
+  const location = useLocation()
+  const state = location.state
   const history = useHistory()
+
+  useEffect(() => {
+    if (!state) {
+      alert('정상적인 접근이 아닙니다.')
+      if (history.length <= 1) {
+        history.push('/')
+      } else {
+        history.goBack()
+      }
+    }
+  })
   const submit = () => {
-    if (!localStorage.getItem('token')) {
+    if (!state) {
+      alert('정상적인 접근이 아닙니다.')
+      if (history.length <= 1) {
+        history.push('/')
+      } else {
+        history.goBack()
+      }
+    } else if (!localStorage.getItem('token')) {
       alert('로그인이 필요합니다.')
       history.push('/login')
     } else if (!text) {
@@ -24,9 +45,9 @@ const Message = () => {
       const token = localStorage.getItem('token')
       axios
         .post(
-          'https://58012740-20bb-4b6d-b6ae-dc77d28bb281.mock.pstmn.io/note/',
+          `${process.env.REACT_APP_API_URL}/note/`,
           {
-            receiver: 11,
+            receiver: state.receiver,
             body: text,
           },
           {
@@ -41,7 +62,10 @@ const Message = () => {
           if (response.status === 200) {
             console.log(response)
             alert('쪽지가 성공적으로 발송되었습니다.')
-            history.push('/message_detail')
+            history.push('/message-detail', {
+              receiver: state.receiver,
+              nickname: state.nickname,
+            })
           }
         })
         .catch((error) => {
@@ -58,7 +82,7 @@ const Message = () => {
       <MessageDiv height={'780px'}>
         <MessageReceiver>
           <MessageReceiverIcon />
-          <MessageReceiverName>가나다 님</MessageReceiverName>
+          <MessageReceiverName>{state.nickname}</MessageReceiverName>
         </MessageReceiver>
         <MessageTextFrame
           placeholder={'쪽지 내용을 입력하세요.'}
