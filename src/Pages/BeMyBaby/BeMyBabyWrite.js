@@ -27,33 +27,31 @@ export default function FamilyWrite() {
     age: 0,
     description: '',
     img_url: [],
-    animal: 0,
   })
 
   const [selectedAnimal, setSelectedAnimal] = useState('')
   const [disabled, setDisabled] = useState(true)
 
   useEffect(() => {
-    setPostData((prev) => ({
-      ...prev,
-      animal: AnimalData.animalData[selectedAnimal],
-    }))
-  }, [selectedAnimal])
-
-  useEffect(() => {
     if (
       postData.breed.length > 0 &&
       postData.sex !== 100 &&
       postData.age > 0 &&
-      postData.description.length > 0 &&
-      postData.img_url &&
-      phoneNumber.phone.length > 0 &&
-      address.length > 0 &&
-      detailAddress.length > 0 &&
-      postData.animal
+      postData.description &&
+      selectedAnimal &&
+      phoneNumber.phone &&
+      address &&
+      detailAddress
     )
       setDisabled(false)
-  }, [postData, phoneNumber, address, detailAddress])
+  }, [postData, phoneNumber, address, detailAddress, selectedAnimal])
+
+  // const handleContentChange = (e) => {
+  //   setPostData((prev) => ({
+  //     ...prev,
+  //     body: e.target.value,
+  //   }))
+  // }
 
   const handleGenderChange = (e) => {
     let genderNum
@@ -75,6 +73,7 @@ export default function FamilyWrite() {
       .post(`${process.env.REACT_APP_API_URL}/bemybaby/`, {
         body: {
           ...postData,
+          animal: selectedAnimal,
           age: parseInt(postData.age),
           ...(phoneNumber ? { phone: phoneNumber } : {}),
           ...(detailAddress ? { address_detail: detailAddress } : {}),
